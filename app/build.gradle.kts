@@ -41,6 +41,25 @@ android {
 
 dependencies {
 
+    // CameraX core library using the camera2 implementation
+    val camerax_version = "1.5.0-alpha06"
+
+    // CameraX
+    implementation("androidx.camera:camera-camera2:${camerax_version}")
+
+    // CameraX Lifecycle library
+    implementation("androidx.camera:camera-lifecycle:${camerax_version}")
+
+    // CameraX ML Kit Vision Integration
+    implementation("androidx.camera:camera-mlkit-vision:${camerax_version}")
+
+    // CameraX View class
+    implementation("androidx.camera:camera-view:${camerax_version}")
+
+
+    // Barcode
+    implementation("com.google.mlkit:barcode-scanning:17.3.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
