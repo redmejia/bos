@@ -1,6 +1,5 @@
-package com.bitinovus.bos.ui.theme
+package com.bitinovus.bos.presentaion.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
