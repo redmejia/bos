@@ -33,7 +33,7 @@ fun Scanner() {
 
     val cameraController = remember {
         LifecycleCameraController(context).apply {
-            setEnabledUseCases(CameraController.IMAGE_CAPTURE)
+            setEnabledUseCases(CameraController.IMAGE_ANALYSIS) // IMAGE_ANALYSIS for scan barcodes
             bindToLifecycle(lifecycle)
         }
     }
