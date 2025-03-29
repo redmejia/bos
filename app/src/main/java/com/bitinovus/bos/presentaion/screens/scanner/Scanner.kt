@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.bitinovus.bos.domain.usecases.analyzer.BarcodeAnalyzer
 import com.bitinovus.bos.presentaion.screens.scanner.scannerbox.ScannerBox
 
 @Composable
@@ -34,9 +35,14 @@ fun Scanner() {
     val cameraController = remember {
         LifecycleCameraController(context).apply {
             setEnabledUseCases(CameraController.IMAGE_ANALYSIS) // IMAGE_ANALYSIS for scan barcodes
+            setImageAnalysisAnalyzer(
+                ContextCompat.getMainExecutor(context),
+                BarcodeAnalyzer()
+            )
             bindToLifecycle(lifecycle)
         }
     }
+
 
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -78,6 +84,7 @@ fun Scanner() {
                     }
                 },
                 onRelease = {
+                    cameraController.clearImageAnalysisAnalyzer()
                     cameraController.unbind()
                 }
             )
