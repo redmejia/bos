@@ -1,4 +1,4 @@
-package com.bitinovus.bos.ui.theme
+package com.bitinovus.bos.presentaion.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
