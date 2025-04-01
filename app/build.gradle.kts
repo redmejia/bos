@@ -44,6 +44,9 @@ dependencies {
     // CameraX core library using the camera2 implementation
     val camerax_version = "1.5.0-alpha06"
 
+    val retrofit_version = "2.9.0"
+    val gson_version = "2.10.1"
+
     // CameraX
     implementation("androidx.camera:camera-camera2:${camerax_version}")
 
@@ -59,6 +62,15 @@ dependencies {
 
     // Barcode
     implementation("com.google.mlkit:barcode-scanning:17.3.0")
+
+
+
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.google.code.gson:gson:$gson_version")
+
+    // Logging for testing
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
