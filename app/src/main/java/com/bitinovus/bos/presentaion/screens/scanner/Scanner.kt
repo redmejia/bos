@@ -12,6 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import android.Manifest
+import android.util.Log
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
@@ -32,15 +33,30 @@ fun Scanner() {
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current
 
+    var barcodeID by remember { mutableStateOf("") }
+    var isDetected by remember { mutableStateOf(false) }
+
+
     val cameraController = remember {
         LifecycleCameraController(context).apply {
             setEnabledUseCases(CameraController.IMAGE_ANALYSIS) // IMAGE_ANALYSIS for scan barcodes
             setImageAnalysisAnalyzer(
                 ContextCompat.getMainExecutor(context),
-                BarcodeAnalyzer()
+                BarcodeAnalyzer(onDetectedBarcode = { barcode ->
+
+                    if (barcode.isNotBlank()) {
+                        barcodeID = barcode
+                        isDetected = true
+                    }
+
+                })
             )
             bindToLifecycle(lifecycle)
         }
+    }
+
+    LaunchedEffect(key1 = isDetected) {
+        Log.d("BARCODE", "Scanner>>>>>>>>>>>>>: $barcodeID")
     }
 
 

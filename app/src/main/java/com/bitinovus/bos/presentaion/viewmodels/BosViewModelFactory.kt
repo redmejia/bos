@@ -8,13 +8,10 @@ import com.bitinovus.bos.presentaion.viewmodels.productviewmodel.ProductViewmode
 class BosViewModelFactory(private val repositoryImpl: BosApiRepositoryImpl) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(ProductViewmodel::class.java)) {
+        if (modelClass.isAssignableFrom(ProductViewmodel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return ProductViewmodel(repositoryImpl) as T
         }
-
         throw IllegalArgumentException("Unknown view model class")
     }
-
-
 }
