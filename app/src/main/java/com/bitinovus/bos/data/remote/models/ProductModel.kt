@@ -1,5 +1,6 @@
 package com.bitinovus.bos.data.remote.models
 
+
 data class ProductModel(
     val product: Product,
     val status: String,

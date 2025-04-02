@@ -1,8 +1,11 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
+
 
 android {
     namespace = "com.bitinovus.bos"
@@ -16,12 +19,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        val apiBaseURL = gradleLocalProperties(rootDir, providers).getProperty("API_BASE_URL", "")
+        buildConfigField("String", "API_BASE_URL", "\"$apiBaseURL\"")
     }
 
     buildTypes {
-        debug {
-            buildConfigField("String", "API_BASE_URL", "\"${project.findProperty("API_BASE_URL")}\"")
-        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -51,6 +54,9 @@ dependencies {
     val retrofit_version = "2.9.0"
     val gson_version = "2.10.1"
 
+    val lifecycle_version = "2.8.7"
+
+
     // CameraX
     implementation("androidx.camera:camera-camera2:${camerax_version}")
 
@@ -75,6 +81,12 @@ dependencies {
 
     // Logging for testing
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // ViewModel utilities for Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

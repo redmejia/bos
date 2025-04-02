@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 
 interface BosApi {
-    @GET("/product")
+    @GET("product")
     suspend fun getProductByBarcodeID(
         @Query("barcode") barcode: String,
     ): Response<ProductModel>
