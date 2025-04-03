@@ -10,7 +10,9 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 
-class BarcodeAnalyzer : ImageAnalysis.Analyzer {
+class BarcodeAnalyzer(
+    val onDetectedBarcode: (String) -> Unit,
+) : ImageAnalysis.Analyzer {
 
     private val option = BarcodeScannerOptions
         .Builder()
@@ -28,7 +30,8 @@ class BarcodeAnalyzer : ImageAnalysis.Analyzer {
             scanner.process(imageInput)
                 .addOnSuccessListener { barcodes ->
                     barcodes.forEach { barcode ->
-                        Log.d("BARCODE", "analyze: ${barcode.rawValue}")
+                        Log.d("BARCODE", "analyze [-|]: ${barcode.rawValue}")
+                        barcode.rawValue?.let { onDetectedBarcode(it) }
                     }
                 }
                 .addOnFailureListener { Log.e("BARCODE", "analyze: ERROR", it) }
