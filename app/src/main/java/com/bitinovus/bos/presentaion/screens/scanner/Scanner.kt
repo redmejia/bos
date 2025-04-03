@@ -185,12 +185,6 @@ fun Scanner(
                     }
                 }
             }
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopEnd
-            ) {
-
-            }
         }
     }
 }
