@@ -41,8 +41,6 @@ import com.bitinovus.bos.presentaion.screens.scanner.scannerbox.ScannerBox
 import com.bitinovus.bos.presentaion.viewmodels.productviewmodel.ProductViewmodel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
@@ -138,10 +136,10 @@ fun Scanner(
                 }
             )
             ScannerBox(
+                hideBoxScannerArea = showBottomSheet,
                 boxHeightSize = 0.2f,
                 modifier = Modifier.matchParentSize()
             )
-
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.TopEnd
@@ -185,7 +183,6 @@ fun Scanner(
                             }
                         }
                     }
-
                 }
             }
             Box(
