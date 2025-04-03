@@ -1,5 +1,7 @@
 package com.bitinovus.bos.data.remote.models
 
+import com.google.gson.annotations.SerializedName
+
 
 data class ProductModel(
     val product: Product,
@@ -7,8 +9,9 @@ data class ProductModel(
 )
 
 data class Product(
-    val productID: String,
-    val name: String,
-    val price: Long,
-    val barcodeImage: String,
+    @SerializedName("product_id") val productID: String,
+    @SerializedName("name") val name: String,
+    @SerializedName("price") val price: Long,
+    @SerializedName("product_image") val productImage: String,
+    @SerializedName("barcode_image") val barcodeImage: String,
 )
