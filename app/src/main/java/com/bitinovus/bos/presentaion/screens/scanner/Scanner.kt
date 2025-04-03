@@ -17,11 +17,17 @@ import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -31,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +49,8 @@ import com.bitinovus.bos.presentaion.viewmodels.productviewmodel.ProductViewmode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import com.bitinovus.bos.data.remote.models.ProductModel
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 import kotlinx.coroutines.launch
@@ -59,6 +68,7 @@ fun Scanner(
     var barcodeID by remember { mutableStateOf("") }
     var isDetected by remember { mutableStateOf(false) }
     var total by remember { mutableLongStateOf(0) }
+    var cart = remember { mutableStateListOf<ProductModel>() }
 
     val product by productViewmodel.uiState.collectAsState()
     val cameraController = remember {
@@ -81,12 +91,17 @@ fun Scanner(
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
 
-    LaunchedEffect(key1 = isDetected) {
+    LaunchedEffect(key1 = isDetected, key2 = showBottomSheet) {
         Log.d("BARCODE", "Scanner >>>: $barcodeID")
         if (isDetected) {
             productViewmodel.getProduct(barcodeID)
             showBottomSheet = true
             isDetected = false
+        }
+
+        if (showBottomSheet) {
+            // change to capture to stop scanning
+            cameraController.setEnabledUseCases(CameraController.IMAGE_CAPTURE)
         }
     }
 
@@ -144,12 +159,15 @@ fun Scanner(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.TopEnd
             ) {
+                Log.d("LIST", "LIST : ${cart.toList()}")
                 Text(text = "Total: $total", color = Color.White)
             }
             if (showBottomSheet) {
                 ModalBottomSheet(
                     onDismissRequest = {
                         showBottomSheet = false
+                        // No action to add product to list set to scan new product
+                        cameraController.setEnabledUseCases(CameraController.IMAGE_ANALYSIS)
                     },
                     sheetState = sheetState
                 ) {
@@ -160,8 +178,30 @@ fun Scanner(
                                 .padding(horizontal = 8.dp),
 
                             ) {
-                            Text(text = "Product: ${it.product.name}")
-                            Text(text = "Price: $${it.product.price}")
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 12.dp),
+                                horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
+                            ) {
+                                AsyncImage(
+                                    modifier = Modifier
+                                        .background(// not need for business image product
+                                            color = PrimaryBlack98,
+                                            shape = RoundedCornerShape(5.dp)
+                                        )
+                                        .width(110.dp)
+                                        .height(110.dp),
+                                    model = it.product.productImage,
+                                    contentDescription = it.product.name
+                                )
+                                Column(
+                                    modifier = Modifier.fillMaxWidth(),
+                                ) {
+                                    Text(text = "Product: ${it.product.name}")
+                                    Text(text = "Price: $${it.product.price}")
+                                }
+                            }
                             HorizontalDivider()
                             OutlinedButton(
                                 modifier = Modifier
@@ -175,7 +215,13 @@ fun Scanner(
                                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                                         if (!sheetState.isVisible) {
                                             product?.product?.price?.let { total += it }
+                                            product?.let { cart.add(it) }
+
                                             showBottomSheet = false
+                                            // If camera has the option
+                                            // IMAGE_CAPTURE change to IMAGE_ANALYSIS
+                                            cameraController
+                                                .setEnabledUseCases(CameraController.IMAGE_ANALYSIS)
                                         }
                                     }
                                 }) {
@@ -188,4 +234,3 @@ fun Scanner(
         }
     }
 }
-
