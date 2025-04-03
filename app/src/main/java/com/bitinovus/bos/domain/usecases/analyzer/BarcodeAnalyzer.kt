@@ -30,7 +30,7 @@ class BarcodeAnalyzer(
             scanner.process(imageInput)
                 .addOnSuccessListener { barcodes ->
                     barcodes.forEach { barcode ->
-                        Log.d("BARCODE", "analyze---------------: ${barcode.rawValue}")
+                        Log.d("BARCODE", "analyze [-|]: ${barcode.rawValue}")
                         barcode.rawValue?.let { onDetectedBarcode(it) }
                     }
                 }
