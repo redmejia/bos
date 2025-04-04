@@ -14,4 +14,5 @@ data class Product(
     @SerializedName("price") val price: Long,
     @SerializedName("product_image") val productImage: String,
     @SerializedName("barcode_image") val barcodeImage: String,
+    @SerializedName("items") val items: Int = 0, // item counter
 )
