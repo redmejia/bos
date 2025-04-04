@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.graphics.Color
 import coil.compose.AsyncImage
-import com.bitinovus.bos.data.remote.models.ProductModel
+import com.bitinovus.bos.data.remote.models.Product
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 
 @Composable
 fun CartCard(
-    product: ProductModel,
+    product: Product,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -46,12 +46,13 @@ fun CartCard(
                     )
                     .width(110.dp)
                     .height(110.dp),
-                model = product.product.productImage,
-                contentDescription = product.product.name
+                model = product.productImage,
+                contentDescription = product.name
             )
             Column(modifier = Modifier.fillMaxWidth()) {
-                Text(text = "Product: ${product.product.name}")
-                Text(text = "Price: $${product.product.price}")
+                Text(text = "Product: ${product.name}")
+                Text(text = "Price: $${product.price / 100.0}")
+                Text(text = "Items: ${product.items}")
             }
         }
     }
