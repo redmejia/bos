@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.bitinovus.bos.data.remote.models.Product
 import com.bitinovus.bos.presentaion.components.cart.CartCard
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite90
 
 @Composable
@@ -51,16 +52,16 @@ fun Cart(
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
-                                Color.Transparent, // Top fade
-                                PrimaryWhite90.copy(alpha = 0.1f),
-                                PrimaryBlack80.copy(alpha = 0.45f),
-                                Color.Transparent // Bottom fade
+                                // Color.Transparent, // Top fade
+                                PrimaryBlack80,
+                                PrimaryWhite80.copy(alpha = 0.50f),
+                                // Color.Transparent // Bottom fade
                             ),
                             startX = 0f,
                             endX = LocalConfiguration.current.screenHeightDp.toFloat()
                         )
                     )
-                    .fillMaxWidth(0.6f),
+                    .fillMaxWidth(),
 
                 ) {
                 Text(text = "Items: $itemsInCart", color = Color.White)

@@ -203,7 +203,7 @@ fun Scanner(
                                     modifier = Modifier.fillMaxWidth(),
                                 ) {
                                     Text(text = "Product: ${it.product.name}")
-                                    Text(text = "Price: $${it.product.price}")
+                                    Text(text = "Price: $${it.product.price / 100.0}")
                                 }
                             }
                             HorizontalDivider()
