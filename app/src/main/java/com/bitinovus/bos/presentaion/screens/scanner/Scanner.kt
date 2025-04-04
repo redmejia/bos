@@ -27,6 +27,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,6 +53,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.bitinovus.bos.data.remote.models.ProductModel
+import com.bitinovus.bos.presentaion.components.cart.CartCard
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 import kotlinx.coroutines.launch
@@ -156,11 +159,23 @@ fun Scanner(
                 modifier = Modifier.matchParentSize()
             )
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .padding(vertical = 4.dp, horizontal = 4.dp)
+                    .fillMaxSize(),
                 contentAlignment = Alignment.TopEnd
             ) {
-                Log.d("LIST", "LIST : ${cart.toList()}")
-                Text(text = "Total: $total", color = Color.White)
+                Column {
+                    LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
+                        items(items = cart, key = { it.product.productID }) { product ->
+                            CartCard(product)
+                        }
+                    }
+                    Text(text = "Total: $total", color = Color.White)
+                }
             }
             if (showBottomSheet) {
                 ModalBottomSheet(
