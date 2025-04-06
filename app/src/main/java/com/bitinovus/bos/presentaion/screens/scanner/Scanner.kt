@@ -12,7 +12,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import android.Manifest
-import android.util.Log
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
@@ -117,12 +116,14 @@ fun Scanner(
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
 
-    LaunchedEffect(key1 = isDetected, key2 = showBottomSheet, key3 = cart) {
-        Log.d("BARCODE", "Scanner >>>: $barcodeID")
+    LaunchedEffect(key1 = isDetected, key2 = showBottomSheet, key3 = product) {
         if (isDetected) {
             productViewmodel.getProduct(barcodeID)
-            showBottomSheet = true
-            isDetected = false
+            if (product?.product != null) {
+                showBottomSheet = true
+                isDetected = false
+            }
+
         }
 
         if (showBottomSheet) {
@@ -130,10 +131,11 @@ fun Scanner(
             cameraController.setEnabledUseCases(CameraController.IMAGE_CAPTURE)
         }
 
-        if (cart.isNotEmpty<Product>()) {
+        if (cart.isNotEmpty<Product>() && product?.product != null) {
             itemsInCart.intValue = cart.sumOf { it.items }
             total = cart.sumOf { it.price * it.items }
         }
+
     }
 
     if (isCameraPermissionDenied) {
@@ -148,7 +150,7 @@ fun Scanner(
                 modifier = Modifier.fillMaxSize(),
                 factory = { ctx ->
                     PreviewView(ctx).apply {
-                        scaleType = PreviewView.ScaleType.FILL_CENTER
+                        scaleType = PreviewView.ScaleType.FIT_CENTER
                         implementationMode = PreviewView.ImplementationMode.COMPATIBLE
                         controller = cameraController
                     }
@@ -175,7 +177,7 @@ fun Scanner(
                     },
                     sheetState = sheetState
                 ) {
-                    product?.let {
+                    product?.product?.let {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -196,14 +198,14 @@ fun Scanner(
                                         )
                                         .width(110.dp)
                                         .height(110.dp),
-                                    model = it.product.productImage,
-                                    contentDescription = it.product.name
+                                    model = it.productImage,
+                                    contentDescription = it.name
                                 )
                                 Column(
                                     modifier = Modifier.fillMaxWidth(),
                                 ) {
-                                    Text(text = "Product: ${it.product.name}")
-                                    Text(text = "Price: $${it.product.price / 100.0}")
+                                    Text(text = "Product: ${it.name}")
+                                    Text(text = "Price: $${it.price / 100.0}") // add format 0.00
                                 }
                             }
                             HorizontalDivider()
@@ -239,7 +241,7 @@ fun Scanner(
                                         }
                                     }
                                 }) {
-                                Text("add to order".uppercase(), style = TextStyle())
+                                Text("add to cart".uppercase(), style = TextStyle())
                             }
                         }
                     }

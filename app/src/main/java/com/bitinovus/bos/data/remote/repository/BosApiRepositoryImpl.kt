@@ -8,9 +8,9 @@ import kotlinx.coroutines.withContext
 class BosApiRepositoryImpl(
     private val bosApi: BosApi,
 ) {
-    suspend fun getProduct(barcodeID: String): ProductModel? =
+    suspend fun getProduct(barcodeID: String, token: String): ProductModel? =
         withContext(Dispatchers.IO) {
-            val resp = bosApi.getProductByBarcodeID(barcodeID)
+            val resp = bosApi.getProductByBarcodeID(barcode = barcodeID, token = token)
             if (resp.isSuccessful) {
                 resp.body()
             } else {
