@@ -20,8 +20,12 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        val apiBaseURL = gradleLocalProperties(rootDir, providers).getProperty("API_BASE_URL", "")
+        val apiBaseURL = gradleLocalProperties(rootDir, providers)
+            .getProperty("API_BASE_URL", "")
+        val token = gradleLocalProperties(rootDir, providers)
+            .getProperty("TOKEN", "")
         buildConfigField("String", "API_BASE_URL", "\"$apiBaseURL\"")
+        buildConfigField("String", "TOKEN", "\"$token\"")
     }
 
     buildTypes {
