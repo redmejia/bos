@@ -47,7 +47,9 @@ fun CartCard(
                     model = product.productImage,
                     contentDescription = product.name
                 )
-                Column {
+                Column(
+                    modifier = Modifier.padding(end = 4.dp)
+                ) {
                     Text(text = "Product: ${product.name}")
                     Text(text = "Price: $${product.price / 100.0}")
                     Text(text = "Items: ${product.items}")

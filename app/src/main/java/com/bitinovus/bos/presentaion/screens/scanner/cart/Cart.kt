@@ -1,6 +1,5 @@
 package com.bitinovus.bos.presentaion.screens.scanner.cart
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -63,7 +62,7 @@ fun Cart(
                         footerContent = {
                             Row(
                                 modifier = Modifier
-                                    .padding(start = 4.dp)
+                                    .padding(horizontal = 4.dp)
                                     .fillMaxWidth(),
                                 horizontalArrangement = Arrangement.spacedBy(10.dp)
                             ) {

@@ -7,6 +7,7 @@ import com.bitinovus.bos.data.remote.models.Product
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CartViewmodel : ViewModel() {
@@ -14,7 +15,26 @@ class CartViewmodel : ViewModel() {
     private val _cartState = MutableStateFlow<List<Product>>(emptyList())
     val cartState: StateFlow<List<Product>> = _cartState.asStateFlow()
 
-//    private val _cartSummaryState = MutableStateFlow()
+    private val _cartSummaryState = MutableStateFlow(CartSummaryState())
+    val cartSummaryState: StateFlow<CartSummaryState> = _cartSummaryState.asStateFlow()
+
+    fun updateCartSummary() {
+        viewModelScope.launch {
+            try {
+                if (_cartState.value.isNotEmpty()) {
+                    _cartSummaryState.update { cur ->
+                        cur.copy(
+                            itemsInCart = _cartState.value.sumOf { it.items },
+                            grandTotal = _cartState.value.sumOf { it.price * it.items }
+                        )
+                    }
+                }
+
+            } catch (e: Exception) {
+                Log.e("ERROR", "addToCart: ${e.message}")
+            }
+        }
+    }
 
     fun addToCart(product: Product) {
         viewModelScope.launch {
@@ -45,13 +65,12 @@ class CartViewmodel : ViewModel() {
                 val currentCart = _cartState.value.toMutableList()
                 val productExistIndex =
                     _cartState.value.indexOfFirst { it.productID == productID }
-                Log.d("COUNTER", "incrementItemCounter: COUNTER $productExistIndex")
                 if (productExistIndex != -1) {
                     val currentProduct = currentCart[productExistIndex]
-                    Log.d("COUNTER", "incrementItemCounter: COUNTER $currentProduct")
                     currentCart[productExistIndex] = currentProduct.copy(
                         items = currentProduct.items + 1
                     )
+                    updateCartSummary()
                 }
                 _cartState.value = currentCart
 
@@ -74,6 +93,7 @@ class CartViewmodel : ViewModel() {
                         currentCart[productExistIndex] = currentProduct.copy(
                             items = currentProduct.items - 1
                         )
+                        updateCartSummary()
                     }
                     // else {
                     // remove if 0
@@ -92,6 +112,7 @@ class CartViewmodel : ViewModel() {
         viewModelScope.launch {
             try {
                 _cartState.value = _cartState.value.filter { it.productID != productID }
+                updateCartSummary()
             } catch (e: Exception) {
                 Log.e("ERROR", "addToCart: ${e.message}")
             }
