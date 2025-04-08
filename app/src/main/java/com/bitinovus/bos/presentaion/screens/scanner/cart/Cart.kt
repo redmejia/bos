@@ -34,9 +34,11 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack95
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack96
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite80
 import com.bitinovus.bos.R
+import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 
 @Composable
 fun Cart(
+    cartViewmodel: CartViewmodel,
     modifier: Modifier = Modifier,
     cart: List<Product>,
     itemsInCart: Int,
@@ -56,8 +58,6 @@ fun Cart(
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 items(items = cart, key = { it.productID }) { product ->
-                    val existingProductIndex =
-                        cart.indexOfFirst { it.productID == product.productID }
                     CartCard(
                         product = product,
                         footerContent = {
@@ -76,15 +76,7 @@ fun Cart(
                                     ),
                                     modifier = Modifier.fillMaxWidth(),
                                     onClick = {
-                                        // fix create reactive viewmodel
-                                        if (existingProductIndex != 1) {
-
-                                            val existingProduct = cart[existingProductIndex]
-                                            val updateProduct = existingProduct.copy(
-                                                items = existingProduct.items - 1
-                                            )
-                                           // cart[existingProductIndex] = updateProduct
-                                        }
+                                        cartViewmodel.decrementItemCounter(productID = product.productID)
                                     }) {
                                     Icon(
                                         painterResource(id = R.drawable.outline_remove),
@@ -100,17 +92,7 @@ fun Cart(
                                     modifier = Modifier
                                         .fillMaxWidth(),
                                     onClick = {
-                                        Log.d("INDEX", "Cart: $existingProductIndex")
-                                        if (existingProductIndex != 1) {
-                                            
-                                            val existingProduct = cart[existingProductIndex]
-                                            val updateProduct = existingProduct.copy(
-                                                items = existingProduct.items + 1
-                                            )
-
-//                                            cart[existingProductIndex] = updateProduct
-
-                                        }
+                                        cartViewmodel.incrementItemCounter(productID = product.productID)
                                     }) {
                                     Icon(
                                         Icons.Default.Add,
@@ -124,7 +106,9 @@ fun Cart(
                                         containerColor = Color.Red
                                     ),
                                     modifier = Modifier.fillMaxWidth(),
-                                    onClick = {}) {
+                                    onClick = {
+                                        cartViewmodel.removeItemFromCart(productID = product.productID)
+                                    }) {
                                     Icon(
                                         Icons.Default.Delete,
                                         contentDescription = null
