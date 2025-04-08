@@ -166,7 +166,11 @@ fun Scanner(
                 modifier = Modifier.matchParentSize()
             )
             if (cart.isNotEmpty()) {
-                Cart(cart = cart, itemsInCart = itemsInCart.intValue, total = total)
+                Cart(
+                    cart = cart,
+                    itemsInCart = itemsInCart.intValue,
+                    total = total
+                )
             }
             if (showBottomSheet) {
                 ModalBottomSheet(
