@@ -4,7 +4,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.bitinovus.bos.presentaion.screens.scanner.Scanner
+import androidx.navigation.compose.rememberNavController
+import com.bitinovus.bos.presentaion.navigation.AppNavigation
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 
@@ -14,9 +15,13 @@ fun App(
     scannerViewmodel: ScannerViewmodel,
     cartViewmodel: CartViewmodel,
 ) {
+    val navHostController = rememberNavController()
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        Scanner(scannerViewmodel = scannerViewmodel, cartViewmodel = cartViewmodel)
+        AppNavigation(
+            scannerViewmodel = scannerViewmodel, cartViewmodel = cartViewmodel,
+            navHostController = navHostController
+        )
     }
 }
