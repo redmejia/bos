@@ -14,10 +14,10 @@ sealed class BottomBarItem(
         selectedIcon = R.drawable.barcode_scanner
     )
 
-
+    // Pos - Checkout screen
     data object Pos : BottomBarItem(
         route = "Pos",
-        title = "Pos",
+        title = "Checkout",
         selectedIcon = R.drawable.point_of_sale
     )
 

@@ -1,11 +1,13 @@
 package com.bitinovus.bos.presentaion.screens.app
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.bitinovus.bos.presentaion.navigation.AppNavigation
+import com.bitinovus.bos.presentaion.navigation.BottomBar
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 
@@ -16,10 +18,15 @@ fun App(
     cartViewmodel: CartViewmodel,
 ) {
     val navHostController = rememberNavController()
-    Box(
-        modifier = modifier.fillMaxSize()
-    ) {
+
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        bottomBar = {
+            BottomBar(navController = navHostController)
+        }
+    ) { innerPadding ->
         AppNavigation(
+            modifier = Modifier.padding(innerPadding),
             scannerViewmodel = scannerViewmodel, cartViewmodel = cartViewmodel,
             navHostController = navHostController
         )

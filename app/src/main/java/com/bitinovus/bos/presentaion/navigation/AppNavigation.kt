@@ -22,7 +22,6 @@ fun AppNavigation(
     scannerViewmodel: ScannerViewmodel = viewModel(),
     cartViewmodel: CartViewmodel = viewModel(),
 ) {
-
     NavHost(
         modifier = modifier,
         navController = navHostController,
