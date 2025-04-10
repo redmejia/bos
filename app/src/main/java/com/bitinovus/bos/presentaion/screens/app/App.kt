@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.bitinovus.bos.presentaion.navigation.AppNavigation
 import com.bitinovus.bos.presentaion.navigation.BottomBar
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryGrayBase80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 
@@ -21,6 +22,7 @@ fun App(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        containerColor = PrimaryGrayBase80,
         bottomBar = {
             BottomBar(navController = navHostController)
         }
