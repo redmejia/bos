@@ -24,4 +24,5 @@ val PrimaryWhite90 = Color(0x72FFFFFF)
 val PrimaryGrayBase80 = Color(0xFFF4F4F4)
 
 val PrimaryBlue80 = Color(0xFF4285F4)
+val PrimaryBlue90 = Color(0xFF91AEE3)
 val PrimaryBlue60 = Color(0xFF1976D2)
