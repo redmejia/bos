@@ -60,6 +60,9 @@ dependencies {
 
     val lifecycle_version = "2.8.7"
 
+    val nav_version = "2.8.9"
+
+
 
     // CameraX
     implementation("androidx.camera:camera-camera2:${camerax_version}")
@@ -94,6 +97,9 @@ dependencies {
 
     // COIL
     implementation("io.coil-kt:coil-compose:2.7.0")
+
+    // Jetpack Compose Navigation integration
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
