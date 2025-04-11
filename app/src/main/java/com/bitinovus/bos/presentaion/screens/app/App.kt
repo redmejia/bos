@@ -1,8 +1,11 @@
 package com.bitinovus.bos.presentaion.screens.app
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,8 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
 import com.bitinovus.bos.presentaion.navigation.AppNavigation
 import com.bitinovus.bos.presentaion.navigation.BottomBar
@@ -45,20 +51,38 @@ fun App(
                 title = {},
                 actions = {
                     Row {
-                        IconButton(onClick = { /* do something */ }) {
-                            Icon(
-                                imageVector = Icons.Filled.ShoppingCart,
-                                contentDescription = "Localized description"
-                            )
+                        Box(
+                            // modifier = Modifier.wrapContentSize(),
+                            contentAlignment = Alignment.TopEnd
+                        ) {
+                            IconButton(onClick = { }) {
+                                Icon(
+                                    imageVector = Icons.Filled.ShoppingCart,
+                                    contentDescription = "Localized description",
+                                    tint = PrimaryGrayBase80
+                                )
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .padding(top = 7.dp, end = 7.dp)
+                                    .size(12.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                val purpleColor = Color.Red
+                                Canvas(modifier = Modifier.fillMaxSize()) {
+                                    drawCircle(color = purpleColor)
+                                }
+                            }
+
                         }
-                        IconButton(onClick = { /* do something */ }) {
+                        IconButton(onClick = { }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.add_box),
-                                contentDescription = "Localized description"
+                                contentDescription = "Localized description",
+                                tint = PrimaryGrayBase80
                             )
                         }
                     }
-
                 },
             )
         },

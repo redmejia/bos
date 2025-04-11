@@ -17,8 +17,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
-import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack96
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryGrayBase80
 
 @Composable
@@ -34,8 +34,8 @@ fun BottomBar(
     NavigationBar(
         modifier = Modifier
             .height(110.dp),
-        containerColor = PrimaryGrayBase80,
-        contentColor = PrimaryGrayBase80
+        containerColor = PrimaryBlue60,
+        contentColor = PrimaryBlue60
     ) {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -58,14 +58,14 @@ fun BottomBar(
                         modifier = Modifier.size(30.dp),
                         painter = painterResource(id = screen.selectedIcon),
                         contentDescription = screen.title,
-                        tint = if (currentRoute == screen.route) PrimaryBlue80 else PrimaryBlack80
+                        tint = if (currentRoute == screen.route) PrimaryGrayBase80 else PrimaryBlack96
                     )
                 },
                 label = {
                     Text(
                         if (currentRoute == screen.route)
                             screen.title else "",
-                        color = PrimaryBlue80,
+                        color = PrimaryGrayBase80,
                         fontWeight = FontWeight.Bold
                     )
                 },

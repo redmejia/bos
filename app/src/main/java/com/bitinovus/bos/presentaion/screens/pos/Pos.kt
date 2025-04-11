@@ -19,7 +19,7 @@ import com.bitinovus.bos.presentaion.components.buttons.EasyPayButton
 @Composable
 fun Pos() {
     Column {
-        val denominationList = listOf("1", "5", "10", "20", "50", "100", "Exact")
+        val denominationList = listOf("1", "5", "10", "20", "50", "100", "exact".uppercase())
         val row = 3
 
         FlowRow(

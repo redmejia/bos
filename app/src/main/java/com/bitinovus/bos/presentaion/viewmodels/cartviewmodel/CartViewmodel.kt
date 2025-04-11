@@ -22,14 +22,13 @@ class CartViewmodel : ViewModel() {
         viewModelScope.launch {
             try {
                 if (_cartState.value.isNotEmpty()) {
-                    _cartSummaryState.update { cur ->
-                        cur.copy(
+                    _cartSummaryState.update { current ->
+                        current.copy(
                             itemsInCart = _cartState.value.sumOf { it.items },
                             grandTotal = _cartState.value.sumOf { it.price * it.items }
                         )
                     }
                 }
-
             } catch (e: Exception) {
                 Log.e("ERROR", "addToCart: ${e.message}")
             }
