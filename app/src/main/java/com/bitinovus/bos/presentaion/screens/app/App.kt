@@ -1,6 +1,7 @@
 package com.bitinovus.bos.presentaion.screens.app
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,13 +9,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +45,7 @@ fun App(
     cartViewmodel: CartViewmodel,
 ) {
     val navHostController = rememberNavController()
+    var isCartScreenOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -55,7 +63,9 @@ fun App(
                             // modifier = Modifier.wrapContentSize(),
                             contentAlignment = Alignment.TopEnd
                         ) {
-                            IconButton(onClick = { }) {
+                            IconButton(onClick = {
+                                isCartScreenOpen = true
+                            }) {
                                 Icon(
                                     imageVector = Icons.Filled.ShoppingCart,
                                     contentDescription = "Localized description",
@@ -87,13 +97,31 @@ fun App(
             )
         },
         bottomBar = {
-            BottomBar(navController = navHostController)
+            if (!isCartScreenOpen) {
+                BottomBar(navController = navHostController)
+            }
         }
     ) { innerPadding ->
-        AppNavigation(
-            modifier = Modifier.padding(innerPadding),
-            scannerViewmodel = scannerViewmodel, cartViewmodel = cartViewmodel,
-            navHostController = navHostController
-        )
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+            AppNavigation(
+                scannerViewmodel = scannerViewmodel, cartViewmodel = cartViewmodel,
+                navHostController = navHostController
+            )
+            if (isCartScreenOpen) {
+                Box(
+                    modifier = Modifier
+                        .background(color = PrimaryGrayBase80)
+                        .matchParentSize()
+                ) {
+                    Button(onClick = { isCartScreenOpen = false }) { Text("Cart close") }
+                }
+            }
+
+        }
+
     }
 }
