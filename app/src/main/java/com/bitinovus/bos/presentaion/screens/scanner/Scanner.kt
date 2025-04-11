@@ -45,7 +45,7 @@ import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.bitinovus.bos.presentaion.screens.scanner.cart.Cart
+import com.bitinovus.bos.presentaion.screens.cart.Cart
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
