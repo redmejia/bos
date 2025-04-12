@@ -1,5 +1,6 @@
 package com.bitinovus.bos.presentaion.screens.cart
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,19 +38,25 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import androidx.compose.ui.text.TextStyle
+import androidx.navigation.NavHostController
 import com.bitinovus.bos.data.remote.models.Product
+import com.bitinovus.bos.presentaion.navigation.AppScreens
 import com.bitinovus.bos.presentaion.screens.cart.summarysection.SummarySection
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryRed00
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartSummaryState
 
 @Composable
 fun Cart(
+    navHostController: NavHostController,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
     cartViewmodel: CartViewmodel,
     productList: List<Product>,
-    summary: CartSummaryState, // cart summary
+    summary: CartSummaryState,
 ) {
+
+    // prevent system back navigation go to previous screen
+    BackHandler(enabled = true) {}
+
     LaunchedEffect(key1 = productList) {
         if (productList.isNotEmpty()) {
             cartViewmodel.updateCartSummary()
@@ -160,8 +167,17 @@ fun Cart(
                     colors = ButtonDefaults.buttonColors(
                         containerColor = PrimaryBlue80
                     ),
-                    onClick = onClick
-                ) { Text("Add More Items", fontSize = 20.sp) }
+                    onClick = {
+                        cartViewmodel.changeScreenState(state = false)
+                        // navigate to scanner to add more items
+                        navHostController.navigate(route = AppScreens.Scanner.name) {
+                            popUpTo(route = AppScreens.Cart.name) {
+                                inclusive = true
+                                saveState = false
+                            }
+                        }
+                    }
+                ) { Text("Add More Items", fontSize = 15.sp) }
                 FilledTonalButton(
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -171,8 +187,12 @@ fun Cart(
                     colors = ButtonDefaults.buttonColors(
                         containerColor = PrimaryRed00
                     ),
-                    onClick = onClick
-                ) { Text("Cancel", fontSize = 20.sp) }
+                    onClick = {
+                        cartViewmodel.changeScreenState(state = false)
+                        // back to previous screen
+                        navHostController.popBackStack()
+                    }
+                ) { Text("Cancel", fontSize = 15.sp) }
             }
         }
     }

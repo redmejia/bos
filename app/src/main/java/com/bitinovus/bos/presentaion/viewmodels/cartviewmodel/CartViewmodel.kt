@@ -17,6 +17,14 @@ class CartViewmodel : ViewModel() {
 
     private val _cartSummaryState = MutableStateFlow(CartSummaryState())
     val cartSummaryState: StateFlow<CartSummaryState> = _cartSummaryState.asStateFlow()
+    
+    private val _cartScreenState = MutableStateFlow(false)
+    val cartScreenState: StateFlow<Boolean> = _cartScreenState.asStateFlow()
+
+    fun changeScreenState(state: Boolean) {
+        _cartScreenState.value = state
+    }
+
 
     fun updateCartSummary() {
         viewModelScope.launch {

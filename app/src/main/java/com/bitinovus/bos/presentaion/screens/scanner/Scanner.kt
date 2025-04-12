@@ -126,6 +126,8 @@ fun Scanner(
         }
     }
 
+
+
     if (isCameraPermissionDenied) {
         Box {
             Text(text = "Camera need permission to scan")
