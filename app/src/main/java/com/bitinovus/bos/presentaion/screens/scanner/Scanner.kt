@@ -15,7 +15,6 @@ import android.Manifest
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,9 +28,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.collectAsState
@@ -45,8 +44,8 @@ import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import kotlinx.coroutines.launch
 
@@ -196,14 +195,13 @@ fun Scanner(
                                 }
                             }
                             HorizontalDivider()
-                            OutlinedButton(
+                            FilledTonalButton(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 12.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = PrimaryBlack80
+                                    containerColor = PrimaryBlue80
                                 ),
-                                border = BorderStroke(1.dp, PrimaryBlack98),
                                 onClick = {
                                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                                         if (!sheetState.isVisible) {

@@ -25,11 +25,9 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.bitinovus.bos.presentaion.components.cart.CartCard
@@ -39,20 +37,21 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import androidx.compose.ui.text.TextStyle
+import com.bitinovus.bos.data.remote.models.Product
 import com.bitinovus.bos.presentaion.screens.cart.summarysection.SummarySection
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryRed00
+import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartSummaryState
 
 @Composable
 fun Cart(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
     cartViewmodel: CartViewmodel,
+    productList: List<Product>,
+    summary: CartSummaryState, // cart summary
 ) {
-    val cart by cartViewmodel.cartState.collectAsState()
-    val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
-
-    LaunchedEffect(key1 = cart) {
-        if (cart.isNotEmpty()){
+    LaunchedEffect(key1 = productList) {
+        if (productList.isNotEmpty()) {
             cartViewmodel.updateCartSummary()
         }
     }
@@ -66,8 +65,10 @@ fun Cart(
                 .padding(horizontal = 6.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-
-            items(items = cart, key = { it.productID }) { product ->
+            item {
+                Spacer(Modifier.height(5.dp))
+            }
+            items(items = productList, key = { it.productID }) { product ->
                 CartCard(
                     product = product,
                     actions = {
@@ -131,7 +132,7 @@ fun Cart(
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp),
                 leadingText = "Total",
-                trailingText = "$${cartSummary.grandTotal / 100.00}",
+                trailingText = "$${summary.grandTotal / 100.00}",
                 style = TextStyle(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -142,7 +143,7 @@ fun Cart(
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp),
                 leadingText = "Total items",
-                trailingText = "${cartSummary.itemsInCart}",
+                trailingText = "${summary.itemsInCart}",
                 style = TextStyle(
                     fontSize = 17.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -173,7 +174,6 @@ fun Cart(
                     onClick = onClick
                 ) { Text("Cancel", fontSize = 20.sp) }
             }
-
         }
     }
 }

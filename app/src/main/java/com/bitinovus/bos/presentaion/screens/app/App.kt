@@ -17,13 +17,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
@@ -36,6 +36,7 @@ import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.screens.cart.Cart
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryRed00
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,6 +47,10 @@ fun App(
 ) {
     val navHostController = rememberNavController()
     var isCartScreenOpen by remember { mutableStateOf(false) }
+
+    val productList by cartViewmodel.cartState.collectAsState()
+    val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
+
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -72,18 +77,18 @@ fun App(
                                     tint = PrimaryGrayBase80
                                 )
                             }
-                            Box(
-                                modifier = Modifier
-                                    .padding(top = 7.dp, end = 7.dp)
-                                    .size(12.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                val purpleColor = Color.Red
-                                Canvas(modifier = Modifier.fillMaxSize()) {
-                                    drawCircle(color = purpleColor)
+                            if (productList.isNotEmpty()) {
+                                Box(
+                                    modifier = Modifier
+                                        .padding(top = 7.dp, end = 7.dp)
+                                        .size(12.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Canvas(modifier = Modifier.fillMaxSize()) {
+                                        drawCircle(color = PrimaryRed00)
+                                    }
                                 }
                             }
-
                         }
                         IconButton(onClick = { }) {
                             Icon(
@@ -118,9 +123,13 @@ fun App(
                         .matchParentSize()
                 ) {
                     Column {
-                        Cart(cartViewmodel = cartViewmodel, onClick = {
-                            isCartScreenOpen = false
-                        })
+                        Cart(
+                            productList = productList,
+                            summary = cartSummary,
+                            cartViewmodel = cartViewmodel,
+                            onClick = {
+                                isCartScreenOpen = false
+                            })
                     }
                 }
             }
