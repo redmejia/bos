@@ -3,18 +3,17 @@ package com.bitinovus.bos.presentaion.screens.app
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -36,6 +35,7 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 import com.bitinovus.bos.R
+import com.bitinovus.bos.presentaion.screens.cart.Cart
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -117,11 +117,13 @@ fun App(
                         .background(color = PrimaryGrayBase80)
                         .matchParentSize()
                 ) {
-                    Button(onClick = { isCartScreenOpen = false }) { Text("Cart close") }
+                    Column {
+                        Cart(cartViewmodel = cartViewmodel, onClick = {
+                            isCartScreenOpen = false
+                        })
+                    }
                 }
             }
-
         }
-
     }
 }

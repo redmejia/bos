@@ -45,7 +45,6 @@ import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmode
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.bitinovus.bos.presentaion.screens.cart.Cart
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
@@ -90,8 +89,6 @@ fun Scanner(
     var isDetected by remember { mutableStateOf(false) }
 
     val product by scannerViewmodel.uiState.collectAsState()
-    val cart by cartViewmodel.cartState.collectAsState()
-    val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
 
 
     val cameraController = remember {
@@ -128,11 +125,6 @@ fun Scanner(
             // change to capture to stop scanning
             cameraController.setEnabledUseCases(CameraController.IMAGE_CAPTURE)
         }
-
-        if (product?.product != null) {
-            cartViewmodel.updateCartSummary()
-        }
-
     }
 
     if (isCameraPermissionDenied) {
@@ -162,14 +154,7 @@ fun Scanner(
                 boxHeightSize = 0.2f,
                 modifier = Modifier.matchParentSize()
             )
-            if (cart.isNotEmpty()) {
-                Cart(
-                    cart = cart,
-                    itemsInCart = cartSummary.itemsInCart,
-                    total = cartSummary.grandTotal,
-                    cartViewmodel = cartViewmodel
-                )
-            }
+
             if (showBottomSheet) {
                 ModalBottomSheet(
                     onDismissRequest = {

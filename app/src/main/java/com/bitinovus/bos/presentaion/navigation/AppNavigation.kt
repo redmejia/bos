@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.bitinovus.bos.presentaion.screens.cart.Cart
 import com.bitinovus.bos.presentaion.screens.pos.Pos
 import com.bitinovus.bos.presentaion.screens.scanner.Scanner
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
@@ -31,5 +32,6 @@ fun AppNavigation(
         composable(route = AppScreens.Pos.name) {
             Pos()
         }
+
     }
 }

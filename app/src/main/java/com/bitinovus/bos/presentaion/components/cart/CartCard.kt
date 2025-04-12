@@ -35,6 +35,9 @@ fun CartCard(
         modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = PrimaryWhite00
+        ),
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 8.dp
         )
     ) {
         Row(
