@@ -139,7 +139,9 @@ fun Cart(
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp),
                 leadingText = "Total",
-                trailingText = "$${summary.grandTotal / 100.00}",
+                trailingText = "$${
+                    if (productList.isNotEmpty()) summary.grandTotal / 100.00 else 0.0
+                }",
                 style = TextStyle(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -150,7 +152,7 @@ fun Cart(
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp),
                 leadingText = "Total items",
-                trailingText = "${summary.itemsInCart}",
+                trailingText = "${if (productList.isNotEmpty()) summary.itemsInCart else 0}",
                 style = TextStyle(
                     fontSize = 17.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -177,7 +179,7 @@ fun Cart(
                             }
                         }
                     }
-                ) { Text("Add More Items", fontSize = 15.sp) }
+                ) { Text("Add More Items") }
                 FilledTonalButton(
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -189,10 +191,11 @@ fun Cart(
                     ),
                     onClick = {
                         cartViewmodel.changeScreenState(state = false)
+                        cartViewmodel.clearCartList()
                         // back to previous screen
                         navHostController.popBackStack()
                     }
-                ) { Text("Cancel", fontSize = 15.sp) }
+                ) { Text("Cancel") }
             }
         }
     }

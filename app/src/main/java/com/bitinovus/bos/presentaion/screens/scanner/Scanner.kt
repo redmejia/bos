@@ -41,7 +41,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.bitinovus.bos.domain.usecases.analyzer.BarcodeAnalyzer
 import com.bitinovus.bos.presentaion.screens.scanner.scannerbox.ScannerBox
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
@@ -218,7 +217,7 @@ fun Scanner(
                                         }
                                     }
                                 }) {
-                                Text("add to cart".uppercase(), style = TextStyle())
+                                Text("add to cart".uppercase())
                             }
                         }
                     }

@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -48,6 +49,12 @@ fun App(
     // Cart purchase summary is not initialized
     // when the composable is called prevent navigation error
     val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
+
+    LaunchedEffect(key1 = productList) {
+        if(productList.isNotEmpty()){
+            cartViewmodel.updateCartSummary()
+        }
+    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
