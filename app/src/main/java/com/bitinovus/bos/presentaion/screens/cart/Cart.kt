@@ -41,7 +41,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
 import com.bitinovus.bos.data.remote.models.Product
 import com.bitinovus.bos.presentaion.navigation.AppScreens
-import com.bitinovus.bos.presentaion.screens.cart.summarysection.SummarySection
+import com.bitinovus.bos.presentaion.components.summarysection.SummarySection
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryGrayBase80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryRed00
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartSummaryState
 
@@ -131,6 +132,10 @@ fun Cart(
         }
         Column(
             modifier = Modifier
+                .background(
+                    color = PrimaryGrayBase80,
+                    RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
+                )
                 .fillMaxSize(),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {

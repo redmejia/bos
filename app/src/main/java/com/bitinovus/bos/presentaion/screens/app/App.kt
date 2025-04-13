@@ -58,7 +58,7 @@ fun App(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        containerColor = PrimaryGrayBase80,
+        containerColor = PrimaryWhite00,
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
