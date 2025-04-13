@@ -15,7 +15,6 @@ import android.Manifest
 import androidx.camera.view.CameraController
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,9 +28,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.collectAsState
@@ -42,12 +41,10 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.bitinovus.bos.domain.usecases.analyzer.BarcodeAnalyzer
 import com.bitinovus.bos.presentaion.screens.scanner.scannerbox.ScannerBox
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import com.bitinovus.bos.presentaion.screens.scanner.cart.Cart
-import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import kotlinx.coroutines.launch
 
@@ -90,8 +87,6 @@ fun Scanner(
     var isDetected by remember { mutableStateOf(false) }
 
     val product by scannerViewmodel.uiState.collectAsState()
-    val cart by cartViewmodel.cartState.collectAsState()
-    val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
 
 
     val cameraController = remember {
@@ -128,12 +123,9 @@ fun Scanner(
             // change to capture to stop scanning
             cameraController.setEnabledUseCases(CameraController.IMAGE_CAPTURE)
         }
-
-        if (product?.product != null) {
-            cartViewmodel.updateCartSummary()
-        }
-
     }
+
+
 
     if (isCameraPermissionDenied) {
         Box {
@@ -162,14 +154,7 @@ fun Scanner(
                 boxHeightSize = 0.2f,
                 modifier = Modifier.matchParentSize()
             )
-            if (cart.isNotEmpty()) {
-                Cart(
-                    cart = cart,
-                    itemsInCart = cartSummary.itemsInCart,
-                    total = cartSummary.grandTotal,
-                    cartViewmodel = cartViewmodel
-                )
-            }
+
             if (showBottomSheet) {
                 ModalBottomSheet(
                     onDismissRequest = {
@@ -211,14 +196,13 @@ fun Scanner(
                                 }
                             }
                             HorizontalDivider()
-                            OutlinedButton(
+                            FilledTonalButton(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 12.dp),
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = PrimaryBlack80
+                                    containerColor = PrimaryBlue80
                                 ),
-                                border = BorderStroke(1.dp, PrimaryBlack98),
                                 onClick = {
                                     scope.launch { sheetState.hide() }.invokeOnCompletion {
                                         if (!sheetState.isVisible) {
@@ -233,7 +217,7 @@ fun Scanner(
                                         }
                                     }
                                 }) {
-                                Text("add to cart".uppercase(), style = TextStyle())
+                                Text("add to cart".uppercase())
                             }
                         }
                     }

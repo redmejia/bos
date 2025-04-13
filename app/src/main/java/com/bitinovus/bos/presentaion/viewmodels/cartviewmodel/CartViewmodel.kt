@@ -18,6 +18,20 @@ class CartViewmodel : ViewModel() {
     private val _cartSummaryState = MutableStateFlow(CartSummaryState())
     val cartSummaryState: StateFlow<CartSummaryState> = _cartSummaryState.asStateFlow()
 
+    private val _cartScreenState = MutableStateFlow(false)
+    val cartScreenState: StateFlow<Boolean> = _cartScreenState.asStateFlow()
+
+    fun changeScreenState(state: Boolean) {
+        _cartScreenState.value = state
+    }
+
+    fun clearCartList() {
+        if (_cartState.value.isNotEmpty()) {
+            _cartState.value = emptyList<Product>()
+            _cartSummaryState.value.copy(itemsInCart = 0, grandTotal = 0)
+        }
+    }
+
     fun updateCartSummary() {
         viewModelScope.launch {
             try {
@@ -28,6 +42,8 @@ class CartViewmodel : ViewModel() {
                             grandTotal = _cartState.value.sumOf { it.price * it.items }
                         )
                     }
+                } else {
+                    _cartSummaryState.value = CartSummaryState()
                 }
             } catch (e: Exception) {
                 Log.e("ERROR", "addToCart: ${e.message}")
