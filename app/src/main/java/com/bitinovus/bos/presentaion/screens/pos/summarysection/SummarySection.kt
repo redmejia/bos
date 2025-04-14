@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.sp
 import com.bitinovus.bos.presentaion.components.summarysection.SummarySection
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryGrayBase80
 
+// Summary purchase section
 @Composable
 fun SummaryContainer() {
     Column(
@@ -25,13 +26,13 @@ fun SummaryContainer() {
         SummarySection(
             modifier = Modifier.fillMaxWidth(),
             leadingText = "Total",
-            trailingText = "$ 40.00",
+            trailingText = "$0.0",
             style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
         )
         SummarySection(
             modifier = Modifier.fillMaxWidth(),
             leadingText = "Total items",
-            trailingText = "4",
+            trailingText = "0",
             style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.ExtraBold)
         )
     }

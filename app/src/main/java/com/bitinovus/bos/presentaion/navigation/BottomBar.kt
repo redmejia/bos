@@ -1,7 +1,14 @@
 package com.bitinovus.bos.presentaion.navigation
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -33,7 +40,7 @@ fun BottomBar(
 
     NavigationBar(
         modifier = Modifier
-            .height(110.dp),
+            .windowInsetsPadding(BottomAppBarDefaults.windowInsets),
         containerColor = PrimaryBlue60,
         contentColor = PrimaryBlue60
     ) {
