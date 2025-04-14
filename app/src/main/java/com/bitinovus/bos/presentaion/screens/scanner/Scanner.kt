@@ -36,17 +36,22 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.bitinovus.bos.domain.usecases.analyzer.BarcodeAnalyzer
 import com.bitinovus.bos.presentaion.screens.scanner.scannerbox.ScannerBox
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import kotlinx.coroutines.launch
+import com.bitinovus.bos.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -191,8 +196,17 @@ fun Scanner(
                                 Column(
                                     modifier = Modifier.fillMaxWidth(),
                                 ) {
-                                    Text(text = "Product: ${it.name}")
-                                    Text(text = "Price: $${it.price / 100.0}") // add format 0.00
+                                    Text(
+                                        text = it.name,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        fontSize = 20.sp,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                    Text(
+                                        text = stringResource(id = R.string.price)
+                                                + " $${it.price / 100.0}"
+                                    ) // add format 0.00
                                 }
                             }
                             HorizontalDivider()
@@ -217,7 +231,7 @@ fun Scanner(
                                         }
                                     }
                                 }) {
-                                Text("add to cart".uppercase())
+                                Text(text = stringResource(id = R.string.add_to_cart).uppercase())
                             }
                         }
                     }

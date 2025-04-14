@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -24,6 +25,7 @@ import coil.compose.AsyncImage
 import com.bitinovus.bos.data.remote.models.Product
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
+import com.bitinovus.bos.R
 
 @Composable
 fun CartCard(
@@ -68,7 +70,7 @@ fun CartCard(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "Quantity ${product.items}",
+                    text = stringResource(id = R.string.quantity) + " ${product.items}",
                     fontWeight = FontWeight.SemiBold,
                 )
                 Row(
