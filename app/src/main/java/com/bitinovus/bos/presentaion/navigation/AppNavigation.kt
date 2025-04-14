@@ -36,7 +36,7 @@ fun AppNavigation(
 
         // checkout screen
         composable(route = AppScreens.Pos.name) {
-            Pos()
+            Pos(productList = productList, cartViewmodel = cartViewmodel)
         }
 
         composable(route = AppScreens.Cart.name) {

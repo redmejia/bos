@@ -13,10 +13,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bitinovus.bos.presentaion.components.summarysection.SummarySection
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryGrayBase80
+import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartSummaryState
 
 // Summary purchase section
 @Composable
-fun SummaryContainer() {
+fun SummaryContainer(isProductListEmpty: Boolean, cartSummaryState: CartSummaryState) {
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -26,13 +28,15 @@ fun SummaryContainer() {
         SummarySection(
             modifier = Modifier.fillMaxWidth(),
             leadingText = "Total",
-            trailingText = "$0.0",
+            trailingText = "$${
+                if (!isProductListEmpty) cartSummaryState.grandTotal / 100.00 else 0.0
+            }",
             style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
         )
         SummarySection(
             modifier = Modifier.fillMaxWidth(),
             leadingText = "Total items",
-            trailingText = "0",
+            trailingText = "${if (!isProductListEmpty) cartSummaryState.itemsInCart else 0}",
             style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.ExtraBold)
         )
     }
