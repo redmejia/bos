@@ -98,10 +98,12 @@ fun App(
                                 // modifier = Modifier.wrapContentSize(),
                                 contentAlignment = Alignment.TopEnd
                             ) {
-                                IconButton(onClick = {
-                                    cartViewmodel.changeScreenState(state = true)
-                                    navHostController.navigate(route = AppScreens.Cart.name)
-                                }) {
+                                IconButton(
+                                    enabled = !cartScreenState,
+                                    onClick = {
+                                        cartViewmodel.changeScreenState(state = true)
+                                        navHostController.navigate(route = AppScreens.Cart.name)
+                                    }) {
                                     Icon(
                                         imageVector = Icons.Filled.ShoppingCart,
                                         contentDescription = "Localized description",
