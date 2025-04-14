@@ -1,4 +1,4 @@
-package com.bitinovus.bos.presentaion.screens.cart.summarysection
+package com.bitinovus.bos.presentaion.components.summarysection
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
