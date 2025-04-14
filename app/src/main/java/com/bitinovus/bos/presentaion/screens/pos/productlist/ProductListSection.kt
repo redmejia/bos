@@ -22,7 +22,7 @@ fun ProductListSection(productList: List<Product>) {
         //.imePadding(),
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        items(productList) { product ->
+        items(productList, key = { it.productID }) { product ->
             SummarySection(
                 modifier = Modifier
                     .padding(vertical = 10.dp)
