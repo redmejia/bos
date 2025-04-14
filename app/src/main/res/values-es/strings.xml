@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Bos</string>
+    <string name="total">Total</string>
+    <string name="total_items">Total de artículos</string>
+    <string name="charge">Cargo</string>
+    <string name="exact">Cantidad exacta</string>
+    <string name="quantity">Cantidad</string>
+    <string name="add_more">Añadir más</string>
+    <string name="cancel">Cancelar</string>
+    <string name="enter_amount">Ingresar cantidad</string>
+    <string name="add_to_cart">Añadir producto</string>
+    <string name="price">Precio</string>
+    <string name="scanner">Escáner</string>
+    <string name="checkout">Caja</string>
+</resources>

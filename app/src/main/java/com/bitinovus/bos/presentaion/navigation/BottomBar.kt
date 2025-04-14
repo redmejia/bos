@@ -1,12 +1,6 @@
 package com.bitinovus.bos.presentaion.navigation
 
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Icon
@@ -21,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -64,14 +59,14 @@ fun BottomBar(
                     Icon(
                         modifier = Modifier.size(30.dp),
                         painter = painterResource(id = screen.selectedIcon),
-                        contentDescription = screen.title,
+                        contentDescription = stringResource(id = screen.title),
                         tint = if (currentRoute == screen.route) PrimaryGrayBase80 else PrimaryBlack96
                     )
                 },
                 label = {
                     Text(
                         if (currentRoute == screen.route)
-                            screen.title else "",
+                            stringResource(id = screen.title) else "",
                         color = PrimaryGrayBase80,
                         fontWeight = FontWeight.Bold
                     )
