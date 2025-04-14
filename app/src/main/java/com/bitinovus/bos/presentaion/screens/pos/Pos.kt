@@ -21,10 +21,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bitinovus.bos.data.remote.models.Product
 import com.bitinovus.bos.presentaion.screens.pos.denominationbuttons.DenominationButtonsSection
 import com.bitinovus.bos.presentaion.screens.pos.productlist.ProductListSection
@@ -32,6 +32,7 @@ import com.bitinovus.bos.presentaion.screens.pos.summarysection.SummaryContainer
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
+import com.bitinovus.bos.R
 
 // Checkout Screen
 @Composable
@@ -44,10 +45,10 @@ fun Pos(
 
     val summary by cartViewmodel.cartSummaryState.collectAsState()
     LaunchedEffect(key1 = productList) {
-        if(productList.isNotEmpty()){
+        if (productList.isNotEmpty()) {
             cartViewmodel.updateCartSummary()
             isProductListEmpty = false
-        }else {
+        } else {
             // is empty
             isProductListEmpty = true
         }
@@ -69,7 +70,7 @@ fun Pos(
                     .fillMaxWidth(),
                 value = text,
                 onValueChange = { text = it },
-                placeholder = { Text("Enter Amount") },
+                placeholder = { Text(text = stringResource(id = R.string.enter_amount)) },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Number
                 ),
@@ -81,17 +82,25 @@ fun Pos(
                 maxLines = 1
             )
             FilledTonalButton(
-                modifier =  Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = PrimaryBlue80
                 ),
                 onClick = {}) {
-                Text("Charge".uppercase())
+                Text(text = stringResource(id = R.string.charge).uppercase())
             }
         }
         HorizontalDivider()
-        val denominationList = listOf("1", "5", "10", "20", "50", "100", "exact".uppercase())
+        val denominationList = listOf(
+            "1",
+            "5",
+            "10",
+            "20",
+            "50",
+            "100",
+            stringResource(id = R.string.exact).uppercase()
+        )
         val row = 3
         DenominationButtonsSection(denominationList, maxPerRow = row)
     }

@@ -28,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -95,7 +96,7 @@ fun Cart(
                                 }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.outline_remove),
-                                    contentDescription = "Localized description",
+                                    contentDescription = null,
                                 )
                             }
                             IconButton(
@@ -107,7 +108,7 @@ fun Cart(
                                 }) {
                                 Icon(
                                     imageVector = Icons.Default.Add,
-                                    contentDescription = "Localized description",
+                                    contentDescription = null,
                                 )
                             }
                             IconButton(
@@ -119,7 +120,7 @@ fun Cart(
                                 }) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
-                                    contentDescription = "Localized description",
+                                    contentDescription = null,
                                 )
                             }
                         }
@@ -143,7 +144,7 @@ fun Cart(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp),
-                leadingText = "Total",
+                leadingText = stringResource(id = R.string.total),
                 trailingText = "$${
                     if (productList.isNotEmpty()) summary.grandTotal / 100.00 else 0.0
                 }",
@@ -156,7 +157,7 @@ fun Cart(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp),
-                leadingText = "Total items",
+                leadingText = stringResource(id = R.string.total_items),
                 trailingText = "${if (productList.isNotEmpty()) summary.itemsInCart else 0}",
                 style = TextStyle(
                     fontSize = 17.sp,
@@ -184,7 +185,7 @@ fun Cart(
                             }
                         }
                     }
-                ) { Text("Add More Items") }
+                ) { Text(text = stringResource(id = R.string.add_more)) }
                 FilledTonalButton(
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -200,7 +201,7 @@ fun Cart(
                         // back to previous screen
                         navHostController.popBackStack()
                     }
-                ) { Text("Cancel") }
+                ) { Text(text = stringResource(id = R.string.cancel)) }
             }
         }
     }
