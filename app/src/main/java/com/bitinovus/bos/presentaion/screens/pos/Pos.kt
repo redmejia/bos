@@ -107,10 +107,11 @@ fun Pos(
         )
         val row = 3
         DenominationButtonsSection(
-            amount = summary.grandTotal,
             paymentViewmodel = paymentViewmodel,
-            denominationList,
-            maxPerRow = row
+            cartViewmodel = cartViewmodel,
+            amount = summary.grandTotal,
+            denominations = denominationList,
+            maxPerRow = row,
         )
     }
 }

@@ -10,14 +10,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.bitinovus.bos.presentaion.components.buttons.EasyPayButton
+import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DenominationButtonsSection(
-    amount: Long,
+    cartViewmodel: CartViewmodel,
     paymentViewmodel: PaymentViewmodel,
+    amount: Long,
     denominations: List<String>,
     maxPerRow: Int = 3,
 ) {
@@ -32,12 +34,16 @@ fun DenominationButtonsSection(
                     if (denomination == "EXACT") { // exact amount display snack
                         Log.d("TRX", "DenominationButtonsSection: $amount")
                         paymentViewmodel.exactAmount(amount)
+                        cartViewmodel.clearCartList()
                     } else {
                         Log.d(
                             "TRX",
                             "DenominationButtonsSection >>>>>: $denomination amount $amount"
                         )
-                        paymentViewmodel.easyPay((denomination.toLong() * 100), amount)
+                        paymentViewmodel.easyPay(
+                            denomination = (denomination.toLong() * 100),
+                            amount = amount
+                        ) { cartViewmodel.clearCartList() }
                     }
                 },
                 modifier = Modifier.weight(1f),
