@@ -67,7 +67,7 @@ fun Pos(
         var text by remember { mutableStateOf("") }
         Column {
             OutlinedTextField(
-                enabled = summary.grandTotal > 0,
+                enabled = summary.grandTotal > 0 && productList.isNotEmpty(),
                 modifier = Modifier
                     .padding(vertical = 4.dp)
                     .fillMaxWidth(),
@@ -85,7 +85,7 @@ fun Pos(
                 maxLines = 1
             )
             FilledTonalButton(
-                enabled = summary.grandTotal > 0,
+                enabled = summary.grandTotal > 0 && productList.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -109,6 +109,7 @@ fun Pos(
         DenominationButtonsSection(
             paymentViewmodel = paymentViewmodel,
             cartViewmodel = cartViewmodel,
+            enableButtons = summary.grandTotal > 0 && productList.isNotEmpty(),
             amount = summary.grandTotal,
             denominations = denominationList,
             maxPerRow = row,

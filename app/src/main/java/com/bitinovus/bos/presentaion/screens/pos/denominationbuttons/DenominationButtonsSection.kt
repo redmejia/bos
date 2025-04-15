@@ -19,6 +19,7 @@ import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmode
 fun DenominationButtonsSection(
     cartViewmodel: CartViewmodel,
     paymentViewmodel: PaymentViewmodel,
+    enableButtons: Boolean,
     amount: Long,
     denominations: List<String>,
     maxPerRow: Int = 3,
@@ -29,17 +30,12 @@ fun DenominationButtonsSection(
     ) {
         denominations.forEach { denomination ->
             EasyPayButton(
-                enabled = amount > 0,
+                enabled = enableButtons,
                 onClick = {
                     if (denomination == "EXACT") { // exact amount display snack
-                        Log.d("TRX", "DenominationButtonsSection: $amount")
                         paymentViewmodel.exactAmount(amount)
                         cartViewmodel.clearCartList()
                     } else {
-                        Log.d(
-                            "TRX",
-                            "DenominationButtonsSection >>>>>: $denomination amount $amount"
-                        )
                         paymentViewmodel.easyPay(
                             denomination = (denomination.toLong() * 100),
                             amount = amount
