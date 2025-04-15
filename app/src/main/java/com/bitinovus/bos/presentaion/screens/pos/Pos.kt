@@ -33,10 +33,12 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.R
+import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 
 // Checkout Screen
 @Composable
 fun Pos(
+    paymentViewmodel: PaymentViewmodel,
     cartViewmodel: CartViewmodel,
     productList: List<Product>,
 ) {
@@ -102,7 +104,12 @@ fun Pos(
             stringResource(id = R.string.exact).uppercase()
         )
         val row = 3
-        DenominationButtonsSection(denominationList, maxPerRow = row)
+        DenominationButtonsSection(
+            amount = summary.grandTotal,
+            paymentViewmodel = paymentViewmodel,
+            denominationList,
+            maxPerRow = row
+        )
     }
 }
 

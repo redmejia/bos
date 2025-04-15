@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.core.view.WindowCompat
 import com.bitinovus.bos.presentaion.theme.BosTheme
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 import androidx.lifecycle.ViewModelProvider
@@ -14,10 +13,12 @@ import com.bitinovus.bos.data.remote.repository.BosApiRepositoryImpl
 import com.bitinovus.bos.presentaion.screens.app.App
 import com.bitinovus.bos.presentaion.viewmodels.BosViewModelFactory
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
+import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 
 class MainActivity : ComponentActivity() {
     private lateinit var scannerViewmodel: ScannerViewmodel
     private lateinit var cartViewmodel: CartViewmodel
+    private lateinit var paymentViewmodel: PaymentViewmodel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +29,14 @@ class MainActivity : ComponentActivity() {
         val factory = BosViewModelFactory(repository)
         scannerViewmodel = ViewModelProvider(this, factory)[ScannerViewmodel::class.java]
         cartViewmodel = ViewModelProvider(this, factory)[CartViewmodel::class.java]
+        paymentViewmodel = ViewModelProvider(this, factory)[PaymentViewmodel::class.java]
 
         setContent {
             BosTheme {
                 App(
                     scannerViewmodel = scannerViewmodel,
-                    cartViewmodel = cartViewmodel
+                    cartViewmodel = cartViewmodel,
+                    paymentViewmodel = paymentViewmodel
                 )
             }
         }

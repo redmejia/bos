@@ -13,6 +13,7 @@ import com.bitinovus.bos.presentaion.screens.pos.Pos
 import com.bitinovus.bos.presentaion.screens.scanner.Scanner
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartSummaryState
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
+import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 
 @Composable
@@ -21,6 +22,7 @@ fun AppNavigation(
     navHostController: NavHostController,
     scannerViewmodel: ScannerViewmodel = viewModel(),
     cartViewmodel: CartViewmodel = viewModel(),
+    paymentViewmodel: PaymentViewmodel = viewModel(),
     cartSummary: CartSummaryState,
 ) {
     val productList by cartViewmodel.cartState.collectAsState()
@@ -36,7 +38,11 @@ fun AppNavigation(
 
         // checkout screen
         composable(route = AppScreens.Pos.name) {
-            Pos(productList = productList, cartViewmodel = cartViewmodel)
+            Pos(
+                productList = productList,
+                paymentViewmodel = paymentViewmodel,
+                cartViewmodel = cartViewmodel
+            )
         }
 
         composable(route = AppScreens.Cart.name) {

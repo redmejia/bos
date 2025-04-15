@@ -40,6 +40,7 @@ import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmode
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.navigation.AppScreens
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryRed00
+import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +48,7 @@ fun App(
     modifier: Modifier = Modifier,
     scannerViewmodel: ScannerViewmodel,
     cartViewmodel: CartViewmodel,
+    paymentViewmodel: PaymentViewmodel,
 ) {
     val navHostController = rememberNavController()
 
@@ -148,7 +150,8 @@ fun App(
             navHostController = navHostController,
             scannerViewmodel = scannerViewmodel,
             cartViewmodel = cartViewmodel,
-            cartSummary = cartSummary
+            cartSummary = cartSummary,
+            paymentViewmodel = paymentViewmodel
         )
     }
 }
