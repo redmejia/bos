@@ -67,6 +67,7 @@ fun Pos(
         var text by remember { mutableStateOf("") }
         Column {
             OutlinedTextField(
+                enabled = summary.grandTotal > 0,
                 modifier = Modifier
                     .padding(vertical = 4.dp)
                     .fillMaxWidth(),
@@ -84,6 +85,7 @@ fun Pos(
                 maxLines = 1
             )
             FilledTonalButton(
+                enabled = summary.grandTotal > 0,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(

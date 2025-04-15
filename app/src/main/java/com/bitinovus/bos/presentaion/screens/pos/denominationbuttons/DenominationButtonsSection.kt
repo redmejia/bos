@@ -27,6 +27,7 @@ fun DenominationButtonsSection(
     ) {
         denominations.forEach { denomination ->
             EasyPayButton(
+                enabled = amount > 0,
                 onClick = {
                     if (denomination == "EXACT") { // exact amount display snack
                         Log.d("TRX", "DenominationButtonsSection: $amount")
