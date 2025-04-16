@@ -27,4 +27,7 @@ val PrimaryBlue80 = Color(0xFF4285F4)
 val PrimaryBlue90 = Color(0xFF91AEE3)
 val PrimaryBlue60 = Color(0xFF1976D2)
 
-val PrimaryRed00 =  Color(0xFFF80303)
+val PrimaryRed00 = Color(0xFFF80303)
+
+val PrimaryTail00 = Color(0xFF17a2b8)
+val PrimaryYellow00 = Color(0xFFFFBB00)

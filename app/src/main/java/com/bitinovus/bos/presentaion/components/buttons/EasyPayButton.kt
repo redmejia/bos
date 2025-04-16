@@ -22,12 +22,14 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 fun EasyPayButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    enabled: Boolean = false,
     denomination: String = "",
     btnContainerColor: Color = PrimaryBlue80,
     btnContentColor: Color = PrimaryWhite00,
     textStyle: TextStyle = LocalTextStyle.current,
 ) {
     FilledTonalButton(
+        enabled = enabled,
         modifier = modifier,
         shape = RoundedCornerShape(10.dp),
         colors = ButtonDefaults.buttonColors(

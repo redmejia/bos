@@ -211,6 +211,7 @@ fun Scanner(
                             }
                             HorizontalDivider()
                             FilledTonalButton(
+                                shape = RoundedCornerShape(10.dp),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(vertical = 12.dp),

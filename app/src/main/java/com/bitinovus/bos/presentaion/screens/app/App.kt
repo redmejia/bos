@@ -17,18 +17,28 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.bitinovus.bos.presentaion.navigation.AppNavigation
 import com.bitinovus.bos.presentaion.navigation.BottomBar
@@ -39,7 +49,15 @@ import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.navigation.AppScreens
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
+import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackStateType
+import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackMessageType
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryRed00
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryTail00
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryYellow00
+import com.bitinovus.bos.presentaion.viewmodels.appsnack.AppSnack
+import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +65,7 @@ fun App(
     modifier: Modifier = Modifier,
     scannerViewmodel: ScannerViewmodel,
     cartViewmodel: CartViewmodel,
+    paymentViewmodel: PaymentViewmodel,
 ) {
     val navHostController = rememberNavController()
 
@@ -57,12 +76,88 @@ fun App(
     // when the composable is called prevent navigation error
     val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
 
-    // var isCartScreenOpen by remember { mutableStateOf(false) }
+    val snackBarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    val paymentState by paymentViewmodel.paymentState.collectAsState()
+
+    LaunchedEffect(key1 = paymentViewmodel.paymentSnackBarState) {
+        paymentViewmodel.paymentSnackBarState.collect { snack ->
+            scope.launch {
+                snackBarHostState.showSnackbar(AppSnack(snack))
+            }
+        }
+    }
 
     Scaffold(
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
         modifier = modifier.fillMaxSize(),
         containerColor = PrimaryWhite00,
+        snackbarHost = {
+            SnackbarHost(snackBarHostState) { data ->
+                val snack = data.visuals as? AppSnack
+                Snackbar(
+                    modifier = Modifier.padding(all = 4.dp),
+                    containerColor = when (snack?.actionLabel) {
+                        SnackStateType.SUCCESS.name -> PrimaryTail00
+                        SnackStateType.ERROR.name -> PrimaryRed00
+                        SnackStateType.WARNING.name -> PrimaryYellow00
+                        else -> PrimaryGrayBase80
+                    }
+                ) {
+                    Text(buildAnnotatedString {
+                        when (snack?.message) {
+                            SnackMessageType.TRX_SUCCESS.value -> {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryWhite00,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(stringResource(id = R.string.trx_successful)) }
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryBlack80,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(" $${paymentState.change / 100.00}") }
+                            }
+
+                            SnackMessageType.TRX_NO_ACT.value -> {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryWhite00,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(stringResource(id = R.string.no_action)) }
+                            }
+
+                            SnackMessageType.ERROR_AMT.value -> {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryWhite00,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(stringResource(id = R.string.error_amount)) }
+                            }
+
+                            SnackMessageType.ERROR_ENTRY_AMT.value -> {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryWhite00,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(stringResource(id = R.string.error_entered_amount)) }
+                            }
+                        }
+                    })
+                }
+            }
+        },
         topBar = {
             TopAppBar(
                 windowInsets = TopAppBarDefaults.windowInsets,
@@ -106,7 +201,7 @@ fun App(
                                     }) {
                                     Icon(
                                         imageVector = Icons.Filled.ShoppingCart,
-                                        contentDescription = "Localized description",
+                                        contentDescription = null,
                                         tint = PrimaryGrayBase80
                                     )
                                 }
@@ -126,7 +221,7 @@ fun App(
                             IconButton(onClick = { /*Not implemented yet */ }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.add_box),
-                                    contentDescription = "Localized description",
+                                    contentDescription = null,
                                     tint = PrimaryGrayBase80
                                 )
                             }
@@ -140,7 +235,6 @@ fun App(
             if (!cartScreenState) {
                 BottomBar(navController = navHostController)
             }
-
         }
     ) { innerPadding ->
         AppNavigation(
@@ -148,7 +242,8 @@ fun App(
             navHostController = navHostController,
             scannerViewmodel = scannerViewmodel,
             cartViewmodel = cartViewmodel,
-            cartSummary = cartSummary
+            cartSummary = cartSummary,
+            paymentViewmodel = paymentViewmodel
         )
     }
 }

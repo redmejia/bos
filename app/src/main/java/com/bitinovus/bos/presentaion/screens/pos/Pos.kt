@@ -33,10 +33,12 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.R
+import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 
 // Checkout Screen
 @Composable
 fun Pos(
+    paymentViewmodel: PaymentViewmodel,
     cartViewmodel: CartViewmodel,
     productList: List<Product>,
 ) {
@@ -60,19 +62,20 @@ fun Pos(
             .padding(4.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        ProductListSection(productList)
+        ProductListSection(paymentViewmodel = paymentViewmodel, productList = productList)
         SummaryContainer(isProductListEmpty = isProductListEmpty, cartSummaryState = summary)
         var text by remember { mutableStateOf("") }
         Column {
             OutlinedTextField(
+                enabled = summary.grandTotal > 0 && productList.isNotEmpty(),
                 modifier = Modifier
                     .padding(vertical = 4.dp)
                     .fillMaxWidth(),
                 value = text,
                 onValueChange = { text = it },
-                placeholder = { Text(text = stringResource(id = R.string.enter_amount)) },
+                placeholder = { if (text == "") Text(text = stringResource(id = R.string.enter_amount)) },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
+                    keyboardType = KeyboardType.Decimal
                 ),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = PrimaryBlue60,
@@ -82,12 +85,27 @@ fun Pos(
                 maxLines = 1
             )
             FilledTonalButton(
+                enabled = summary.grandTotal > 0 && productList.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = PrimaryBlue80
                 ),
-                onClick = {}) {
+                onClick = {
+                    // entry in cents
+                    val entry = try {
+                        (text.toDouble() * 100).toLong()
+                    } catch (_: NumberFormatException) {
+                        0L
+                    }
+                    paymentViewmodel.chargeAmount(
+                        amountEntered = entry,
+                        total = summary.grandTotal
+                    ) {
+                        text = ""
+                        cartViewmodel.clearCartList()
+                    }
+                }) {
                 Text(text = stringResource(id = R.string.charge).uppercase())
             }
         }
@@ -102,7 +120,14 @@ fun Pos(
             stringResource(id = R.string.exact).uppercase()
         )
         val row = 3
-        DenominationButtonsSection(denominationList, maxPerRow = row)
+        DenominationButtonsSection(
+            paymentViewmodel = paymentViewmodel,
+            cartViewmodel = cartViewmodel,
+            enableButtons = summary.grandTotal > 0 && productList.isNotEmpty(),
+            amount = summary.grandTotal,
+            denominations = denominationList,
+            maxPerRow = row,
+        )
     }
 }
 
