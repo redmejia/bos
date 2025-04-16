@@ -73,9 +73,9 @@ fun Pos(
                     .fillMaxWidth(),
                 value = text,
                 onValueChange = { text = it },
-                placeholder = { Text(text = stringResource(id = R.string.enter_amount)) },
+                placeholder = { if (text == "") Text(text = stringResource(id = R.string.enter_amount)) },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number
+                    keyboardType = KeyboardType.Decimal
                 ),
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = PrimaryBlue60,
@@ -91,7 +91,21 @@ fun Pos(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = PrimaryBlue80
                 ),
-                onClick = {}) {
+                onClick = {
+                    // entry in cents
+                    val entry = try {
+                        (text.toDouble() * 100).toLong()
+                    } catch (_: NumberFormatException) {
+                        0L
+                    }
+                    paymentViewmodel.chargeAmount(
+                        amountEntered = entry,
+                        total = summary.grandTotal
+                    ) {
+                        text = ""
+                        cartViewmodel.clearCartList()
+                    }
+                }) {
                 Text(text = stringResource(id = R.string.charge).uppercase())
             }
         }

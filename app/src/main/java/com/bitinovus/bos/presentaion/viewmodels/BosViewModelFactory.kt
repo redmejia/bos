@@ -1,6 +1,5 @@
 package com.bitinovus.bos.presentaion.viewmodels
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bitinovus.bos.data.remote.repository.BosApiRepositoryImpl

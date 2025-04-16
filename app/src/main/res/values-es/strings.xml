@@ -13,6 +13,7 @@
     <string name="scanner">Escáner</string>
     <string name="checkout">Caja</string>
     <string name="error_amount">Seleccione una cantidad mayor</string>
-    <string name="trx_successful">¡Gracias! Su cambio es </string>
+    <string name="error_entered_amount">Ingresar un cantidad mayor</string>
+    <string name="trx_successful">¡Gracias! su cambio es </string>
     <string name="no_action">¡Gracias!</string>
 </resources>

@@ -18,6 +18,7 @@ class AppSnack(private val snack: Snack) : SnackbarVisuals {
     override val message: String
         get() = when (snack.messageType) {
             SnackMessageType.ERROR_AMT -> snack.messageType.value
+            SnackMessageType.ERROR_ENTRY_AMT -> snack.messageType.value
             SnackMessageType.TRX_SUCCESS -> snack.messageType.value
             SnackMessageType.TRX_NO_ACT -> snack.messageType.value
         }

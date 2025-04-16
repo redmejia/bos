@@ -143,6 +143,16 @@ fun App(
                                     )
                                 ) { append(stringResource(id = R.string.error_amount)) }
                             }
+
+                            SnackMessageType.ERROR_ENTRY_AMT.value -> {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryWhite00,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(stringResource(id = R.string.error_entered_amount)) }
+                            }
                         }
                     })
                 }

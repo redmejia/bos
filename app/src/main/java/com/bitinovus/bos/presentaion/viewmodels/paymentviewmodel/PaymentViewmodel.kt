@@ -72,6 +72,37 @@ class PaymentViewmodel : ViewModel() {
             } catch (_: Exception) {
             }
         }
+    }
 
+    fun chargeAmount(amountEntered: Long, total: Long, action: () -> Unit) {
+        viewModelScope.launch {
+            if (amountEntered >= total) {
+                val change = amountEntered - total
+                _paymentState.update {
+                    it.copy(
+                        trxAmount = total,
+                        trxType = TrxType.CASH,
+                        trxExecuted = true,
+                        change = change
+                    )
+                }
+                if (_paymentState.value.trxExecuted) {
+                    action()
+                    _paymentSnackBarState.emit(
+                        Snack(
+                            messageType = SnackMessageType.TRX_SUCCESS,// show trx_successful string resource
+                            type = SnackStateType.SUCCESS,
+                        )
+                    )
+                }
+            } else {
+                _paymentSnackBarState.emit(
+                    Snack(
+                        messageType = SnackMessageType.ERROR_ENTRY_AMT, // show error_amount string resource
+                        type = SnackStateType.ERROR,
+                    )
+                )
+            }
+        }
     }
 }
