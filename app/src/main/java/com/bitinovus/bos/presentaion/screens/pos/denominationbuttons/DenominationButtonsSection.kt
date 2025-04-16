@@ -1,6 +1,5 @@
 package com.bitinovus.bos.presentaion.screens.pos.denominationbuttons
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -36,7 +35,7 @@ fun DenominationButtonsSection(
                 enabled = enableButtons,
                 onClick = {
                     if (denomination == exact) { // exact amount display snack
-                        paymentViewmodel.exactAmount(amount)
+                        paymentViewmodel.exactAmount() // no action need
                         cartViewmodel.clearCartList()
                     } else {
                         paymentViewmodel.easyPay(

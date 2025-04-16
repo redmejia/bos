@@ -62,7 +62,7 @@ fun Pos(
             .padding(4.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        ProductListSection(productList)
+        ProductListSection(paymentViewmodel = paymentViewmodel, productList = productList)
         SummaryContainer(isProductListEmpty = isProductListEmpty, cartSummaryState = summary)
         var text by remember { mutableStateOf("") }
         Column {

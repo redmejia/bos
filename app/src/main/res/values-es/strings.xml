@@ -2,7 +2,7 @@
     <string name="app_name">Bos</string>
     <string name="total">Total</string>
     <string name="total_items">Total de artículos</string>
-    <string name="charge">Cargo</string>
+    <string name="charge">Cargar</string>
     <string name="exact">Cantidad exacta</string>
     <string name="quantity">Cantidad</string>
     <string name="add_more">Añadir más</string>
@@ -13,7 +13,8 @@
     <string name="scanner">Escáner</string>
     <string name="checkout">Caja</string>
     <string name="error_amount">Seleccione una cantidad mayor</string>
-    <string name="error_entered_amount">Ingresar un cantidad mayor</string>
+    <string name="error_entered_amount">Ingresar una cantidad mayor</string>
     <string name="trx_successful">¡Gracias! su cambio es </string>
     <string name="no_action">¡Gracias!</string>
+    <string name="change">Cambio</string>
 </resources>

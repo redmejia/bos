@@ -22,11 +22,10 @@ class PaymentViewmodel : ViewModel() {
     private val _paymentSnackBarState = MutableSharedFlow<Snack>()
     val paymentSnackBarState: SharedFlow<Snack> = _paymentSnackBarState.asSharedFlow()
 
-    fun exactAmount(amount: Long) {
+    fun exactAmount() {
         viewModelScope.launch {
-
             _paymentState.update {
-                it.copy(trxAmount = amount, trxType = TrxType.CASH, trxExecuted = true)
+                it.copy(trxAmount = 0, trxType = TrxType.CASH, trxExecuted = true)
             }
             _paymentSnackBarState.emit(
                 Snack(
