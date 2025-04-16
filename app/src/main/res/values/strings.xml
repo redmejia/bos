@@ -12,4 +12,7 @@
     <string name="price">Price</string>
     <string name="scanner">Scanner</string>
     <string name="checkout">Checkout</string>
+    <string name="error_amount">Select a higher amount</string>
+    <string name="trx_successful">Thank You! your Change is </string>
+    <string name="no_action">Thank You!</string>
 </resources>

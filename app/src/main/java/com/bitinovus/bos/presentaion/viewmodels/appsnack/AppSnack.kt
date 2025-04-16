@@ -7,19 +7,19 @@ class AppSnack(private val snack: Snack) : SnackbarVisuals {
 
     override val actionLabel: String?
         get() = when (snack.type) {
-            SnackType.ERROR -> snack.type.name
-            SnackType.SUCCESS -> snack.type.name
-            SnackType.WARNING -> snack.type.name
+            SnackStateType.ERROR -> snack.type.name
+            SnackStateType.SUCCESS -> snack.type.name
+            SnackStateType.WARNING -> snack.type.name
         }
 
     override val duration: SnackbarDuration
         get() = SnackbarDuration.Short
 
     override val message: String
-        get() = when (snack.type) {
-            SnackType.ERROR -> snack.message
-            SnackType.SUCCESS -> snack.message
-            SnackType.WARNING -> snack.message
+        get() = when (snack.messageType) {
+            SnackMessageType.ERROR_AMT -> snack.messageType.value
+            SnackMessageType.TRX_SUCCESS -> snack.messageType.value
+            SnackMessageType.TRX_NO_ACT -> snack.messageType.value
         }
     override val withDismissAction: Boolean
         get() = false

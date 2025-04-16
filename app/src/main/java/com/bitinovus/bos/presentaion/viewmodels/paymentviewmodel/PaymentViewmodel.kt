@@ -3,7 +3,8 @@ package com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitinovus.bos.presentaion.viewmodels.appsnack.Snack
-import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackType
+import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackMessageType
+import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackStateType
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 class PaymentViewmodel : ViewModel() {
 
     private val _paymentState = MutableStateFlow<TransactionState>(TransactionState())
-    // val paymentState: StateFlow<TransactionState> = _paymentState.asStateFlow()
+    val paymentState: StateFlow<TransactionState> = _paymentState.asStateFlow()
 
     private val _paymentSnackBarState = MutableSharedFlow<Snack>()
     val paymentSnackBarState: SharedFlow<Snack> = _paymentSnackBarState.asSharedFlow()
@@ -29,8 +30,8 @@ class PaymentViewmodel : ViewModel() {
             }
             _paymentSnackBarState.emit(
                 Snack(
-                    message = "0.0 No Action",
-                    type = SnackType.SUCCESS,
+                    messageType = SnackMessageType.TRX_NO_ACT,
+                    type = SnackStateType.SUCCESS,
                 )
 
             )
@@ -55,16 +56,16 @@ class PaymentViewmodel : ViewModel() {
                         action()
                         _paymentSnackBarState.emit(
                             Snack(
-                                message = "${change / 100.00}",
-                                type = SnackType.SUCCESS,
+                                messageType = SnackMessageType.TRX_SUCCESS,// show trx_successful string resource
+                                type = SnackStateType.SUCCESS,
                             )
                         )
                     }
                 } else {
                     _paymentSnackBarState.emit(
                         Snack(
-                            message = "Select a higher amount",
-                            type = SnackType.ERROR,
+                            messageType = SnackMessageType.ERROR_AMT, // show error_amount string resource
+                            type = SnackStateType.ERROR,
                         )
                     )
                 }

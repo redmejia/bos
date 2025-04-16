@@ -1,6 +1,6 @@
 package com.bitinovus.bos.presentaion.viewmodels.appsnack
 
 data class Snack(
-    val message: String = "",
-    val type: SnackType = SnackType.SUCCESS,
+    val messageType: SnackMessageType = SnackMessageType.TRX_SUCCESS,
+    val type: SnackStateType = SnackStateType.SUCCESS,
 )

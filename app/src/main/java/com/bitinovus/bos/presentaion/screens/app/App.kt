@@ -31,8 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -50,8 +50,11 @@ import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmode
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.navigation.AppScreens
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
-import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackType
+import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackStateType
+import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackMessageType
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryRed00
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryTail00
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryYellow00
 import com.bitinovus.bos.presentaion.viewmodels.appsnack.AppSnack
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import kotlinx.coroutines.launch
@@ -76,6 +79,8 @@ fun App(
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
+    val paymentState by paymentViewmodel.paymentState.collectAsState()
+
     LaunchedEffect(key1 = paymentViewmodel.paymentSnackBarState) {
         paymentViewmodel.paymentSnackBarState.collect { snack ->
             scope.launch {
@@ -94,37 +99,49 @@ fun App(
                 Snackbar(
                     modifier = Modifier.padding(all = 4.dp),
                     containerColor = when (snack?.actionLabel) {
-                        SnackType.SUCCESS.name -> Color(0xFF28a745)
-                        SnackType.ERROR.name -> Color.Red
-                        SnackType.WARNING.name -> Color.Yellow
+                        SnackStateType.SUCCESS.name -> PrimaryTail00
+                        SnackStateType.ERROR.name -> PrimaryRed00
+                        SnackStateType.WARNING.name -> PrimaryYellow00
                         else -> PrimaryGrayBase80
                     }
                 ) {
                     Text(buildAnnotatedString {
-                        when (snack?.actionLabel) {
-                            SnackType.SUCCESS.name -> {
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = PrimaryWhite00
-                                    )
-                                ) { append("Thank You! your Change ") }
-                                withStyle(
-                                    style = SpanStyle(
-                                        color = PrimaryBlack80,
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
-                                ) { append("$${snack.message}") }
-                            }
-
-                            SnackType.ERROR.name -> {
+                        when (snack?.message) {
+                            SnackMessageType.TRX_SUCCESS.value -> {
                                 withStyle(
                                     style = SpanStyle(
                                         color = PrimaryWhite00,
                                         fontSize = 17.sp,
                                         fontWeight = FontWeight.SemiBold
                                     )
-                                ) { append(snack.message) }
+                                ) { append(stringResource(id = R.string.trx_successful)) }
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryBlack80,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(" $${paymentState.change / 100.00}") }
+                            }
+
+                            SnackMessageType.TRX_NO_ACT.value -> {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryWhite00,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(stringResource(id = R.string.no_action)) }
+                            }
+
+                            SnackMessageType.ERROR_AMT.value -> {
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = PrimaryWhite00,
+                                        fontSize = 17.sp,
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                ) { append(stringResource(id = R.string.error_amount)) }
                             }
                         }
                     })
@@ -174,7 +191,7 @@ fun App(
                                     }) {
                                     Icon(
                                         imageVector = Icons.Filled.ShoppingCart,
-                                        contentDescription = "Localized description",
+                                        contentDescription = null,
                                         tint = PrimaryGrayBase80
                                     )
                                 }
@@ -194,7 +211,7 @@ fun App(
                             IconButton(onClick = { /*Not implemented yet */ }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.add_box),
-                                    contentDescription = "Localized description",
+                                    contentDescription = null,
                                     tint = PrimaryGrayBase80
                                 )
                             }
