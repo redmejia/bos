@@ -13,18 +13,18 @@ val Pink40 = Color(0xFF7D5260)
 // Bos colors app
 val PrimaryBlack80 = Color(0xEB000000)
 val PrimaryBlack95 = Color(0x61000000)
-val PrimaryBlack96 = Color(0xFF323232)
+
+// val PrimaryBlack96 = Color(0xFF323232)
 val PrimaryBlack98 = Color(0xF52A2929)
 
 
 val PrimaryWhite00 = Color(0xFFFFFFFF)
-val PrimaryWhite80 = Color(0xA6FFFFFF)
-val PrimaryWhite90 = Color(0x72FFFFFF)
 
 val PrimaryGrayBase80 = Color(0xFFF4F4F4)
 
 val PrimaryBlue80 = Color(0xFF4285F4)
-val PrimaryBlue90 = Color(0xFF91AEE3)
+
+// val PrimaryBlue90 = Color(0xFF91AEE3)
 val PrimaryBlue60 = Color(0xFF1976D2)
 
 val PrimaryRed00 = Color(0xFFF80303)

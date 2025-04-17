@@ -24,9 +24,11 @@ class PaymentViewmodel : ViewModel() {
 
     fun exactAmount() {
         viewModelScope.launch {
-            _paymentState.update {
-                it.copy(trxAmount = 0, trxType = TrxType.CASH, trxExecuted = true)
-            }
+            _paymentState.value = TransactionState(
+                trxAmount = 0,
+                trxType = TrxType.CASH,
+                trxExecuted = true
+            )
             _paymentSnackBarState.emit(
                 Snack(
                     messageType = SnackMessageType.TRX_NO_ACT,

@@ -19,9 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack96
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
-import com.bitinovus.bos.presentaion.ui.theme.PrimaryGrayBase80
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 
 @Composable
 fun BottomBar(
@@ -60,22 +59,21 @@ fun BottomBar(
                         modifier = Modifier.size(30.dp),
                         painter = painterResource(id = screen.selectedIcon),
                         contentDescription = stringResource(id = screen.title),
-                        tint = if (currentRoute == screen.route) PrimaryGrayBase80 else PrimaryBlack96
+                        tint = PrimaryWhite00
                     )
                 },
                 label = {
                     Text(
                         if (currentRoute == screen.route)
                             stringResource(id = screen.title) else "",
-                        color = PrimaryGrayBase80,
-                        fontWeight = FontWeight.Bold
+                        color = PrimaryWhite00,
+                        fontWeight = FontWeight.Normal
                     )
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = Color.Transparent
                 )
             )
-
         }
     }
 
