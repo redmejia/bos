@@ -17,4 +17,10 @@
     <string name="trx_successful">Thank You! your change is </string>
     <string name="no_action">Thank You!</string>
     <string name="change">Change</string>
+    <string name="wallet">Wallet</string>
+    <string name="balance">Your Balance</string>
+    <string name="trx_history">Transactions</string>
+    <string name="trx_cash_type">Cash</string>
+    <!-- This is not implemented VISA MasterCard...etc -->
+    <string name="trx_card_type">Card</string>
 </resources>

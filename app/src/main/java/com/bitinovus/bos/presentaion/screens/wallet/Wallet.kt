@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -35,7 +36,7 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 
 data class Transaction(
     val time: String,
-    val type: String,
+    val type: String, // use trx enum type
     val amount: String,
 )
 
@@ -84,7 +85,7 @@ fun Wallet() {
         ),
         Transaction(
             time = "9:20 PM",
-            type = "VISA",
+            type = "CASH",
             amount = "0.8"
         ),
         Transaction(
@@ -94,12 +95,12 @@ fun Wallet() {
         ),
         Transaction(
             time = "8:20 PM",
-            type = "VISA",
+            type = "Pay",
             amount = "0.70"
         ),
         Transaction(
             time = "8:20 PM",
-            type = "VISA",
+            type = "MasterCard",
             amount = "0.50"
         )
     )
@@ -124,9 +125,9 @@ fun Wallet() {
                             fontWeight = FontWeight.Normal
                         )
                     ) {
-                        append("Your Balance")
+                        append(stringResource(id = R.string.balance).uppercase())
                     }
-                    append("\n")
+                    append("\n\n")
                     withStyle(
                         style = SpanStyle(
                             fontSize = 30.sp,
@@ -149,7 +150,7 @@ fun Wallet() {
         ) {
             item {
                 Text(
-                    "Transactions",
+                    stringResource(id = R.string.trx_history),
                     fontSize = 20.sp,
                     modifier = Modifier.padding(vertical = 15.dp)
                 )
@@ -161,9 +162,12 @@ fun Wallet() {
                         Row {
                             Icon(
                                 modifier = Modifier.size(45.dp),
-                                painter = painterResource(id = R.drawable.transaction_cash_paid),
+                                painter = painterResource(
+                                    id = if (trx.type == "CASH") R.drawable.transaction_cash_paid
+                                    else R.drawable.credit_card
+                                ),
                                 contentDescription = null,
-                                tint = PrimaryGreen00
+                                tint = if (trx.type == "CASH") PrimaryGreen00 else PrimaryBlue60
                             )
                             Column {
                                 Text(
@@ -172,7 +176,9 @@ fun Wallet() {
                                     fontWeight = FontWeight.SemiBold
                                 )
                                 Text(
-                                    trx.type,
+                                    if (trx.type == "CASH")
+                                        stringResource(id = R.string.trx_cash_type).uppercase()
+                                    else "${trx.type} ${stringResource(id = R.string.trx_card_type)}".uppercase(),
                                     fontSize = 15.sp, fontWeight = FontWeight.Medium
                                 )
                             }

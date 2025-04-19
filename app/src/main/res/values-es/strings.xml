@@ -17,4 +17,9 @@
     <string name="trx_successful">¡Gracias! su cambio es </string>
     <string name="no_action">¡Gracias!</string>
     <string name="change">Cambio</string>
+    <string name="wallet">Billetera</string>
+    <string name="balance">Tu Saldo</string>
+    <string name="trx_history">Transacciones</string>
+    <string name="trx_cash_type">Efectivo</string>
+    <string name="trx_card_type">Tarjeta</string>
 </resources>

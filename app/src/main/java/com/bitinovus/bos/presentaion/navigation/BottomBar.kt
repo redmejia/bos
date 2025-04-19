@@ -29,7 +29,8 @@ fun BottomBar(
 
     val items = listOf(
         BottomBarItem.Scanner,
-        BottomBarItem.Pos
+        BottomBarItem.Pos,
+        BottomBarItem.Wallet
     )
 
     NavigationBar(
