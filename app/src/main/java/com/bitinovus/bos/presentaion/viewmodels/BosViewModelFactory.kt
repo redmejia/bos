@@ -6,6 +6,7 @@ import com.bitinovus.bos.data.remote.repository.BosApiRepositoryImpl
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
+import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 
 class BosViewModelFactory(private val repositoryImpl: BosApiRepositoryImpl) :
     ViewModelProvider.Factory {
@@ -21,6 +22,10 @@ class BosViewModelFactory(private val repositoryImpl: BosApiRepositoryImpl) :
         if (modelClass.isAssignableFrom(PaymentViewmodel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return PaymentViewmodel() as T
+        }
+        if (modelClass.isAssignableFrom(WalletViewmodel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return WalletViewmodel() as T
         }
         throw IllegalArgumentException("Unknown view model class")
     }

@@ -57,6 +57,7 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryTail00
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryYellow00
 import com.bitinovus.bos.presentaion.viewmodels.appsnack.AppSnack
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
+import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,6 +67,7 @@ fun App(
     scannerViewmodel: ScannerViewmodel,
     cartViewmodel: CartViewmodel,
     paymentViewmodel: PaymentViewmodel,
+    walletViewmodel: WalletViewmodel,
 ) {
     val navHostController = rememberNavController()
 
@@ -243,7 +245,8 @@ fun App(
             scannerViewmodel = scannerViewmodel,
             cartViewmodel = cartViewmodel,
             cartSummary = cartSummary,
-            paymentViewmodel = paymentViewmodel
+            paymentViewmodel = paymentViewmodel,
+            walletViewmodel = walletViewmodel
         )
     }
 }

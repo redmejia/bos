@@ -16,6 +16,7 @@ import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartSummaryState
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
+import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 
 @Composable
 fun AppNavigation(
@@ -25,6 +26,7 @@ fun AppNavigation(
     cartViewmodel: CartViewmodel = viewModel(),
     paymentViewmodel: PaymentViewmodel = viewModel(),
     cartSummary: CartSummaryState,
+    walletViewmodel: WalletViewmodel,
 ) {
     val productList by cartViewmodel.cartState.collectAsState()
 
