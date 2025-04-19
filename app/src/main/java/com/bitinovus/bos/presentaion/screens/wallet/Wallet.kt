@@ -178,7 +178,7 @@ fun Wallet() {
                                 Text(
                                     if (trx.type == "CASH")
                                         stringResource(id = R.string.trx_cash_type).uppercase()
-                                    else "${trx.type} ${stringResource(id = R.string.trx_card_type)}".uppercase(),
+                                    else stringResource(id = R.string.trx_card_type).uppercase(),
                                     fontSize = 15.sp, fontWeight = FontWeight.Medium
                                 )
                             }
