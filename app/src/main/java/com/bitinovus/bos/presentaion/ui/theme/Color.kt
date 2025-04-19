@@ -22,6 +22,7 @@ val PrimaryWhite00 = Color(0xFFFFFFFF)
 
 val PrimaryGrayBase80 = Color(0xFFF4F4F4)
 
+val PrimaryDarkBlue30 = Color(0xFF182B48)
 val PrimaryBlue80 = Color(0xFF4285F4)
 
 // val PrimaryBlue90 = Color(0xFF91AEE3)
@@ -31,3 +32,6 @@ val PrimaryRed00 = Color(0xFFF80303)
 
 val PrimaryTail00 = Color(0xFF17a2b8)
 val PrimaryYellow00 = Color(0xFFFFBB00)
+
+// use for cash color type transaction
+val PrimaryGreen00 = Color(0xFF228B22)

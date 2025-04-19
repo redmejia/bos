@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import com.bitinovus.bos.presentaion.screens.cart.Cart
 import com.bitinovus.bos.presentaion.screens.pos.Pos
 import com.bitinovus.bos.presentaion.screens.scanner.Scanner
+import com.bitinovus.bos.presentaion.screens.wallet.Wallet
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartSummaryState
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
@@ -43,6 +44,10 @@ fun AppNavigation(
                 paymentViewmodel = paymentViewmodel,
                 cartViewmodel = cartViewmodel
             )
+        }
+
+        composable(route = AppScreens.Wallet.name) {
+            Wallet()
         }
 
         composable(route = AppScreens.Cart.name) {

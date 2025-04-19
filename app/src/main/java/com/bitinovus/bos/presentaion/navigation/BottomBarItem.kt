@@ -21,4 +21,10 @@ sealed class BottomBarItem(
         selectedIcon = R.drawable.point_of_sale
     )
 
+    data object Wallet : BottomBarItem(
+        route = "Wallet",
+        title = R.string.wallet,
+        selectedIcon = R.drawable.account_balance_wallet
+    )
+
 }
