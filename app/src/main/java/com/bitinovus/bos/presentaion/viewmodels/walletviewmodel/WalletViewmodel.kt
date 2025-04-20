@@ -27,6 +27,8 @@ class WalletViewmodel : ViewModel() {
 
     private val time = Time()
 
+    fun todayDate(): String = formatTime(time.now(), "EE, dd, YYYY")
+
     fun confirmTransaction(amount: Long, trxType: TrxType) {
         try {
             val newTransaction = WalletTransactionState(

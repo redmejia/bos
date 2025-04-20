@@ -1,18 +1,21 @@
 package com.bitinovus.bos.presentaion.screens.wallet
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -45,13 +48,32 @@ fun Wallet(
 
     val walletTransactionState by walletViewmodel.walletTransactionState.collectAsState()
     val balanceState by walletViewmodel.balanceState.collectAsState()
-
-    Log.d("WALL", "Wallet: $walletTransactionState")
-    Log.d("WALL", "Wallet: $balanceState")
     Column(
         modifier = Modifier
             .fillMaxSize(),
     ) {
+        Column(
+            modifier = Modifier
+                .background(color = PrimaryBlue60)
+                .padding(horizontal = 8.dp)
+                .fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Icon(
+                    Icons.Filled.DateRange,
+                    contentDescription = "time now",
+                    tint = PrimaryWhite00
+                )
+                Text(
+                    walletViewmodel.todayDate(),
+                    color = PrimaryWhite00
+                )
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,9 +105,11 @@ fun Wallet(
                         append("$balanceState")
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
+
         }
         LazyColumn(
             modifier = Modifier
@@ -114,7 +138,6 @@ fun Wallet(
                                 tint = if (trx.type.name == "CASH") PrimaryGreen00 else PrimaryBlue60
                             )
                             Column {
-                                Log.d("WALL", "Wallet: ${walletViewmodel.formatTime(trxTime = trx.time, "hh:mm:ss a")}")
                                 Text(
                                     walletViewmodel.formatTime(trx.time, "hh:mm:ss a"),
                                     fontSize = 18.sp,
@@ -140,6 +163,9 @@ fun Wallet(
                     }
                 )
                 HorizontalDivider()
+            }
+            item {
+                Spacer(Modifier.height(4.dp))
             }
         }
     }
