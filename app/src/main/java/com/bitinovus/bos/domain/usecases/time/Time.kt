@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter
 
 class Time {
     // Unix current time
-    private val time = System.currentTimeMillis()
+    // private val time = System.currentTimeMillis()
 
-    fun now(): Long = time
+    fun now(): Long = System.currentTimeMillis()
 
     fun formater(time: Long, pattern: String): String {
         val formater = DateTimeFormatter.ofPattern(pattern).withZone(ZoneId.systemDefault())

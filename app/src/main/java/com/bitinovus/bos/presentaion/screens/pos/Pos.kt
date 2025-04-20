@@ -34,6 +34,8 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
+import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.TrxType
+import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 
 // Checkout Screen
 @Composable
@@ -41,6 +43,7 @@ fun Pos(
     paymentViewmodel: PaymentViewmodel,
     cartViewmodel: CartViewmodel,
     productList: List<Product>,
+    walletViewmodel: WalletViewmodel,
 ) {
 
     var isProductListEmpty by remember { mutableStateOf(false) }
@@ -98,6 +101,10 @@ fun Pos(
                     } catch (_: NumberFormatException) {
                         0L
                     }
+                    walletViewmodel.confirmTransaction(
+                        amount = summary.grandTotal,
+                        trxType = TrxType.CASH
+                    )
                     paymentViewmodel.chargeAmount(
                         amountEntered = entry,
                         total = summary.grandTotal
@@ -123,6 +130,7 @@ fun Pos(
         DenominationButtonsSection(
             paymentViewmodel = paymentViewmodel,
             cartViewmodel = cartViewmodel,
+            walletViewmodel = walletViewmodel,
             enableButtons = summary.grandTotal > 0 && productList.isNotEmpty(),
             amount = summary.grandTotal,
             denominations = denominationList,

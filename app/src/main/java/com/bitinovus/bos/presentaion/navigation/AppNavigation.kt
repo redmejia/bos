@@ -44,12 +44,13 @@ fun AppNavigation(
             Pos(
                 productList = productList,
                 paymentViewmodel = paymentViewmodel,
-                cartViewmodel = cartViewmodel
+                cartViewmodel = cartViewmodel,
+                walletViewmodel = walletViewmodel
             )
         }
 
         composable(route = AppScreens.Wallet.name) {
-            Wallet()
+            Wallet(walletViewmodel = walletViewmodel)
         }
 
         composable(route = AppScreens.Cart.name) {
