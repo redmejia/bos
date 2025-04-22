@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         cartViewmodel = ViewModelProvider(this, factory)[CartViewmodel::class.java]
         paymentViewmodel = ViewModelProvider(this, factory)[PaymentViewmodel::class.java]
         walletViewmodel = ViewModelProvider(this, factory)[WalletViewmodel::class.java]
-
+        
         setContent {
             BosTheme {
                 App(

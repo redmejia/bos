@@ -6,6 +6,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+// not need it
 object BosApiConfig {
 
     private const val BASE_URL = BuildConfig.API_BASE_URL
