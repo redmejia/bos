@@ -1,6 +1,7 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
+    id("com.google.devtools.ksp")
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
@@ -63,6 +64,8 @@ dependencies {
     val nav_version = "2.8.9"
 
 
+    implementation("com.google.dagger:hilt-android:2.56.1")
+    ksp("androidx.room:room-compiler:2.5.0")
 
     // CameraX
     implementation("androidx.camera:camera-camera2:${camerax_version}")

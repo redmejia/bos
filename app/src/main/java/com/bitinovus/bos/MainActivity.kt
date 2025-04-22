@@ -15,7 +15,9 @@ import com.bitinovus.bos.presentaion.viewmodels.BosViewModelFactory
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private lateinit var scannerViewmodel: ScannerViewmodel
     private lateinit var cartViewmodel: CartViewmodel
