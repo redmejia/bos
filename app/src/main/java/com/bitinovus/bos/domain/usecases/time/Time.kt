@@ -3,8 +3,9 @@ package com.bitinovus.bos.domain.usecases.time
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import javax.inject.Inject
 
-class Time {
+class Time @Inject constructor() {
     // Unix current time
     // private val time = System.currentTimeMillis()
 

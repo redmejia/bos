@@ -4,13 +4,16 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitinovus.bos.data.remote.models.Product
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CartViewmodel : ViewModel() {
+@HiltViewModel
+class CartViewmodel @Inject constructor(): ViewModel() {
 
     private val _cartState = MutableStateFlow<List<Product>>(emptyList())
     val cartState: StateFlow<List<Product>> = _cartState.asStateFlow()

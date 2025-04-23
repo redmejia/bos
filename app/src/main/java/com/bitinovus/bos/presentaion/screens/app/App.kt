@@ -39,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.bitinovus.bos.presentaion.navigation.AppNavigation
 import com.bitinovus.bos.presentaion.navigation.BottomBar
@@ -46,7 +47,6 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryGrayBase80
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
-import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.navigation.AppScreens
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack80
@@ -57,26 +57,20 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryTail00
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryYellow00
 import com.bitinovus.bos.presentaion.viewmodels.appsnack.AppSnack
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
-import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
     modifier: Modifier = Modifier,
-    scannerViewmodel: ScannerViewmodel,
-    cartViewmodel: CartViewmodel,
-    paymentViewmodel: PaymentViewmodel,
-    walletViewmodel: WalletViewmodel,
+    cartViewmodel: CartViewmodel = hiltViewModel(),
+    paymentViewmodel: PaymentViewmodel = hiltViewModel(),
 ) {
+
     val navHostController = rememberNavController()
 
     val productList by cartViewmodel.cartState.collectAsState()
     val cartScreenState by cartViewmodel.cartScreenState.collectAsState()
-
-    // Cart purchase summary is not initialized
-    // when the composable is called prevent navigation error
-    val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -242,11 +236,6 @@ fun App(
         AppNavigation(
             modifier = Modifier.padding(innerPadding),
             navHostController = navHostController,
-            scannerViewmodel = scannerViewmodel,
-            cartViewmodel = cartViewmodel,
-            cartSummary = cartSummary,
-            paymentViewmodel = paymentViewmodel,
-            walletViewmodel = walletViewmodel
         )
     }
 }
