@@ -1,6 +1,6 @@
 package com.bitinovus.bos.data.remote.api
 
-import com.bitinovus.bos.data.remote.models.ProductDto
+import com.bitinovus.bos.data.remote.model.ProductDto
 import retrofit2.http.GET
 import retrofit2.Response
 import retrofit2.http.Header

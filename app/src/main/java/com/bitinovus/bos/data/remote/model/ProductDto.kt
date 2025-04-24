@@ -1,4 +1,4 @@
-package com.bitinovus.bos.data.remote.models
+package com.bitinovus.bos.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 import com.bitinovus.bos.domain.model.Product as DomainProduct

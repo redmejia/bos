@@ -1,8 +1,8 @@
 package com.bitinovus.bos.data.remote.repository
 
 import com.bitinovus.bos.data.remote.api.BosApiService
-import com.bitinovus.bos.data.remote.models.toDomainProduct
-import com.bitinovus.bos.domain.model.Product as DomainProduct
+import com.bitinovus.bos.data.remote.model.toDomainProduct
+import com.bitinovus.bos.domain.model.Product
 import com.bitinovus.bos.domain.repository.BosApiRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -12,7 +12,7 @@ class BosApiRepositoryImpl @Inject constructor(
     private val bosApi: BosApiService,
 ) : BosApiRepository {
 
-    override suspend fun getProductByID(id: String, token: String): DomainProduct =
+    override suspend fun getProductByID(id: String, token: String): Product =
         withContext(Dispatchers.IO) {
             val product = try {
                 val resp = bosApi.getProductByBarcodeID(barcode = id, token = token)
@@ -21,10 +21,10 @@ class BosApiRepositoryImpl @Inject constructor(
                     body?.product?.toDomainProduct()
                 }
                 // return empty if not Successful
-                DomainProduct()
+                Product()
             } catch (_: Exception) {
                 // SerializationException error serialization
-                DomainProduct()
+                Product()
             }
             product
         }
