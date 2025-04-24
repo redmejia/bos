@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,7 +12,6 @@ import com.bitinovus.bos.presentaion.screens.cart.Cart
 import com.bitinovus.bos.presentaion.screens.pos.Pos
 import com.bitinovus.bos.presentaion.screens.scanner.Scanner
 import com.bitinovus.bos.presentaion.screens.wallet.Wallet
-import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartSummaryState
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
@@ -22,13 +21,13 @@ import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 fun AppNavigation(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-    scannerViewmodel: ScannerViewmodel = viewModel(),
-    cartViewmodel: CartViewmodel = viewModel(),
-    paymentViewmodel: PaymentViewmodel = viewModel(),
-    cartSummary: CartSummaryState,
-    walletViewmodel: WalletViewmodel,
+    scannerViewmodel: ScannerViewmodel = hiltViewModel(),
+    cartViewmodel: CartViewmodel = hiltViewModel(),
+    paymentViewmodel: PaymentViewmodel = hiltViewModel(),
+    walletViewmodel: WalletViewmodel = hiltViewModel(),
 ) {
     val productList by cartViewmodel.cartState.collectAsState()
+    val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
 
     NavHost(
         modifier = modifier,
@@ -36,7 +35,10 @@ fun AppNavigation(
         startDestination = AppScreens.Scanner.name
     ) {
         composable(route = AppScreens.Scanner.name) {
-            Scanner(scannerViewmodel = scannerViewmodel, cartViewmodel = cartViewmodel)
+            Scanner(
+                scannerViewmodel = scannerViewmodel,
+                cartViewmodel = cartViewmodel
+            )
         }
 
         // checkout screen
@@ -54,6 +56,7 @@ fun AppNavigation(
         }
 
         composable(route = AppScreens.Cart.name) {
+
             Cart(
                 navHostController = navHostController,
                 cartViewmodel = cartViewmodel,

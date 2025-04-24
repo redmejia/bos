@@ -1,6 +1,8 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 
 plugins {
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
@@ -63,6 +65,10 @@ dependencies {
     val nav_version = "2.8.9"
 
 
+    implementation("com.google.dagger:hilt-android:2.56.1")
+    kapt("com.google.dagger:hilt-compiler:2.56.1")
+
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     // CameraX
     implementation("androidx.camera:camera-camera2:${camerax_version}")
@@ -116,4 +122,10 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+}
+
+
+kapt {
+    correctErrorTypes = true
+    useBuildCache = true
 }

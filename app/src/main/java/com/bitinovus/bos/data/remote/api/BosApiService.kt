@@ -1,16 +1,16 @@
 package com.bitinovus.bos.data.remote.api
 
-import com.bitinovus.bos.data.remote.models.ProductModel
+import com.bitinovus.bos.data.remote.model.ProductDto
 import retrofit2.http.GET
 import retrofit2.Response
 import retrofit2.http.Header
 import retrofit2.http.Query
 
 
-interface BosApi {
+interface BosApiService {
     @GET("product")
     suspend fun getProductByBarcodeID(
         @Query("barcode") barcode: String,
         @Header("Authorization") token: String,
-    ): Response<ProductModel>
+    ): Response<ProductDto>
 }

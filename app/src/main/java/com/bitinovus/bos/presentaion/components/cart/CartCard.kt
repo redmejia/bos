@@ -22,10 +22,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.bitinovus.bos.data.remote.models.Product
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.R
+import com.bitinovus.bos.domain.model.Product
 
 @Composable
 fun CartCard(

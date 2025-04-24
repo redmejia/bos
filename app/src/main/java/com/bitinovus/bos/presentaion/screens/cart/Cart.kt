@@ -40,7 +40,7 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
-import com.bitinovus.bos.data.remote.models.Product
+import com.bitinovus.bos.domain.model.Product
 import com.bitinovus.bos.presentaion.navigation.AppScreens
 import com.bitinovus.bos.presentaion.components.summarysection.SummarySection
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryGrayBase80

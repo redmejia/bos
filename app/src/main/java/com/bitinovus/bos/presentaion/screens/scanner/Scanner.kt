@@ -117,10 +117,10 @@ fun Scanner(
     LaunchedEffect(key1 = isDetected, key2 = showBottomSheet, key3 = product) {
         if (isDetected) {
             scannerViewmodel.getProduct(barcodeID)
-            if (product?.product != null) {
-                showBottomSheet = true
-                isDetected = false
-            }
+//            if (product != null) {
+            showBottomSheet = true
+            isDetected = false
+//            }
 
         }
 
@@ -169,71 +169,71 @@ fun Scanner(
                     },
                     sheetState = sheetState
                 ) {
-                    product?.product?.let {
-                        Column(
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 8.dp),
+
+                        ) {
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 8.dp),
-
-                            ) {
-                            Row(
+                                .padding(vertical = 12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
+                        ) {
+                            AsyncImage(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 12.dp),
-                                horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
-                            ) {
-                                AsyncImage(
-                                    modifier = Modifier
-                                        .background(// not need for business image product
-                                            color = PrimaryBlack98,
-                                            shape = RoundedCornerShape(5.dp)
-                                        )
-                                        .width(110.dp)
-                                        .height(110.dp),
-                                    model = it.productImage,
-                                    contentDescription = it.name
-                                )
-                                Column(
-                                    modifier = Modifier.fillMaxWidth(),
-                                ) {
-                                    Text(
-                                        text = it.name,
-                                        fontWeight = FontWeight.ExtraBold,
-                                        fontSize = 20.sp,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
+                                    .background(// not need for business image product
+                                        color = PrimaryBlack98,
+                                        shape = RoundedCornerShape(5.dp)
                                     )
-                                    Text(
-                                        text = stringResource(id = R.string.price)
-                                                + " $${it.price / 100.0}"
-                                    ) // add format 0.00
-                                }
+                                    .width(110.dp)
+                                    .height(110.dp),
+                                model = product.productImage,
+                                contentDescription = product.name
+                            )
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                            ) {
+                                Text(
+                                    text = product.name,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    fontSize = 20.sp,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.price)
+                                            + " $${product.price / 100.0}"
+                                ) // add format 0.00
                             }
-                            HorizontalDivider()
-                            FilledTonalButton(
-                                shape = RoundedCornerShape(10.dp),
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(vertical = 12.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = PrimaryBlue80
-                                ),
-                                onClick = {
-                                    scope.launch { sheetState.hide() }.invokeOnCompletion {
-                                        if (!sheetState.isVisible) {
-                                            product?.product?.let { product ->
-                                                cartViewmodel.addToCart(product)
-                                            }
-                                            showBottomSheet = false
-                                            // If camera has the option
-                                            // IMAGE_CAPTURE change to IMAGE_ANALYSIS
-                                            cameraController
-                                                .setEnabledUseCases(CameraController.IMAGE_ANALYSIS)
-                                        }
+                        }
+                        HorizontalDivider()
+                        FilledTonalButton(
+                            shape = RoundedCornerShape(10.dp),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 12.dp),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = PrimaryBlue80
+                            ),
+                            onClick = {
+                                scope.launch { sheetState.hide() }.invokeOnCompletion {
+                                    if (!sheetState.isVisible) {
+                                        cartViewmodel.addToCart(product)
+
+//                                        product?.product?.let { product ->
+//                                            cartViewmodel.addToCart(product)
+//                                        }
+                                        showBottomSheet = false
+                                        // If camera has the option
+                                        // IMAGE_CAPTURE change to IMAGE_ANALYSIS
+                                        cameraController
+                                            .setEnabledUseCases(CameraController.IMAGE_ANALYSIS)
                                     }
-                                }) {
-                                Text(text = stringResource(id = R.string.add_to_cart).uppercase())
-                            }
+                                }
+                            }) {
+                            Text(text = stringResource(id = R.string.add_to_cart).uppercase())
                         }
                     }
                 }
