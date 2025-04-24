@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bitinovus.bos.R
 import androidx.compose.runtime.getValue
+import com.bitinovus.bos.presentaion.components.calendar.Calendar
 import com.bitinovus.bos.presentaion.components.transactioncard.TransactionCard
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryGreen00
@@ -126,6 +127,8 @@ fun Wallet(
                     fontSize = 20.sp,
                     modifier = Modifier.padding(vertical = 15.dp)
                 )
+
+                Calendar(weekDay = wallerCalendar.weekDay, days = wallerCalendar.days)
             }
             items(items = walletTransactionState) { trx ->
                 TransactionCard(
