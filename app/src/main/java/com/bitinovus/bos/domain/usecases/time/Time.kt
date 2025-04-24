@@ -16,4 +16,5 @@ class Time @Inject constructor() {
         return formater.format(Instant.ofEpochMilli(time))
     }
 
+    fun dateTimeFormater(pattern: String): DateTimeFormatter = DateTimeFormatter.ofPattern(pattern)
 }

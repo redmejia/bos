@@ -13,6 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,7 +34,20 @@ class WalletViewmodel @Inject constructor(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
 
-    fun todayDate(): String = formatTime(time.now(), "EE, dd, YYYY")
+    private fun calendarTodayDate(timeDateFormater: DateTimeFormatter): List<String> {
+        // time.dateTimeFormater("E") week day
+        // time.dateTimeFormater("dd") day
+        val startDay = LocalDate.now().with(DayOfWeek.MONDAY)
+        val dateList = mutableListOf<String>()
+
+        for (d in 0..6) {
+            val day = startDay.plusDays(d.toLong())
+            dateList.add(day.format(timeDateFormater))
+        }
+        return dateList
+    }
+
+    fun todayDate(): String = formatTime(time.now(), "MMM YYYY").replaceFirstChar { it.uppercase() }
 
     fun confirmTransaction(amount: Long, trxType: TrxType) {
         try {
