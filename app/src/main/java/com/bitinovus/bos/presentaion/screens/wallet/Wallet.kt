@@ -46,8 +46,10 @@ fun Wallet(
     walletViewmodel: WalletViewmodel,
 ) {
 
+    val wallerCalendar by walletViewmodel.walletCalendarState.collectAsState()
     val walletTransactionState by walletViewmodel.walletTransactionState.collectAsState()
     val balanceState by walletViewmodel.balanceState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -68,8 +70,10 @@ fun Wallet(
                     contentDescription = "time now",
                     tint = PrimaryWhite00
                 )
+                // walletViewmodel.todayDate(),
+
                 Text(
-                    walletViewmodel.todayDate(),
+                    wallerCalendar.todayMonthAndYear,
                     color = PrimaryWhite00
                 )
             }

@@ -28,15 +28,30 @@ class WalletViewmodel @Inject constructor(
     val walletTransactionState: StateFlow<List<WalletTransactionState>> =
         _walletTransactionState.asStateFlow()
 
+    private val _walletCalendarState = MutableStateFlow<WalletCalendarState>(WalletCalendarState())
+    val walletCalendarState: StateFlow<WalletCalendarState> = _walletCalendarState.asStateFlow()
+
+
     val balanceState: StateFlow<Double> =
         walletTransactionState.map { list ->
             list.sumOf { it.amount } / 100.0
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
+    init {
+        val weekDayList = walletCalendar(time.dateTimeFormater("E"))
+        val dayList = walletCalendar(time.dateTimeFormater("dd"))
 
-    private fun calendarTodayDate(timeDateFormater: DateTimeFormatter): List<String> {
-        // time.dateTimeFormater("E") week day
-        // time.dateTimeFormater("dd") day
+        _walletCalendarState.value = WalletCalendarState(
+            todayMonthAndYear = formatTime(
+                time.now(),
+                "MMM YYYY"
+            ).replaceFirstChar { it.uppercase() },
+            weekDay = weekDayList,
+            days = dayList
+        )
+    }
+
+    private fun walletCalendar(timeDateFormater: DateTimeFormatter): List<String> {
         val startDay = LocalDate.now().with(DayOfWeek.MONDAY)
         val dateList = mutableListOf<String>()
 
@@ -46,8 +61,6 @@ class WalletViewmodel @Inject constructor(
         }
         return dateList
     }
-
-    fun todayDate(): String = formatTime(time.now(), "MMM YYYY").replaceFirstChar { it.uppercase() }
 
     fun confirmTransaction(amount: Long, trxType: TrxType) {
         try {
