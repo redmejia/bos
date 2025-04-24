@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.bitinovus.bos.data.remote.models.Product
+import com.bitinovus.bos.domain.model.Product
 import com.bitinovus.bos.presentaion.components.summarysection.SummarySection
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import androidx.compose.runtime.getValue

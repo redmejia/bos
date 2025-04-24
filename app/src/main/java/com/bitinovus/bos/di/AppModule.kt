@@ -1,7 +1,7 @@
 package com.bitinovus.bos.di
 
 import com.bitinovus.bos.BuildConfig
-import com.bitinovus.bos.data.remote.api.BosApi
+import com.bitinovus.bos.data.remote.api.BosApiService
 import com.bitinovus.bos.data.remote.repository.BosApiRepositoryImpl
 import com.bitinovus.bos.domain.usecases.time.Time
 import dagger.Module
@@ -33,17 +33,17 @@ object AppModule {
     // Bos API
     @Provides
     @Singleton
-    fun provideBosApi(): BosApi {
+    fun provideBosApi(): BosApiService {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(BosApi::class.java)
+            .create(BosApiService::class.java)
     }
 
     @Provides
     @Singleton
-    fun provideBosApiRepositoryImp(api: BosApi): BosApiRepositoryImpl = BosApiRepositoryImpl(api)
+    fun provideBosApiRepositoryImp(api: BosApiService): BosApiRepositoryImpl = BosApiRepositoryImpl(api)
 
     @Provides
     @Singleton
