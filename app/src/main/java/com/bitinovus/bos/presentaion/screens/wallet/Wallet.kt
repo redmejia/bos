@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,16 +24,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bitinovus.bos.R
 import androidx.compose.runtime.getValue
+import com.bitinovus.bos.presentaion.components.calendar.Calendar
 import com.bitinovus.bos.presentaion.components.transactioncard.TransactionCard
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryGreen00
@@ -46,8 +43,10 @@ fun Wallet(
     walletViewmodel: WalletViewmodel,
 ) {
 
+    val wallerCalendar by walletViewmodel.walletCalendarState.collectAsState()
     val walletTransactionState by walletViewmodel.walletTransactionState.collectAsState()
     val balanceState by walletViewmodel.balanceState.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -69,7 +68,7 @@ fun Wallet(
                     tint = PrimaryWhite00
                 )
                 Text(
-                    walletViewmodel.todayDate(),
+                    wallerCalendar.todayMonthAndYear,
                     color = PrimaryWhite00
                 )
             }
@@ -77,39 +76,34 @@ fun Wallet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.30f)
-                .background(color = PrimaryBlue60),
+                .background(color = PrimaryBlue60)
+                .padding(vertical = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            fontSize = 20.sp,
-                            color = PrimaryWhite00,
-                            fontWeight = FontWeight.Normal
-                        )
-                    ) {
-                        append(stringResource(id = R.string.balance).uppercase())
-                    }
-                    append("\n\n")
-                    withStyle(
-                        style = SpanStyle(
-                            fontSize = 30.sp,
-                            color = PrimaryWhite00,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    ) {
-                        append("$")
-                        append("$balanceState")
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center
+                text = stringResource(id = R.string.balance).uppercase(),
+                fontSize = 17.sp,
+                color = PrimaryWhite00,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
             )
-
+            Text(
+                text = "$$balanceState",
+                fontSize = 30.sp,
+                color = PrimaryWhite00,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+            ) {
+                Calendar(weekDay = wallerCalendar.weekDay, days = wallerCalendar.days)
+            }
         }
         LazyColumn(
             modifier = Modifier

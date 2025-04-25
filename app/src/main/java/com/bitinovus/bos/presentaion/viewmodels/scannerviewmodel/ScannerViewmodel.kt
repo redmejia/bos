@@ -24,13 +24,6 @@ class ScannerViewmodel @Inject constructor(
         val token = "Bearer ${BuildConfig.TOKEN}"
         viewModelScope.launch {
             _uiState.value = repository.getProductByID(id = barcodeId, token = token)
-//            val productModel = repository.getProductByID(barcodeId, token = token)
-//            if (productModel != null) {
-//                _uiState.value = null // productModel
-//            } else {
-//                _uiState.value = null
-//            }
-
         }
     }
 }
