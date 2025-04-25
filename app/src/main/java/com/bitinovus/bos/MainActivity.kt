@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import com.bitinovus.bos.presentaion.theme.BosTheme
 import com.bitinovus.bos.presentaion.screens.app.App
+import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val walletViewmodel: WalletViewmodel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -18,5 +21,10 @@ class MainActivity : ComponentActivity() {
                 App()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        walletViewmodel.walletCalendar()
     }
 }

@@ -28,27 +28,17 @@ class WalletViewmodel @Inject constructor(
     val walletTransactionState: StateFlow<List<WalletTransactionState>> =
         _walletTransactionState.asStateFlow()
 
-    private val _walletCalendarState = MutableStateFlow<WalletCalendarState>(WalletCalendarState())
-    val walletCalendarState: StateFlow<WalletCalendarState> = _walletCalendarState.asStateFlow()
-
-
     val balanceState: StateFlow<Double> =
         walletTransactionState.map { list ->
             list.sumOf { it.amount } / 100.0
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
-    init {
-        val weekDayList = walletCalendar(time.dateTimeFormater("E"))
-        val dayList = walletCalendar(time.dateTimeFormater("dd"))
 
-        _walletCalendarState.value = WalletCalendarState(
-            todayMonthAndYear = formatTime(
-                time.now(),
-                "MMM YYYY"
-            ).replaceFirstChar { it.uppercase() },
-            weekDay = weekDayList,
-            days = dayList
-        )
+    private val _walletCalendarState = MutableStateFlow<WalletCalendarState>(WalletCalendarState())
+    val walletCalendarState: StateFlow<WalletCalendarState> = _walletCalendarState.asStateFlow()
+
+    init {
+        walletCalendar()
     }
 
     private fun walletCalendar(timeDateFormater: DateTimeFormatter): List<String> {
@@ -60,6 +50,20 @@ class WalletViewmodel @Inject constructor(
             dateList.add(day.format(timeDateFormater))
         }
         return dateList
+    }
+
+    fun walletCalendar() {
+        val weekDayList = walletCalendar(time.dateTimeFormater("E"))
+        val dayList = walletCalendar(time.dateTimeFormater("dd"))
+
+        _walletCalendarState.value = WalletCalendarState(
+            todayMonthAndYear = formatTime(
+                time.now(),
+                "MMM YYYY"
+            ).replaceFirstChar { it.uppercase() },
+            weekDay = weekDayList,
+            days = dayList
+        )
     }
 
     fun confirmTransaction(amount: Long, trxType: TrxType) {

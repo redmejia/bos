@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,11 +24,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -71,8 +67,6 @@ fun Wallet(
                     contentDescription = "time now",
                     tint = PrimaryWhite00
                 )
-                // walletViewmodel.todayDate(),
-
                 Text(
                     wallerCalendar.todayMonthAndYear,
                     color = PrimaryWhite00
@@ -82,39 +76,34 @@ fun Wallet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.30f)
-                .background(color = PrimaryBlue60),
+                .background(color = PrimaryBlue60)
+                .padding(vertical = 10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            fontSize = 20.sp,
-                            color = PrimaryWhite00,
-                            fontWeight = FontWeight.Normal
-                        )
-                    ) {
-                        append(stringResource(id = R.string.balance).uppercase())
-                    }
-                    append("\n\n")
-                    withStyle(
-                        style = SpanStyle(
-                            fontSize = 30.sp,
-                            color = PrimaryWhite00,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    ) {
-                        append("$")
-                        append("$balanceState")
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth(),
-                textAlign = TextAlign.Center
+                text = stringResource(id = R.string.balance).uppercase(),
+                fontSize = 17.sp,
+                color = PrimaryWhite00,
+                fontWeight = FontWeight.Normal,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
             )
-
+            Text(
+                text = "$$balanceState",
+                fontSize = 30.sp,
+                color = PrimaryWhite00,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .fillMaxWidth()
+            ) {
+                Calendar(weekDay = wallerCalendar.weekDay, days = wallerCalendar.days)
+            }
         }
         LazyColumn(
             modifier = Modifier
@@ -127,8 +116,6 @@ fun Wallet(
                     fontSize = 20.sp,
                     modifier = Modifier.padding(vertical = 15.dp)
                 )
-
-                Calendar(weekDay = wallerCalendar.weekDay, days = wallerCalendar.days)
             }
             items(items = walletTransactionState) { trx ->
                 TransactionCard(
