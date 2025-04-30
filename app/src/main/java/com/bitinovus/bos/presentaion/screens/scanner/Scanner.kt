@@ -117,11 +117,8 @@ fun Scanner(
     LaunchedEffect(key1 = isDetected, key2 = showBottomSheet, key3 = product) {
         if (isDetected) {
             scannerViewmodel.getProduct(barcodeID)
-//            if (product != null) {
             showBottomSheet = true
             isDetected = false
-//            }
-
         }
 
         if (showBottomSheet) {
