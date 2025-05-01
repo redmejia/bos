@@ -26,7 +26,6 @@ import javax.inject.Singleton
 @Module
 object AppModule {
 
-
     // Logger
     @Provides
     @Singleton

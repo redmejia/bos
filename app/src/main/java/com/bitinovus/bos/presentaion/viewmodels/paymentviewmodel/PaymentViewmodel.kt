@@ -51,7 +51,7 @@ class PaymentViewmodel @Inject constructor(
                 val newTransaction = Transaction(
                     time = time.now(),
                     trxAmount = amount,
-                    type = TrxType.CASH.name,
+                    type = TransactionType.CASH.name,
                     trxExecuted = true,
                     change = 0 // exact no action need
                 )
@@ -78,7 +78,7 @@ class PaymentViewmodel @Inject constructor(
                     val newTransaction = Transaction(
                         time = time.now(),
                         trxAmount = amount,
-                        type = TrxType.CASH.name,
+                        type = TransactionType.CASH.name,
                         trxExecuted = true,
                         change = change
                     )
@@ -112,7 +112,7 @@ class PaymentViewmodel @Inject constructor(
                     val newTransaction = Transaction(
                         time = time.now(),
                         trxAmount = total, // amount
-                        type = TrxType.CASH.name,
+                        type = TransactionType.CASH.name,
                         trxExecuted = true,
                         change = change
                     )
