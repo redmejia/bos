@@ -13,8 +13,6 @@ import com.bitinovus.bos.presentaion.components.buttons.EasyPayButton
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.R
-import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.TrxType
-import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -22,7 +20,6 @@ import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
 fun DenominationButtonsSection(
     cartViewmodel: CartViewmodel,
     paymentViewmodel: PaymentViewmodel,
-    walletViewmodel: WalletViewmodel,
     enableButtons: Boolean,
     amount: Long,
     denominations: List<String>,
@@ -38,25 +35,14 @@ fun DenominationButtonsSection(
                 enabled = enableButtons,
                 onClick = {
                     if (denomination == exact) { // exact amount display snack
-                        walletViewmodel.confirmTransaction(
-                            amount = amount,
-                            trxType = TrxType.CASH
-                        )
                         paymentViewmodel.exactAmount(amount = amount) // no action need
                         cartViewmodel.clearCartList()
                     } else {
-
                         paymentViewmodel.easyPay(
                             denomination = (denomination.toLong() * 100),
                             amount = amount
                         )
-                        // execute after check if denomination is bigger than amount
-                        walletViewmodel.confirmTransaction(
-                            amount = amount,
-                            trxType = TrxType.CASH
-                        )
                         cartViewmodel.clearCartList()
-
                     }
                 },
                 modifier = Modifier.weight(1f),
