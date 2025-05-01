@@ -12,7 +12,7 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions")
     fun getAll(): Flow<List<Transaction>>
 
-    @Query("SELECT * FROM transactions ORDER BY time DESC LIMIT 1")
+    @Query("SELECT * FROM transactions ORDER BY id DESC LIMIT 1")
     fun getLast(): Flow<Transaction?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
