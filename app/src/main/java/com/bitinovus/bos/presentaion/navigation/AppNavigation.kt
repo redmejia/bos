@@ -47,7 +47,6 @@ fun AppNavigation(
                 productList = productList,
                 paymentViewmodel = paymentViewmodel,
                 cartViewmodel = cartViewmodel,
-                walletViewmodel = walletViewmodel
             )
         }
 

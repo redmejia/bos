@@ -125,11 +125,11 @@ fun Wallet(
                             Icon(
                                 modifier = Modifier.size(45.dp),
                                 painter = painterResource(
-                                    id = if (trx.type.name == "CASH") R.drawable.transaction_cash_paid
+                                    id = if (trx.type == "CASH") R.drawable.transaction_cash_paid
                                     else R.drawable.credit_card
                                 ),
                                 contentDescription = null,
-                                tint = if (trx.type.name == "CASH") PrimaryGreen00 else PrimaryBlue60
+                                tint = if (trx.type == "CASH") PrimaryGreen00 else PrimaryBlue60
                             )
                             Column {
                                 Text(
@@ -138,7 +138,7 @@ fun Wallet(
                                     fontWeight = FontWeight.SemiBold
                                 )
                                 Text(
-                                    if (trx.type.name == "CASH")
+                                    if (trx.type == "CASH")
                                         stringResource(id = R.string.trx_cash_type).uppercase()
                                     else stringResource(id = R.string.trx_card_type).uppercase(),
                                     fontSize = 15.sp, fontWeight = FontWeight.Medium
@@ -149,7 +149,7 @@ fun Wallet(
                     trxAmount = {
                         Column {
                             Text(
-                                "$${trx.amount / 100.00}",
+                                "$${trx.trxAmount / 100.00}",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.SemiBold
                             )
