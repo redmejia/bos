@@ -42,21 +42,21 @@ fun DenominationButtonsSection(
                             amount = amount,
                             trxType = TrxType.CASH
                         )
-                        paymentViewmodel.exactAmount() // no action need
+                        paymentViewmodel.exactAmount(amount = amount) // no action need
                         cartViewmodel.clearCartList()
                     } else {
 
                         paymentViewmodel.easyPay(
                             denomination = (denomination.toLong() * 100),
                             amount = amount
-                        ) {
-                            // execute after check if denomination is bigger than amount
-                            walletViewmodel.confirmTransaction(
-                                amount = amount,
-                                trxType = TrxType.CASH
-                            )
-                            cartViewmodel.clearCartList()
-                        }
+                        )
+                        // execute after check if denomination is bigger than amount
+                        walletViewmodel.confirmTransaction(
+                            amount = amount,
+                            trxType = TrxType.CASH
+                        )
+                        cartViewmodel.clearCartList()
+
                     }
                 },
                 modifier = Modifier.weight(1f),

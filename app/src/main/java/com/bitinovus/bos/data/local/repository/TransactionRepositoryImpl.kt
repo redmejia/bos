@@ -11,6 +11,7 @@ import javax.inject.Inject
 class TransactionRepositoryImpl @Inject constructor(
     private val transactionDao: TransactionDao,
 ) : TransactionRepository {
+
     override suspend fun addNewTransaction(transaction: Transaction) {
         withContext(Dispatchers.IO) {
             transactionDao.create(transaction)
@@ -19,5 +20,5 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override suspend fun getAllTransaction(): Flow<List<Transaction>> = transactionDao.getAll()
 
-    override suspend fun getLastTransaction(): Flow<Transaction> = transactionDao.getLast()
+    override suspend fun getLastTransaction(): Flow<Transaction?> = transactionDao.getLast()
 }

@@ -9,12 +9,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TransactionDao {
-
     @Query("SELECT * FROM transactions")
     fun getAll(): Flow<List<Transaction>>
 
-    @Query("SELECT * FROM transactions ORDER BY trx_type DESC LIMIT 1")
-    fun getLast(): Flow<Transaction>
+    @Query("SELECT * FROM transactions ORDER BY time DESC LIMIT 1")
+    fun getLast(): Flow<Transaction?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun create(transaction: Transaction)

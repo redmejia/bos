@@ -2,7 +2,6 @@ package com.bitinovus.bos.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.bitinovus.bos.BuildConfig
 import com.bitinovus.bos.data.local.AppDatabase
 import com.bitinovus.bos.data.local.DB_NAME
@@ -27,15 +26,6 @@ import javax.inject.Singleton
 @Module
 object AppModule {
 
-    @Provides
-    @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
-        Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            DB_NAME
-        ).fallbackToDestructiveMigration()
-            .build()
 
     // Logger
     @Provides
@@ -62,6 +52,10 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideTransactionDao(appDatabase: AppDatabase): TransactionDao = appDatabase.transactionDao()
+
+    @Provides
+    @Singleton
     fun provideTransactionRepositoryImpl(transactionDao: TransactionDao): TransactionRepository =
         TransactionRepositoryImpl(transactionDao)
 
@@ -73,6 +67,16 @@ object AppModule {
     @Provides
     @Singleton
     fun provideTime(): Time = Time()
+
+    @Provides
+    @Singleton
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
+        Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            DB_NAME
+        ).fallbackToDestructiveMigration()
+            .build()
 
 
 }

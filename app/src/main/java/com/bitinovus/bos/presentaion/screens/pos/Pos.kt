@@ -108,10 +108,9 @@ fun Pos(
                     paymentViewmodel.chargeAmount(
                         amountEntered = entry,
                         total = summary.grandTotal
-                    ) {
-                        text = ""
-                        cartViewmodel.clearCartList()
-                    }
+                    )
+                    text = ""
+                    cartViewmodel.clearCartList()
                 }) {
                 Text(text = stringResource(id = R.string.charge).uppercase())
             }
