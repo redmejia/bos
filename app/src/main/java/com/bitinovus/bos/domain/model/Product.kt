@@ -8,3 +8,4 @@ data class Product(
     val barcodeImage: String = "",
     val items: Int = 0, // item counter
 )
+

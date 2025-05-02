@@ -14,7 +14,7 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override suspend fun addNewTransaction(transaction: Transaction) {
         withContext(Dispatchers.IO) {
-            transactionDao.create(transaction)
+            transactionDao.insert(transaction)
         }
     }
 

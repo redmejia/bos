@@ -5,10 +5,13 @@ import androidx.room.Room
 import com.bitinovus.bos.BuildConfig
 import com.bitinovus.bos.data.local.AppDatabase
 import com.bitinovus.bos.data.local.DB_NAME
+import com.bitinovus.bos.data.local.dao.OrderDao
 import com.bitinovus.bos.data.local.dao.TransactionDao
+import com.bitinovus.bos.data.local.repository.OrderRepositoryImpl
 import com.bitinovus.bos.data.local.repository.TransactionRepositoryImpl
 import com.bitinovus.bos.data.remote.api.BosApiService
 import com.bitinovus.bos.data.remote.repository.BosApiRepositoryImpl
+import com.bitinovus.bos.domain.repository.OrderRepository
 import com.bitinovus.bos.domain.repository.TransactionRepository
 import com.bitinovus.bos.domain.usecases.time.Time
 import dagger.Module
@@ -51,12 +54,22 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideTransactionDao(appDatabase: AppDatabase): TransactionDao = appDatabase.transactionDao()
+    fun provideTransactionDao(appDatabase: AppDatabase): TransactionDao =
+        appDatabase.transactionDao()
+
+    @Provides
+    @Singleton
+    fun provideOrderDao(appDatabase: AppDatabase): OrderDao = appDatabase.orderDao()
 
     @Provides
     @Singleton
     fun provideTransactionRepositoryImpl(transactionDao: TransactionDao): TransactionRepository =
         TransactionRepositoryImpl(transactionDao)
+
+    @Provides
+    @Singleton
+    fun provideOrderRepositoryImpl(orderDao: OrderDao): OrderRepository =
+        OrderRepositoryImpl(orderDao)
 
     @Provides
     @Singleton
