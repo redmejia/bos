@@ -99,6 +99,7 @@ fun Pos(
                         0L
                     }
                     paymentViewmodel.chargeAmount(
+                        order = productList,
                         amountEntered = entry,
                         total = summary.grandTotal
                     )

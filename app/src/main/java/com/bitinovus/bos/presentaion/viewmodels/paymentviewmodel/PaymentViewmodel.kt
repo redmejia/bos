@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitinovus.bos.data.local.entities.Transaction
+import com.bitinovus.bos.domain.model.Product
+import com.bitinovus.bos.domain.model.toOrderListWithId
+import com.bitinovus.bos.domain.repository.OrderRepository
 import com.bitinovus.bos.domain.repository.TransactionRepository
 import com.bitinovus.bos.domain.usecases.time.Time
 import com.bitinovus.bos.presentaion.viewmodels.appsnack.Snack
@@ -17,12 +20,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class PaymentViewmodel @Inject constructor(
     private val time: Time,
     private val transactionRepository: TransactionRepository,
+    private val orderRepository: OrderRepository,
 ) : ViewModel() {
 
     private val _paymentState = MutableStateFlow<Transaction>(Transaction())
@@ -43,6 +48,7 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
+    private fun generateOrderUUID(): String = UUID.randomUUID().toString()
 
     fun exactAmount(amount: Long) {
         viewModelScope.launch {
@@ -103,7 +109,7 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun chargeAmount(amountEntered: Long, total: Long) {
+    fun chargeAmount(order: List<Product>, amountEntered: Long, total: Long) {
         viewModelScope.launch {
             try {
                 if (amountEntered >= total) {
@@ -116,7 +122,10 @@ class PaymentViewmodel @Inject constructor(
                         trxExecuted = true,
                         change = change
                     )
-                    transactionRepository.addNewTransaction(transaction = newTransaction)
+
+                    val id = transactionRepository.addNewTransaction(transaction = newTransaction)
+                    orderRepository.addNewOrder(order = order.toOrderListWithId(orderID = id))
+
                     _paymentSnackBarState.emit(
                         Snack(
                             messageType = SnackMessageType.TRX_SUCCESS,// show trx_successful string resource

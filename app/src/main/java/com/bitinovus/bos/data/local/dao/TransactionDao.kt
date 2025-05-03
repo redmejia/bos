@@ -16,5 +16,5 @@ interface TransactionDao {
     fun getLast(): Flow<Transaction?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(transaction: Transaction)
+    suspend fun insert(transaction: Transaction): Long
 }
