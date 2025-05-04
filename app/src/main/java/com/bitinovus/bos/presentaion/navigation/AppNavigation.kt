@@ -63,5 +63,9 @@ fun AppNavigation(
                 summary = cartSummary
             )
         }
+
+        composable(route = AppScreens.History.name) {
+
+        }
     }
 }

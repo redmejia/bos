@@ -90,7 +90,6 @@ fun HistoryCard(
                 }
             }
         }
-        
         Text(text = "${orderHistory.transaction.trxAmount}")
     }
 }
