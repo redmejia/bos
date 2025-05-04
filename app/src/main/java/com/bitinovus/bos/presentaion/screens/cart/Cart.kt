@@ -32,7 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.bitinovus.bos.presentaion.components.cart.CartCard
+import com.bitinovus.bos.presentaion.components.card.CartCard
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack95
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
@@ -80,7 +80,7 @@ fun Cart(
             items(items = productList, key = { it.productID }) { product ->
                 CartCard(
                     product = product,
-                    actions = {
+                    content = {
                         Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
 
                             val colors = IconButtonDefaults.iconButtonColors(

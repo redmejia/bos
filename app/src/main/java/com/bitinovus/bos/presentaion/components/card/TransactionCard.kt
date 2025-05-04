@@ -1,4 +1,4 @@
-package com.bitinovus.bos.presentaion.components.transactioncard
+package com.bitinovus.bos.presentaion.components.card
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
