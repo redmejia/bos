@@ -8,8 +8,6 @@ import androidx.room.PrimaryKey
 data class Transaction(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0, // order number
-    @ColumnInfo(name = "order_id")
-    val orderID: String = "",
     @ColumnInfo(name = "time")
     val time: Long = 0L,
     @ColumnInfo(name = "trx_type")

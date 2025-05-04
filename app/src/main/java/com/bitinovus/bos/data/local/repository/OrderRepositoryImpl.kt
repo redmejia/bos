@@ -2,6 +2,7 @@ package com.bitinovus.bos.data.local.repository
 
 import com.bitinovus.bos.data.local.dao.OrderDao
 import com.bitinovus.bos.data.local.entities.Order
+import com.bitinovus.bos.data.local.entities.OrderHistory
 import com.bitinovus.bos.domain.repository.OrderRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -15,4 +16,6 @@ class OrderRepositoryImpl @Inject constructor(
             orderDao.insert(order = order)
         }
     }
+
+    override suspend fun getOrderHistory(): List<OrderHistory> = orderDao.history()
 }

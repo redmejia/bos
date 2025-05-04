@@ -21,3 +21,52 @@ data class Order(
     @ColumnInfo(name = "qty")
     val items: Int = 0,
 )
+
+// Order list history
+data class OrderHistory(
+    val id: Long = 0,
+    val name: String = "",
+    val price: Long = 0L,
+    val items: Int = 0,
+    val productImage: String = "",
+    val time: Long = 0L,
+    val type: String = "",
+    val trxAmount: Long = 0L,
+    val trxExecuted: Boolean = false,
+    val change: Long = 0L,
+)
+
+data class OrderHistoryList(
+    val id: Long,
+    var order: List<Order>,
+    var transaction: Transaction,
+)
+
+fun List<OrderHistory>.toOrderHistoryList(): List<OrderHistoryList> {
+    return this
+        .groupBy { it.id } // Group all OrderHistory entries by transaction ID
+        .map { (id, groupedItems) ->
+            OrderHistoryList(
+                id = id,
+                order = groupedItems.map {
+                    Order(
+                        id = 0,
+                        orderID = it.id,
+                        productID = "",
+                        name = it.name,
+                        price = it.price,
+                        productImage = it.productImage,
+                        items = it.items
+                    )
+                },
+                transaction = Transaction(
+                    id = id,
+                    trxExecuted = groupedItems.first().trxExecuted,
+                    time = groupedItems.first().time,
+                    type = groupedItems.first().type,
+                    trxAmount = groupedItems.first().trxAmount,
+                    change = groupedItems.first().change,
+                )
+            )
+        }
+}

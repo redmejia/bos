@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,8 +46,6 @@ class PaymentViewmodel @Inject constructor(
                 }
         }
     }
-
-    private fun generateOrderUUID(): String = UUID.randomUUID().toString()
 
     fun exactAmount(amount: Long) {
         viewModelScope.launch {
