@@ -22,4 +22,5 @@
     <string name="trx_history">Transacciones</string>
     <string name="trx_cash_type">Efectivo</string>
     <string name="trx_card_type">Tarjeta</string>
+    <string name="type">Tipo</string>
 </resources>

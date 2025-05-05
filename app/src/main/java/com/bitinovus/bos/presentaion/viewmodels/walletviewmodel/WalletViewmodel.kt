@@ -43,8 +43,6 @@ class WalletViewmodel @Inject constructor(
 
     init {
         viewModelScope.launch {
-//            val orderList = orderRepository.getOrderHistory().toOrderHistoryList()
-//            Log.d("LIST-ORDER", "listAAA : $orderList")
             transactionRepository
                 .getAllTransaction()
                 .collect { transactions ->

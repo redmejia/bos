@@ -214,7 +214,9 @@ fun App(
                                     }
                                 }
                             }
-                            IconButton(onClick = { /*Not implemented yet */ }) {
+                            IconButton(onClick = {
+                                navHostController.navigate(route = AppScreens.History.name)
+                            }) {
                                 Icon(
                                     painter = painterResource(id = R.drawable.add_box),
                                     contentDescription = null,

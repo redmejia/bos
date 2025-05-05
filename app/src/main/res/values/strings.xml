@@ -23,4 +23,5 @@
     <string name="trx_cash_type">Cash</string>
     <!-- This is not implemented VISA MasterCard...etc -->
     <string name="trx_card_type">Card</string>
+    <string name="type">Type</string>
 </resources>
