@@ -22,12 +22,21 @@ class HistoryViewmodel @Inject constructor(
     private val _orderHistoryState = MutableStateFlow<List<OrderHistoryList>>(emptyList())
     val orderHistoryState: StateFlow<List<OrderHistoryList>> = _orderHistoryState.asStateFlow()
 
+    private val _historyScreenState = MutableStateFlow(false)
+    val historyScreenState: StateFlow<Boolean> = _historyScreenState.asStateFlow()
+
     init {
         viewModelScope.launch {
-            _orderHistoryState.value = orderRepository
+            orderRepository
                 .getOrderHistory()
-                .toOrderHistoryList()
+                .collect { order ->
+                    _orderHistoryState.value = order.toOrderHistoryList()
+                }
         }
+    }
+
+    fun changeHistoryScreenState(state: Boolean) {
+        _historyScreenState.value = state
     }
 
     fun formatTime(trxTime: Long, pattern: String): String =

@@ -176,7 +176,7 @@ fun Cart(
                         containerColor = PrimaryBlue80
                     ),
                     onClick = {
-                        cartViewmodel.changeScreenState(state = false)
+                        cartViewmodel.changeCartScreenState(state = false)
                         // navigate to scanner to add more items
                         navHostController.navigate(route = AppScreens.Scanner.name) {
                             popUpTo(route = AppScreens.Cart.name) {
@@ -196,7 +196,7 @@ fun Cart(
                         containerColor = PrimaryRed00
                     ),
                     onClick = {
-                        cartViewmodel.changeScreenState(state = false)
+                        cartViewmodel.changeCartScreenState(state = false)
                         cartViewmodel.clearCartList()
                         // back to previous screen
                         navHostController.popBackStack()

@@ -54,8 +54,10 @@ import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackStateType
 import com.bitinovus.bos.presentaion.viewmodels.appsnack.SnackMessageType
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryRed00
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryTail00
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite90
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryYellow00
 import com.bitinovus.bos.presentaion.viewmodels.appsnack.AppSnack
+import com.bitinovus.bos.presentaion.viewmodels.historyviewmodel.HistoryViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import kotlinx.coroutines.launch
 
@@ -65,12 +67,14 @@ fun App(
     modifier: Modifier = Modifier,
     cartViewmodel: CartViewmodel = hiltViewModel(),
     paymentViewmodel: PaymentViewmodel = hiltViewModel(),
+    historyViewmodel: HistoryViewmodel = hiltViewModel(),
 ) {
 
     val navHostController = rememberNavController()
 
     val productList by cartViewmodel.cartState.collectAsState()
     val cartScreenState by cartViewmodel.cartScreenState.collectAsState()
+    val historyScreenState by historyViewmodel.historyScreenState.collectAsState()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -170,7 +174,7 @@ fun App(
                     ) {
                         if (cartScreenState) {
                             IconButton(onClick = {
-                                cartViewmodel.changeScreenState(state = false)
+                                cartViewmodel.changeCartScreenState(state = false)
                                 navHostController.popBackStack()
                             }) {
                                 Icon(
@@ -179,10 +183,20 @@ fun App(
                                     tint = PrimaryGrayBase80
                                 )
                             }
+                        } else if (historyScreenState) {
+                            IconButton(onClick = {
+                                historyViewmodel.changeHistoryScreenState(state = false)
+                                navHostController.popBackStack()
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = "close history",
+                                    tint = PrimaryGrayBase80
+                                )
+                            }
                         } else {
                             Column { }
                         }
-
 
                         Row {
                             Box(
@@ -190,15 +204,16 @@ fun App(
                                 contentAlignment = Alignment.TopEnd
                             ) {
                                 IconButton(
-                                    enabled = !cartScreenState,
+                                    enabled = !cartScreenState && !historyScreenState,
                                     onClick = {
-                                        cartViewmodel.changeScreenState(state = true)
+                                        cartViewmodel.changeCartScreenState(state = true)
                                         navHostController.navigate(route = AppScreens.Cart.name)
                                     }) {
                                     Icon(
                                         imageVector = Icons.Filled.ShoppingCart,
                                         contentDescription = null,
-                                        tint = PrimaryGrayBase80
+                                        tint = if (!cartScreenState && historyScreenState) PrimaryWhite90
+                                        else PrimaryGrayBase80
                                     )
                                 }
                                 if (productList.isNotEmpty()) {
@@ -214,13 +229,17 @@ fun App(
                                     }
                                 }
                             }
-                            IconButton(onClick = {
-                                navHostController.navigate(route = AppScreens.History.name)
-                            }) {
+                            IconButton(
+                                enabled = !historyScreenState && !cartScreenState,
+                                onClick = {
+                                    historyViewmodel.changeHistoryScreenState(state = true)
+                                    navHostController.navigate(route = AppScreens.History.name)
+                                }) {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.add_box),
+                                    painter = painterResource(id = R.drawable.outline_list),
                                     contentDescription = null,
-                                    tint = PrimaryGrayBase80
+                                    tint = if (!historyScreenState && cartScreenState) PrimaryWhite90
+                                    else PrimaryGrayBase80
                                 )
                             }
                         }
@@ -230,7 +249,7 @@ fun App(
             )
         },
         bottomBar = {
-            if (!cartScreenState) {
+            if (!cartScreenState && !historyScreenState) {
                 BottomBar(navController = navHostController)
             }
         }

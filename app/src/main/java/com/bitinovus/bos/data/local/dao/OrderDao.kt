@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.bitinovus.bos.data.local.entities.Order
 import com.bitinovus.bos.data.local.entities.OrderHistory
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface OrderDao {
@@ -29,5 +30,5 @@ FROM transactions AS tx
 JOIN orders AS o ON tx.id = o.order_id
     """
     )
-    suspend fun history(): List<OrderHistory>
+    fun history(): Flow<List<OrderHistory>>
 }

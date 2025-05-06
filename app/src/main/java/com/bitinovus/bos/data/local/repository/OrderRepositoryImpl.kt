@@ -5,6 +5,7 @@ import com.bitinovus.bos.data.local.entities.Order
 import com.bitinovus.bos.data.local.entities.OrderHistory
 import com.bitinovus.bos.domain.repository.OrderRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -17,5 +18,5 @@ class OrderRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getOrderHistory(): List<OrderHistory> = orderDao.history()
+    override suspend fun getOrderHistory(): Flow<List<OrderHistory>> = orderDao.history()
 }
