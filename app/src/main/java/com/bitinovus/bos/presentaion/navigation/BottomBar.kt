@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
+import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite90
 
 @Composable
 fun BottomBar(

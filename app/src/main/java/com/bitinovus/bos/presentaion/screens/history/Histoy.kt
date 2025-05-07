@@ -1,8 +1,10 @@
 package com.bitinovus.bos.presentaion.screens.history
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,8 +26,9 @@ fun History(
     val history by historyViewmodel.orderHistoryState.collectAsState()
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(5.dp)
     ) {
+        item { Spacer(modifier = Modifier.height(4.dp)) }
         items(items = history, key = { it.id }) {
             CardContainer(
                 modifier = Modifier
@@ -49,5 +52,6 @@ fun History(
                 )
             }
         }
+        item { Spacer(modifier = Modifier.height(4.dp)) }
     }
 }

@@ -213,7 +213,7 @@ fun App(
                                         imageVector = Icons.Filled.ShoppingCart,
                                         contentDescription = null,
                                         tint = if (!cartScreenState && historyScreenState) PrimaryWhite90
-                                        else PrimaryGrayBase80
+                                        else PrimaryWhite00
                                     )
                                 }
                                 if (productList.isNotEmpty()) {
@@ -239,7 +239,18 @@ fun App(
                                     painter = painterResource(id = R.drawable.outline_list),
                                     contentDescription = null,
                                     tint = if (!historyScreenState && cartScreenState) PrimaryWhite90
-                                    else PrimaryGrayBase80
+                                    else PrimaryWhite00
+                                )
+                            }
+                            // Not implemented yet
+                            IconButton(
+                                enabled = !historyScreenState && !cartScreenState,
+                                onClick = {}) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.edit_square),
+                                    contentDescription = null,
+                                    tint = if (!historyScreenState && cartScreenState) PrimaryWhite90
+                                    else PrimaryWhite00
                                 )
                             }
                         }
