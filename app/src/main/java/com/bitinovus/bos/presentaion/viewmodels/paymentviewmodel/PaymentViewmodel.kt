@@ -47,18 +47,19 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun exactAmount(amount: Long) {
+    fun exactAmount(order: List<Product>, amount: Long) {
         viewModelScope.launch {
             try {
 
                 val newTransaction = Transaction(
                     time = time.now(),
-                    trxAmount = amount,
+                    trxAmount = amount, // total
                     type = TransactionType.CASH.name,
                     trxExecuted = true,
                     change = 0 // exact no action need
                 )
-                transactionRepository.addNewTransaction(transaction = newTransaction)
+                val id = transactionRepository.addNewTransaction(transaction = newTransaction)
+                orderRepository.addNewOrder(order = order.toOrderListWithId(orderID = id))
 
                 _paymentSnackBarState.emit(
                     Snack(
@@ -73,19 +74,20 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun easyPay(denomination: Long, amount: Long) {
+    fun easyPay(order: List<Product>, denomination: Long, amount: Long) {
         viewModelScope.launch {
             try {
                 if (denomination >= amount) {
                     val change = denomination - amount
                     val newTransaction = Transaction(
                         time = time.now(),
-                        trxAmount = amount,
+                        trxAmount = amount,// total
                         type = TransactionType.CASH.name,
                         trxExecuted = true,
                         change = change
                     )
-                    transactionRepository.addNewTransaction(transaction = newTransaction)
+                    val id = transactionRepository.addNewTransaction(transaction = newTransaction)
+                    orderRepository.addNewOrder(order = order.toOrderListWithId(orderID = id))
                     _paymentSnackBarState.emit(
                         Snack(
                             messageType = SnackMessageType.TRX_SUCCESS,// show trx_successful string resource

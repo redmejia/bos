@@ -121,6 +121,7 @@ fun Pos(
         )
         val row = 3
         DenominationButtonsSection(
+            order = productList,
             paymentViewmodel = paymentViewmodel,
             cartViewmodel = cartViewmodel,
             enableButtons = summary.grandTotal > 0 && productList.isNotEmpty(),

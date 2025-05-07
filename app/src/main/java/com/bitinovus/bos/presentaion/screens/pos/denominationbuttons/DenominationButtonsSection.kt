@@ -13,11 +13,13 @@ import com.bitinovus.bos.presentaion.components.buttons.EasyPayButton
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.R
+import com.bitinovus.bos.domain.model.Product
 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DenominationButtonsSection(
+    order: List<Product>,
     cartViewmodel: CartViewmodel,
     paymentViewmodel: PaymentViewmodel,
     enableButtons: Boolean,
@@ -35,12 +37,16 @@ fun DenominationButtonsSection(
                 enabled = enableButtons,
                 onClick = {
                     if (denomination == exact) { // exact amount display snack
-                        paymentViewmodel.exactAmount(amount = amount) // no action need
+                        paymentViewmodel.exactAmount(
+                            order = order,
+                            amount = amount // total
+                        ) // no action need
                         cartViewmodel.clearCartList()
                     } else {
                         paymentViewmodel.easyPay(
+                            order = order,
                             denomination = (denomination.toLong() * 100),
-                            amount = amount
+                            amount = amount // total
                         )
                         cartViewmodel.clearCartList()
                     }
