@@ -44,9 +44,10 @@ object AppModule {
     // Bos API
     @Provides
     @Singleton
-    fun provideBosApi(): BosApiService {
+    fun provideBosApi(okHttpClient: OkHttpClient): BosApiService {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.API_BASE_URL)
+            .client(okHttpClient)  // Use the same OkHttpClient here
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(BosApiService::class.java)

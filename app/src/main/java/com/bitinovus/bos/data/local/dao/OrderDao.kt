@@ -23,6 +23,7 @@ o.qty AS items,
 o.product_image AS productImage,
 tx.time,
 tx.trx_type AS type,
+tx.total AS total,
 tx.trx_amount AS trxAmount,
 tx.trx_executed AS trxExecuted,
 tx.change

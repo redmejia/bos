@@ -47,13 +47,14 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun exactAmount(order: List<Product>, amount: Long) {
+    fun exactAmount(order: List<Product>, grandTotal: Long, amount: Long) {
         viewModelScope.launch {
             try {
 
                 val newTransaction = Transaction(
                     time = time.now(),
-                    trxAmount = amount, // total
+                    total = grandTotal,
+                    trxAmount = amount, // total entered
                     type = TransactionType.CASH.name,
                     trxExecuted = true,
                     change = 0 // exact no action need
@@ -74,20 +75,27 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun easyPay(order: List<Product>, denomination: Long, amount: Long) {
+    fun easyPay(
+        order: List<Product>,
+        denominationSelected: Long,
+        grandTotal: Long,
+        action: () -> Unit = {},
+    ) {
         viewModelScope.launch {
             try {
-                if (denomination >= amount) {
-                    val change = denomination - amount
+                if (denominationSelected >= grandTotal) {
+                    val change = denominationSelected - grandTotal
                     val newTransaction = Transaction(
                         time = time.now(),
-                        trxAmount = amount,// total
+                        total = grandTotal,
+                        trxAmount = denominationSelected,// total
                         type = TransactionType.CASH.name,
                         trxExecuted = true,
                         change = change
                     )
                     val id = transactionRepository.addNewTransaction(transaction = newTransaction)
                     orderRepository.addNewOrder(order = order.toOrderListWithId(orderID = id))
+                    action()  // clear list action
                     _paymentSnackBarState.emit(
                         Snack(
                             messageType = SnackMessageType.TRX_SUCCESS,// show trx_successful string resource
@@ -108,7 +116,12 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun chargeAmount(order: List<Product>, amountEntered: Long, total: Long) {
+    fun chargeAmount(
+        order: List<Product>,
+        amountEntered: Long,
+        total: Long,
+        action: () -> Unit = {},
+    ) {
         viewModelScope.launch {
             try {
                 if (amountEntered >= total) {
@@ -116,7 +129,8 @@ class PaymentViewmodel @Inject constructor(
 
                     val newTransaction = Transaction(
                         time = time.now(),
-                        trxAmount = total, // amount
+                        total = total,
+                        trxAmount = amountEntered, // amount
                         type = TransactionType.CASH.name,
                         trxExecuted = true,
                         change = change
@@ -124,7 +138,7 @@ class PaymentViewmodel @Inject constructor(
 
                     val id = transactionRepository.addNewTransaction(transaction = newTransaction)
                     orderRepository.addNewOrder(order = order.toOrderListWithId(orderID = id))
-
+                    action() // clear list action
                     _paymentSnackBarState.emit(
                         Snack(
                             messageType = SnackMessageType.TRX_SUCCESS,// show trx_successful string resource

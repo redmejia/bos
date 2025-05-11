@@ -37,8 +37,7 @@ import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.TransactionType
 fun HistoryCard(
     modifier: Modifier = Modifier,
     orderHistory: OrderHistoryList,
-    date: () -> String,
-    time: () -> String,
+    date: () -> String, // transaction data order
 ) {
     Card(
         modifier = modifier,
@@ -49,14 +48,17 @@ fun HistoryCard(
             defaultElevation = 8.dp
         )
     ) {
-        Text(
+        SummarySection(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 3.dp, vertical = 2.dp),
-            text = "# ${orderHistory.id}",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.ExtraBold
-        ) // order number or order ID
+            leadingText = "# ${orderHistory.id}", // order number or order ID
+            trailingText = date(),
+            style = TextStyle(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.ExtraBold
+            ),
+        )
         orderHistory.order.forEach {
             Row(
                 modifier = Modifier
@@ -106,8 +108,8 @@ fun HistoryCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 3.dp),
-            leadingText = date(),
-            trailingText = time(),
+            leadingText = stringResource(id = R.string.total),
+            trailingText = "$${orderHistory.transaction.total / 100.00}",
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.ExtraBold
@@ -117,8 +119,10 @@ fun HistoryCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 3.dp),
-            leadingText = stringResource(id = R.string.total),
-            trailingText = "$${orderHistory.transaction.trxAmount / 100.00}",
+            leadingText = stringResource(id = R.string.payment_received),
+            trailingText = if (orderHistory.transaction.trxAmount == 0L)
+                stringResource(id = R.string.exact).uppercase()
+            else "$${orderHistory.transaction.trxAmount / 100.00}",
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.ExtraBold

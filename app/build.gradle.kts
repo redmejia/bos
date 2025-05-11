@@ -42,7 +42,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-        isCoreLibraryDesugaringEnabled = true
+//        isCoreLibraryDesugaringEnabled = true
     }
     kotlinOptions {
         jvmTarget = "11"
@@ -74,7 +74,7 @@ dependencies {
     ksp("com.google.dagger:hilt-compiler:2.56.1")
 
     // Desugaring support
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+//    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 
     // ROOM
     implementation("androidx.room:room-runtime:$room_version")
@@ -104,7 +104,6 @@ dependencies {
 
     // Logging for testing
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
-
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")

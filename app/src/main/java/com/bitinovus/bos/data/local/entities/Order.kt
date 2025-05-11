@@ -31,6 +31,7 @@ data class OrderHistory(
     val productImage: String = "",
     val time: Long = 0L,
     val type: String = "",
+    val total: Long = 0L,
     val trxAmount: Long = 0L,
     val trxExecuted: Boolean = false,
     val change: Long = 0L,
@@ -64,6 +65,7 @@ fun List<OrderHistory>.toOrderHistoryList(): List<OrderHistoryList> {
                     trxExecuted = groupedItems.first().trxExecuted,
                     time = groupedItems.first().time,
                     type = groupedItems.first().type,
+                    total = groupedItems.first().total,
                     trxAmount = groupedItems.first().trxAmount,
                     change = groupedItems.first().change,
                 )

@@ -34,6 +34,7 @@ import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
+import java.math.BigDecimal
 
 // Checkout Screen
 @Composable
@@ -94,7 +95,8 @@ fun Pos(
                 onClick = {
                     // entry in cents
                     val entry = try {
-                        (text.toDouble() * 100).toLong()
+                        BigDecimal(text).multiply(BigDecimal(100)).toLong()
+                        // (text.toDouble() * 100).toLong()
                     } catch (_: NumberFormatException) {
                         0L
                     }
@@ -102,12 +104,12 @@ fun Pos(
                         order = productList,
                         amountEntered = entry,
                         total = summary.grandTotal
-                    )
-                    text = ""
-                    cartViewmodel.clearCartList()
-                }) {
-                Text(text = stringResource(id = R.string.charge).uppercase())
-            }
+                    ) {
+                        text = ""
+                        cartViewmodel.clearCartList()
+                    }
+
+                }) { Text(text = stringResource(id = R.string.charge).uppercase()) }
         }
         HorizontalDivider()
         val denominationList = listOf(
@@ -125,7 +127,7 @@ fun Pos(
             paymentViewmodel = paymentViewmodel,
             cartViewmodel = cartViewmodel,
             enableButtons = summary.grandTotal > 0 && productList.isNotEmpty(),
-            amount = summary.grandTotal,
+            grandTotal = summary.grandTotal,
             denominations = denominationList,
             maxPerRow = row,
         )

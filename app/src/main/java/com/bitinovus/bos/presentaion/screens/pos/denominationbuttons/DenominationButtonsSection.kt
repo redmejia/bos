@@ -23,7 +23,7 @@ fun DenominationButtonsSection(
     cartViewmodel: CartViewmodel,
     paymentViewmodel: PaymentViewmodel,
     enableButtons: Boolean,
-    amount: Long,
+    grandTotal: Long,
     denominations: List<String>,
     maxPerRow: Int = 3,
 ) {
@@ -39,16 +39,18 @@ fun DenominationButtonsSection(
                     if (denomination == exact) { // exact amount display snack
                         paymentViewmodel.exactAmount(
                             order = order,
-                            amount = amount // total
+                            grandTotal = grandTotal,
+                            amount = 0 // total
                         ) // no action need
                         cartViewmodel.clearCartList()
                     } else {
                         paymentViewmodel.easyPay(
                             order = order,
-                            denomination = (denomination.toLong() * 100),
-                            amount = amount // total
-                        )
-                        cartViewmodel.clearCartList()
+                            denominationSelected = (denomination.toLong() * 100),
+                            grandTotal = grandTotal,
+                        ){
+                            cartViewmodel.clearCartList()
+                        }
                     }
                 },
                 modifier = Modifier.weight(1f),

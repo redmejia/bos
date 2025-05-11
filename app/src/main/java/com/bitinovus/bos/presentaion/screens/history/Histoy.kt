@@ -43,12 +43,12 @@ fun History(
                     orderHistory = it,
                     date = {
                         historyViewmodel
-                            .formatTime(it.transaction.time, "MMM YYYY")
+                            .formatTime(it.transaction.time, "MMM d YYYY, hh:mm a")
                     },
-                    time = {
-                        historyViewmodel
-                            .formatTime(it.transaction.time, "hh:mm a")
-                    }
+//                    time = {
+//                        historyViewmodel
+//                            .formatTime(it.transaction.time, "hh:mm a")
+//                    }
                 )
             }
         }
