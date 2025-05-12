@@ -25,4 +25,7 @@
     <string name="trx_card_type">Card</string>
     <string name="payment_received">Payment Received</string>
     <string name="type">Type</string>
+    <string name="generate">Generate</string>
+    <string name="warning_message">Generate report. All transactions will be deleted.
+        The report will be saved in the "Documents/MyReports" directory.</string>
 </resources>

@@ -24,4 +24,7 @@
     <string name="trx_card_type">Tarjeta</string>
     <string name="payment_received">Pago Recibido</string>
     <string name="type">Tipo</string>
+    <string name="generate">Generar</string>
+    <string name="warning_message">Generar informe. Se eliminarán todas las transacciones.
+        El informe se guardará en el directorio "Documentos/MyReports".</string>
 </resources>
