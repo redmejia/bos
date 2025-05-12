@@ -19,4 +19,5 @@ class OrderRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getOrderHistory(): Flow<List<OrderHistory>> = orderDao.history()
+    override suspend fun deleteAll() = withContext(Dispatchers.IO) { orderDao.delete() }
 }

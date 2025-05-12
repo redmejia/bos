@@ -37,17 +37,17 @@ data class OrderHistory(
     val change: Long = 0L,
 )
 
-data class OrderHistoryList(
+data class OrderList(
     val id: Long,
     var order: List<Order>,
     var transaction: Transaction,
 )
 
-fun List<OrderHistory>.toOrderHistoryList(): List<OrderHistoryList> {
+fun List<OrderHistory>.toOrderList(): List<OrderList> {
     return this
         .groupBy { it.id } // Group all OrderHistory entries by transaction ID
         .map { (id, groupedItems) ->
-            OrderHistoryList(
+            OrderList(
                 id = id,
                 order = groupedItems.map {
                     Order(

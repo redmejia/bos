@@ -14,6 +14,7 @@ import com.bitinovus.bos.data.remote.repository.BosApiRepositoryImpl
 import com.bitinovus.bos.domain.repository.OrderRepository
 import com.bitinovus.bos.domain.repository.TransactionRepository
 import com.bitinovus.bos.domain.usecases.time.Time
+import com.bitinovus.bos.domain.usecases.writer.ReportWriter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -80,6 +81,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideTime(): Time = Time()
+
+    @Provides
+    @Singleton
+    fun provideReportWriter(@ApplicationContext context: Context, time: Time): ReportWriter =
+        ReportWriter(context, time)
 
     @Provides
     @Singleton

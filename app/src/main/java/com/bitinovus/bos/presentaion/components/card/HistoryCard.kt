@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bitinovus.bos.R
-import com.bitinovus.bos.data.local.entities.OrderHistoryList
+import com.bitinovus.bos.data.local.entities.OrderList
 import com.bitinovus.bos.presentaion.components.summarysection.SummarySection
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack98
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
@@ -36,7 +36,7 @@ import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.TransactionType
 @Composable
 fun HistoryCard(
     modifier: Modifier = Modifier,
-    orderHistory: OrderHistoryList,
+    orderHistory: OrderList,
     date: () -> String, // transaction data order
 ) {
     Card(

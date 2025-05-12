@@ -7,4 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface OrderRepository {
     suspend fun addNewOrder(order: List<Order>)
     suspend fun getOrderHistory(): Flow<List<OrderHistory>>
+    suspend fun deleteAll()
 }

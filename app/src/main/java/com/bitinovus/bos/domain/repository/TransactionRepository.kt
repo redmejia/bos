@@ -8,4 +8,5 @@ interface TransactionRepository {
     suspend fun addNewTransaction(transaction: Transaction): Long
     suspend fun getAllTransaction(): Flow<List<Transaction>>
     suspend fun getLastTransaction(): Flow<Transaction?>
+    suspend fun deleteAll()
 }

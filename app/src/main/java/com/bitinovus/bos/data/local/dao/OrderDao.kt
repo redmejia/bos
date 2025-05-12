@@ -32,4 +32,8 @@ JOIN orders AS o ON tx.id = o.order_id
     """
     )
     fun history(): Flow<List<OrderHistory>>
+
+    @Query("DELETE FROM orders")
+    suspend fun delete()
+
 }

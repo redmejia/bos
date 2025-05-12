@@ -242,19 +242,7 @@ fun App(
                                     else PrimaryWhite00
                                 )
                             }
-                            // Not implemented yet
-                            IconButton(
-                                enabled = !historyScreenState && !cartScreenState,
-                                onClick = {}) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.edit_square),
-                                    contentDescription = null,
-                                    tint = if (!historyScreenState && cartScreenState) PrimaryWhite90
-                                    else PrimaryWhite00
-                                )
-                            }
                         }
-
                     }
                 },
             )
