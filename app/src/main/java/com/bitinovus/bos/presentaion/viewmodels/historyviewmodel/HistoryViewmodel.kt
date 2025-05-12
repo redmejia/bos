@@ -32,8 +32,8 @@ class HistoryViewmodel @Inject constructor(
     private val _historyScreenState = MutableStateFlow(false)
     val historyScreenState: StateFlow<Boolean> = _historyScreenState.asStateFlow()
 
-    private val _reportState = MutableStateFlow(false)
-    val reportState: StateFlow<Boolean> = _reportState.asStateFlow()
+    private val _reportWriteState = MutableStateFlow(false)
+    val reportWriteState: StateFlow<Boolean> = _reportWriteState.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -49,18 +49,20 @@ class HistoryViewmodel @Inject constructor(
         viewModelScope.launch {
             try {
                 // writing report
-                _reportState.value = true
+                _reportWriteState.value = true
                 val reportFileNameUIID = UUID.randomUUID().toString()
                 val isReportGenerated = writer.generateGropedReport(
                     fileName = reportFileNameUIID,
                     orderList = _orderHistoryState.value
                 )
                 if (isReportGenerated) {
-                    orderRepository.deleteAll()
-                    transactionRepository.deleteAll()
+                    Log.d("WR", "writeReport: DELETING")
+//                    orderRepository.deleteAll()
+//                    transactionRepository.deleteAll()
+                    Log.d("WR", "writeReport: DELETING DONE...")
                     delay(5000L)
                     // report generated and records deleted
-                    _reportState.value = false
+                    _reportWriteState.value = false
                 }
             } catch (e: Exception) {
                 Log.e("ERROR", "writeReport: $e")
