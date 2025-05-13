@@ -45,6 +45,7 @@ class WalletViewmodel @Inject constructor(
                 .collect { transactions ->
                     _walletTransactionState.value = transactions
                 }
+
         }
     }
 

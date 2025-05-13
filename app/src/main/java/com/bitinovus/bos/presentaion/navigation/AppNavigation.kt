@@ -9,10 +9,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.bitinovus.bos.presentaion.screens.cart.Cart
+import com.bitinovus.bos.presentaion.screens.history.History
 import com.bitinovus.bos.presentaion.screens.pos.Pos
 import com.bitinovus.bos.presentaion.screens.scanner.Scanner
 import com.bitinovus.bos.presentaion.screens.wallet.Wallet
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
+import com.bitinovus.bos.presentaion.viewmodels.historyviewmodel.HistoryViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.scannerviewmodel.ScannerViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
@@ -25,6 +27,7 @@ fun AppNavigation(
     cartViewmodel: CartViewmodel = hiltViewModel(),
     paymentViewmodel: PaymentViewmodel = hiltViewModel(),
     walletViewmodel: WalletViewmodel = hiltViewModel(),
+    historyViewmodel: HistoryViewmodel = hiltViewModel()
 ) {
     val productList by cartViewmodel.cartState.collectAsState()
     val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
@@ -62,6 +65,10 @@ fun AppNavigation(
                 productList = productList,
                 summary = cartSummary
             )
+        }
+
+        composable(route = AppScreens.History.name) {
+            History(historyViewmodel = historyViewmodel)
         }
     }
 }

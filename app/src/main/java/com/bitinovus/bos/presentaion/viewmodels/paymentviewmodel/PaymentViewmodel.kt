@@ -4,6 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bitinovus.bos.data.local.entities.Transaction
+import com.bitinovus.bos.domain.model.Product
+import com.bitinovus.bos.domain.model.toOrderListWithId
+import com.bitinovus.bos.domain.repository.OrderRepository
 import com.bitinovus.bos.domain.repository.TransactionRepository
 import com.bitinovus.bos.domain.usecases.time.Time
 import com.bitinovus.bos.presentaion.viewmodels.appsnack.Snack
@@ -23,6 +26,7 @@ import javax.inject.Inject
 class PaymentViewmodel @Inject constructor(
     private val time: Time,
     private val transactionRepository: TransactionRepository,
+    private val orderRepository: OrderRepository,
 ) : ViewModel() {
 
     private val _paymentState = MutableStateFlow<Transaction>(Transaction())
@@ -39,23 +43,27 @@ class PaymentViewmodel @Inject constructor(
                     if (transition != null) {
                         _paymentState.value = transition
                     }
+                    if (transition == null) {
+                        _paymentState.value = Transaction()
+                    }
                 }
         }
     }
 
-
-    fun exactAmount(amount: Long) {
+    fun exactAmount(order: List<Product>, grandTotal: Long, amount: Long) {
         viewModelScope.launch {
             try {
 
                 val newTransaction = Transaction(
                     time = time.now(),
-                    trxAmount = amount,
+                    total = grandTotal,
+                    trxAmount = amount, // total entered
                     type = TransactionType.CASH.name,
                     trxExecuted = true,
                     change = 0 // exact no action need
                 )
-                transactionRepository.addNewTransaction(transaction = newTransaction)
+                val id = transactionRepository.addNewTransaction(transaction = newTransaction)
+                orderRepository.addNewOrder(order = order.toOrderListWithId(orderID = id))
 
                 _paymentSnackBarState.emit(
                     Snack(
@@ -70,19 +78,27 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun easyPay(denomination: Long, amount: Long) {
+    fun easyPay(
+        order: List<Product>,
+        denominationSelected: Long,
+        grandTotal: Long,
+        action: () -> Unit = {},
+    ) {
         viewModelScope.launch {
             try {
-                if (denomination >= amount) {
-                    val change = denomination - amount
+                if (denominationSelected >= grandTotal) {
+                    val change = denominationSelected - grandTotal
                     val newTransaction = Transaction(
                         time = time.now(),
-                        trxAmount = amount,
+                        total = grandTotal,
+                        trxAmount = denominationSelected,// total
                         type = TransactionType.CASH.name,
                         trxExecuted = true,
                         change = change
                     )
-                    transactionRepository.addNewTransaction(transaction = newTransaction)
+                    val id = transactionRepository.addNewTransaction(transaction = newTransaction)
+                    orderRepository.addNewOrder(order = order.toOrderListWithId(orderID = id))
+                    action()  // clear list action
                     _paymentSnackBarState.emit(
                         Snack(
                             messageType = SnackMessageType.TRX_SUCCESS,// show trx_successful string resource
@@ -103,7 +119,12 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun chargeAmount(amountEntered: Long, total: Long) {
+    fun chargeAmount(
+        order: List<Product>,
+        amountEntered: Long,
+        total: Long,
+        action: () -> Unit = {},
+    ) {
         viewModelScope.launch {
             try {
                 if (amountEntered >= total) {
@@ -111,12 +132,16 @@ class PaymentViewmodel @Inject constructor(
 
                     val newTransaction = Transaction(
                         time = time.now(),
-                        trxAmount = total, // amount
+                        total = total,
+                        trxAmount = amountEntered, // amount
                         type = TransactionType.CASH.name,
                         trxExecuted = true,
                         change = change
                     )
-                    transactionRepository.addNewTransaction(transaction = newTransaction)
+
+                    val id = transactionRepository.addNewTransaction(transaction = newTransaction)
+                    orderRepository.addNewOrder(order = order.toOrderListWithId(orderID = id))
+                    action() // clear list action
                     _paymentSnackBarState.emit(
                         Snack(
                             messageType = SnackMessageType.TRX_SUCCESS,// show trx_successful string resource

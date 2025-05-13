@@ -20,7 +20,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,8 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bitinovus.bos.R
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import com.bitinovus.bos.presentaion.components.calendar.Calendar
-import com.bitinovus.bos.presentaion.components.transactioncard.TransactionCard
+import com.bitinovus.bos.presentaion.components.card.TransactionCard
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryGreen00
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryWhite00
@@ -121,7 +121,9 @@ fun Wallet(
                 TransactionCard(
                     modifier = Modifier.clickable {},
                     details = {
-                        Row {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Icon(
                                 modifier = Modifier.size(45.dp),
                                 painter = painterResource(
@@ -132,6 +134,11 @@ fun Wallet(
                                 tint = if (trx.type == "CASH") PrimaryGreen00 else PrimaryBlue60
                             )
                             Column {
+                                Text(
+                                    "# ${trx.id}",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
                                 Text(
                                     walletViewmodel.formatTime(trx.time, "hh:mm:ss a"),
                                     fontSize = 18.sp,

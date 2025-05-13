@@ -24,7 +24,7 @@ class CartViewmodel @Inject constructor(): ViewModel() {
     private val _cartScreenState = MutableStateFlow(false)
     val cartScreenState: StateFlow<Boolean> = _cartScreenState.asStateFlow()
 
-    fun changeScreenState(state: Boolean) {
+    fun changeCartScreenState(state: Boolean) {
         _cartScreenState.value = state
     }
 

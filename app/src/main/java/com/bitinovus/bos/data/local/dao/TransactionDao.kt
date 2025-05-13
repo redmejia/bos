@@ -1,6 +1,7 @@
 package com.bitinovus.bos.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -16,5 +17,11 @@ interface TransactionDao {
     fun getLast(): Flow<Transaction?>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun create(transaction: Transaction)
+    suspend fun insert(transaction: Transaction): Long
+
+    @Query("DELETE FROM transactions")
+    suspend fun delete()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'transactions'")
+    suspend fun reset()
 }

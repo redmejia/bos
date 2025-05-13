@@ -1,4 +1,4 @@
-package com.bitinovus.bos.presentaion.components.cart
+package com.bitinovus.bos.presentaion.components.card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -31,7 +31,7 @@ import com.bitinovus.bos.domain.model.Product
 fun CartCard(
     modifier: Modifier = Modifier,
     product: Product,
-    actions: @Composable () -> Unit = {}, // action buttons,
+    content: @Composable () -> Unit = {}, // action buttons,
 ) {
     Card(
         modifier = modifier,
@@ -84,7 +84,7 @@ fun CartCard(
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                     )
-                    actions()
+                    content()
                 }
             }
         }

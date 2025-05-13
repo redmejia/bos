@@ -5,7 +5,7 @@
     <string name="charge">Cargar</string>
     <string name="exact">Cantidad exacta</string>
     <string name="quantity">Cantidad</string>
-    <string name="add_more">Añadir más</string>
+    <string name="add_items">Añadir artículo</string>
     <string name="cancel">Cancelar</string>
     <string name="enter_amount">Ingresar cantidad</string>
     <string name="add_to_cart">Añadir producto</string>
@@ -22,4 +22,9 @@
     <string name="trx_history">Transacciones</string>
     <string name="trx_cash_type">Efectivo</string>
     <string name="trx_card_type">Tarjeta</string>
+    <string name="payment_received">Pago Recibido</string>
+    <string name="type">Tipo</string>
+    <string name="generate">Generar</string>
+    <string name="warning_message">Generar informe. Se eliminarán todas las transacciones.
+        El informe se guardará en el directorio "Documentos/MyReports".</string>
 </resources>

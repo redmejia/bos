@@ -13,15 +13,17 @@ import com.bitinovus.bos.presentaion.components.buttons.EasyPayButton
 import com.bitinovus.bos.presentaion.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentaion.viewmodels.paymentviewmodel.PaymentViewmodel
 import com.bitinovus.bos.R
+import com.bitinovus.bos.domain.model.Product
 
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DenominationButtonsSection(
+    order: List<Product>,
     cartViewmodel: CartViewmodel,
     paymentViewmodel: PaymentViewmodel,
     enableButtons: Boolean,
-    amount: Long,
+    grandTotal: Long,
     denominations: List<String>,
     maxPerRow: Int = 3,
 ) {
@@ -35,14 +37,20 @@ fun DenominationButtonsSection(
                 enabled = enableButtons,
                 onClick = {
                     if (denomination == exact) { // exact amount display snack
-                        paymentViewmodel.exactAmount(amount = amount) // no action need
+                        paymentViewmodel.exactAmount(
+                            order = order,
+                            grandTotal = grandTotal,
+                            amount = 0 // total
+                        ) // no action need
                         cartViewmodel.clearCartList()
                     } else {
                         paymentViewmodel.easyPay(
-                            denomination = (denomination.toLong() * 100),
-                            amount = amount
-                        )
-                        cartViewmodel.clearCartList()
+                            order = order,
+                            denominationSelected = (denomination.toLong() * 100),
+                            grandTotal = grandTotal,
+                        ){
+                            cartViewmodel.clearCartList()
+                        }
                     }
                 },
                 modifier = Modifier.weight(1f),

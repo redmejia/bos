@@ -12,13 +12,16 @@ class TransactionRepositoryImpl @Inject constructor(
     private val transactionDao: TransactionDao,
 ) : TransactionRepository {
 
-    override suspend fun addNewTransaction(transaction: Transaction) {
+    override suspend fun addNewTransaction(transaction: Transaction): Long =
         withContext(Dispatchers.IO) {
-            transactionDao.create(transaction)
+            transactionDao.insert(transaction)
         }
-    }
+
 
     override suspend fun getAllTransaction(): Flow<List<Transaction>> = transactionDao.getAll()
 
     override suspend fun getLastTransaction(): Flow<Transaction?> = transactionDao.getLast()
+    override suspend fun deleteAll() = withContext(Dispatchers.IO) { transactionDao.delete() }
+    override suspend fun resetTransactionSequence() =
+        withContext(Dispatchers.IO) { transactionDao.reset() }
 }

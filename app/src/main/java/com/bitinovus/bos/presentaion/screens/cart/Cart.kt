@@ -32,7 +32,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.bitinovus.bos.presentaion.components.cart.CartCard
+import com.bitinovus.bos.presentaion.components.card.CartCard
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlack95
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentaion.ui.theme.PrimaryBlue80
@@ -80,7 +80,7 @@ fun Cart(
             items(items = productList, key = { it.productID }) { product ->
                 CartCard(
                     product = product,
-                    actions = {
+                    content = {
                         Row(horizontalArrangement = Arrangement.spacedBy(15.dp)) {
 
                             val colors = IconButtonDefaults.iconButtonColors(
@@ -176,7 +176,7 @@ fun Cart(
                         containerColor = PrimaryBlue80
                     ),
                     onClick = {
-                        cartViewmodel.changeScreenState(state = false)
+                        cartViewmodel.changeCartScreenState(state = false)
                         // navigate to scanner to add more items
                         navHostController.navigate(route = AppScreens.Scanner.name) {
                             popUpTo(route = AppScreens.Cart.name) {
@@ -185,7 +185,7 @@ fun Cart(
                             }
                         }
                     }
-                ) { Text(text = stringResource(id = R.string.add_more)) }
+                ) { Text(text = stringResource(id = R.string.add_items)) }
                 FilledTonalButton(
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
@@ -196,7 +196,7 @@ fun Cart(
                         containerColor = PrimaryRed00
                     ),
                     onClick = {
-                        cartViewmodel.changeScreenState(state = false)
+                        cartViewmodel.changeCartScreenState(state = false)
                         cartViewmodel.clearCartList()
                         // back to previous screen
                         navHostController.popBackStack()
