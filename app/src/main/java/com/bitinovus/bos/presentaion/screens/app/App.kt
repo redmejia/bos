@@ -1,5 +1,10 @@
 package com.bitinovus.bos.presentaion.screens.app
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -75,6 +80,8 @@ fun App(
     val productList by cartViewmodel.cartState.collectAsState()
     val cartScreenState by cartViewmodel.cartScreenState.collectAsState()
     val historyScreenState by historyViewmodel.historyScreenState.collectAsState()
+    val history by historyViewmodel.orderHistoryState.collectAsState()
+    val isWriting by historyViewmodel.reportWriteState.collectAsState()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -86,6 +93,14 @@ fun App(
             scope.launch {
                 snackBarHostState.showSnackbar(AppSnack(snack))
             }
+        }
+    }
+
+    // close history screen after write report
+    LaunchedEffect(key1 = isWriting) {
+        if (!isWriting) {
+            historyViewmodel.changeHistoryScreenState(state = false)
+            navHostController.popBackStack()
         }
     }
 
@@ -229,18 +244,24 @@ fun App(
                                     }
                                 }
                             }
-                            IconButton(
-                                enabled = !historyScreenState && !cartScreenState,
-                                onClick = {
-                                    historyViewmodel.changeHistoryScreenState(state = true)
-                                    navHostController.navigate(route = AppScreens.History.name)
-                                }) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.outline_list),
-                                    contentDescription = null,
-                                    tint = if (!historyScreenState && cartScreenState) PrimaryWhite90
-                                    else PrimaryWhite00
-                                )
+                            AnimatedVisibility(
+                                visible = history.isNotEmpty(),
+                                enter = scaleIn() + expandVertically(expandFrom = Alignment.CenterVertically),
+                                exit = scaleOut() + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
+                            ) {
+                                IconButton(
+                                    enabled = !historyScreenState && !cartScreenState,
+                                    onClick = {
+                                        historyViewmodel.changeHistoryScreenState(state = true)
+                                        navHostController.navigate(route = AppScreens.History.name)
+                                    }) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.outline_list),
+                                        contentDescription = null,
+                                        tint = if (!historyScreenState && cartScreenState) PrimaryWhite90
+                                        else PrimaryWhite00
+                                    )
+                                }
                             }
                         }
                     }

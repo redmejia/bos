@@ -69,26 +69,24 @@ fun History(
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         item {
-            if (history.isNotEmpty() && isWriting) {
-                Column(
-                    modifier = Modifier
-                        .padding(end = 4.dp, top = 4.dp)
-                        .fillMaxWidth(),
-                    horizontalAlignment = Alignment.End
+            Column(
+                modifier = Modifier
+                    .padding(end = 4.dp, top = 4.dp)
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.End
+            ) {
+                TextButton(
+                    colors = ButtonDefaults.textButtonColors(
+                        contentColor = PrimaryBlue60
+                    ),
+                    onClick = { isDialogOpen = true }
                 ) {
-                    TextButton(
-                        colors = ButtonDefaults.textButtonColors(
-                            contentColor = PrimaryBlue60
-                        ),
-                        onClick = { isDialogOpen = true }
-                    ) {
-                        Row {
-                            Text(stringResource(id = R.string.generate))
-                            Icon(
-                                painter = painterResource(id = R.drawable.edit_square),
-                                contentDescription = "report"
-                            )
-                        }
+                    Row {
+                        Text(stringResource(id = R.string.generate))
+                        Icon(
+                            painter = painterResource(id = R.drawable.edit_square),
+                            contentDescription = "report"
+                        )
                     }
                 }
             }
