@@ -1,5 +1,6 @@
 package com.bitinovus.bos.presentaion.screens.pos.productlist
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -26,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
 import com.bitinovus.bos.R
+import com.bitinovus.bos.presentaion.viewmodels.historyviewmodel.HistoryViewmodel
 
 @Composable
 fun ProductListSection(
@@ -34,6 +36,7 @@ fun ProductListSection(
 ) {
     val paymentState by paymentViewmodel.paymentState.collectAsState()
     // Keep last transaction record
+//    if (productList.isEmpty() && paymentState.trxExecuted) {
     if (productList.isEmpty() && paymentState.trxExecuted) {
         Column(
             modifier = Modifier

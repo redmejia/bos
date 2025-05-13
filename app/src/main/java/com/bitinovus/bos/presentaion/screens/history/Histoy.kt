@@ -1,6 +1,5 @@
 package com.bitinovus.bos.presentaion.screens.history
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -70,29 +69,30 @@ fun History(
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         item {
-            Column(
-                modifier = Modifier
-                    .padding(end = 4.dp, top = 4.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.End
-            ) {
-                TextButton(
-                    colors = ButtonDefaults.textButtonColors(
-                        contentColor = PrimaryBlue60
-                    ),
-                    onClick = { isDialogOpen = true }
+            if (history.isNotEmpty() && isWriting) {
+                Column(
+                    modifier = Modifier
+                        .padding(end = 4.dp, top = 4.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
                 ) {
-                    Row {
-                        Text(stringResource(id = R.string.generate))
-                        Icon(
-                            painter = painterResource(id = R.drawable.edit_square),
-                            contentDescription = "report"
-                        )
+                    TextButton(
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = PrimaryBlue60
+                        ),
+                        onClick = { isDialogOpen = true }
+                    ) {
+                        Row {
+                            Text(stringResource(id = R.string.generate))
+                            Icon(
+                                painter = painterResource(id = R.drawable.edit_square),
+                                contentDescription = "report"
+                            )
+                        }
                     }
                 }
             }
         }
-//        item { Spacer(modifier = Modifier.height(4.dp)) }
         items(items = history, key = { it.id }) {
             CardContainer(
                 modifier = Modifier

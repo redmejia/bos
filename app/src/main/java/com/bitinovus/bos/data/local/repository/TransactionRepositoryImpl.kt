@@ -22,4 +22,6 @@ class TransactionRepositoryImpl @Inject constructor(
 
     override suspend fun getLastTransaction(): Flow<Transaction?> = transactionDao.getLast()
     override suspend fun deleteAll() = withContext(Dispatchers.IO) { transactionDao.delete() }
+    override suspend fun resetTransactionSequence() =
+        withContext(Dispatchers.IO) { transactionDao.reset() }
 }

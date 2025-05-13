@@ -56,10 +56,11 @@ class HistoryViewmodel @Inject constructor(
                     orderList = _orderHistoryState.value
                 )
                 if (isReportGenerated) {
-                    Log.d("WR", "writeReport: DELETING")
-//                    orderRepository.deleteAll()
-//                    transactionRepository.deleteAll()
-                    Log.d("WR", "writeReport: DELETING DONE...")
+                    orderRepository.deleteAll()
+                    transactionRepository.deleteAll()
+                    // reset to start id from after report is generated
+                    orderRepository.resetOrderSequence()
+                    transactionRepository.resetTransactionSequence()
                     delay(5000L)
                     // report generated and records deleted
                     _reportWriteState.value = false

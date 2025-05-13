@@ -185,7 +185,7 @@ fun Cart(
                             }
                         }
                     }
-                ) { Text(text = stringResource(id = R.string.add_more)) }
+                ) { Text(text = stringResource(id = R.string.add_items)) }
                 FilledTonalButton(
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier

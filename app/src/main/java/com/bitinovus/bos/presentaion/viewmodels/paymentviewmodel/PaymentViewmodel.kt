@@ -43,6 +43,9 @@ class PaymentViewmodel @Inject constructor(
                     if (transition != null) {
                         _paymentState.value = transition
                     }
+                    if (transition == null) {
+                        _paymentState.value = Transaction()
+                    }
                 }
         }
     }

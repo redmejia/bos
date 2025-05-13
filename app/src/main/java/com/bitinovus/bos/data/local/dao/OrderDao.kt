@@ -36,4 +36,7 @@ JOIN orders AS o ON tx.id = o.order_id
     @Query("DELETE FROM orders")
     suspend fun delete()
 
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'orders'")
+    suspend fun reset()
+
 }

@@ -9,4 +9,5 @@ interface TransactionRepository {
     suspend fun getAllTransaction(): Flow<List<Transaction>>
     suspend fun getLastTransaction(): Flow<Transaction?>
     suspend fun deleteAll()
+    suspend fun resetTransactionSequence()
 }

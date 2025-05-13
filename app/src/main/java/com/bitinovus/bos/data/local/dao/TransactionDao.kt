@@ -21,4 +21,7 @@ interface TransactionDao {
 
     @Query("DELETE FROM transactions")
     suspend fun delete()
+
+    @Query("DELETE FROM sqlite_sequence WHERE name = 'transactions'")
+    suspend fun reset()
 }
