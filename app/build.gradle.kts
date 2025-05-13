@@ -116,6 +116,13 @@ dependencies {
     // Jetpack Compose Navigation integration
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
+    // Glance Widget
+    // For AppWidgets support
+    implementation("androidx.glance:glance-appwidget:1.1.1")
+
+    // For interop APIs with Material 3
+    implementation("androidx.glance:glance-material3:1.1.1")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
