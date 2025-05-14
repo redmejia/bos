@@ -81,8 +81,8 @@ fun App(
     val productList by cartViewmodel.cartState.collectAsState()
     val cartScreenState by cartViewmodel.cartScreenState.collectAsState()
     val historyScreenState by historyViewmodel.historyScreenState.collectAsState()
-    val history by historyViewmodel.orderHistoryState.collectAsState()
-    val isWriting by historyViewmodel.reportWriteState.collectAsState()
+//    val history by historyViewmodel.orderHistoryState.collectAsState()
+//    val isWriting by historyViewmodel.reportWriteState.collectAsState()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -98,12 +98,12 @@ fun App(
     }
 
     // close history screen after write report
-    LaunchedEffect(key1 = isWriting) {
-        if (!isWriting) {
-            historyViewmodel.changeHistoryScreenState(state = false)
-            navHostController.popBackStack()
-        }
-    }
+//    LaunchedEffect(key1 = isWriting) {
+//        if (!isWriting) {
+//            historyViewmodel.changeHistoryScreenState(state = false)
+//            navHostController.popBackStack()
+//        }
+//    }
 
     Scaffold(
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
@@ -275,11 +275,6 @@ fun App(
             }
         }
     ) { innerPadding ->
-//        Box(
-//            modifier = Modifier.padding(innerPadding)
-//        ){
-//            Scanner()
-//        }
         AppNavigation(
             modifier = Modifier.padding(innerPadding),
             navHostController = navHostController,
