@@ -5,9 +5,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import com.bitinovus.bos.presentaion.theme.BosTheme
-import com.bitinovus.bos.presentaion.screens.app.App
-import com.bitinovus.bos.presentaion.viewmodels.walletviewmodel.WalletViewmodel
+import com.bitinovus.bos.presentation.theme.BosTheme
+import com.bitinovus.bos.presentation.screens.app.App
+import com.bitinovus.bos.presentation.viewmodels.walletviewmodel.WalletViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

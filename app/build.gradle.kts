@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.gradle.kotlin.dsl.support.kotlinCompilerOptions
 
 plugins {
     id("com.google.devtools.ksp")
@@ -42,8 +43,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-//        isCoreLibraryDesugaringEnabled = true
+        // isCoreLibraryDesugaringEnabled = true
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
@@ -51,6 +53,10 @@ android {
         compose = true
         buildConfig = true
     }
+
+//    composeOptions {
+//        kotlinCompilerExtensionVersion = "1.5.15"
+//    }
 }
 
 dependencies {
@@ -118,10 +124,10 @@ dependencies {
 
     // Glance Widget
     // For AppWidgets support
-    implementation("androidx.glance:glance-appwidget:1.1.1")
-
-    // For interop APIs with Material 3
-    implementation("androidx.glance:glance-material3:1.1.1")
+//    implementation("androidx.glance:glance-appwidget:1.1.1")
+//
+//    // For interop APIs with Material 3
+//    implementation("androidx.glance:glance-material3:1.1.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

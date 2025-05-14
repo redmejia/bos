@@ -27,4 +27,6 @@
     <string name="generate">Generar</string>
     <string name="warning_message">Generar informe. Se eliminarán todas las transacciones.
         El informe se guardará en el directorio "Documentos/MyReports".</string>
+    <string name="wallet_label">Transacciones actuales</string>
+
 </resources>
