@@ -39,18 +39,18 @@ class WalletViewmodel @Inject constructor(
     val walletCalendarState: StateFlow<WalletCalendarState> = _walletCalendarState.asStateFlow()
 
     init {
+        refreshBalance()
+        walletCalendar()
+    }
+
+    fun refreshBalance(){
         viewModelScope.launch {
             transactionRepository
                 .getAllTransaction()
                 .collect { transactions ->
                     _walletTransactionState.value = transactions
                 }
-
         }
-    }
-
-    init {
-        walletCalendar()
     }
 
     private fun walletCalendar(timeDateFormater: DateTimeFormatter): List<String> {

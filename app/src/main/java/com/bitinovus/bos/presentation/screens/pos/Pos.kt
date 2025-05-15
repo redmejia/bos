@@ -1,5 +1,6 @@
 package com.bitinovus.bos.presentation.screens.pos
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,7 +35,11 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentation.viewmodels.paymentviewmodel.PaymentViewmodel
+import com.bitinovus.bos.presentation.viewmodels.walletviewmodel.WalletViewmodel
+import com.bitinovus.bos.presentation.widget.wallet.WalletReceiver
 import java.math.BigDecimal
+import androidx.compose.ui.platform.LocalContext
+import kotlinx.coroutines.delay
 
 // Checkout Screen
 @Composable
@@ -42,9 +47,12 @@ fun Pos(
     paymentViewmodel: PaymentViewmodel,
     cartViewmodel: CartViewmodel,
     productList: List<Product>,
+    walletViewmodel: WalletViewmodel,
 ) {
+    val context = LocalContext.current
 
     var isProductListEmpty by remember { mutableStateOf(false) }
+    val balance by walletViewmodel.balanceState.collectAsState()
 
     val summary by cartViewmodel.cartSummaryState.collectAsState()
     LaunchedEffect(key1 = productList) {
@@ -57,12 +65,22 @@ fun Pos(
         }
     }
 
+    LaunchedEffect(key1 = balance) {
+        if (balance > 0.0) {
+            val intent = Intent(context, WalletReceiver::class.java).apply {
+                putExtra("balance", balance)
+            }
+            context.sendBroadcast(intent)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(4.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+
         ProductListSection(paymentViewmodel = paymentViewmodel, productList = productList)
         SummaryContainer(isProductListEmpty = isProductListEmpty, cartSummaryState = summary)
         var text by remember { mutableStateOf("") }
@@ -85,6 +103,7 @@ fun Pos(
                 singleLine = true,
                 maxLines = 1
             )
+
             FilledTonalButton(
                 enabled = summary.grandTotal > 0 && productList.isNotEmpty(),
                 modifier = Modifier.fillMaxWidth(),
@@ -108,7 +127,6 @@ fun Pos(
                         text = ""
                         cartViewmodel.clearCartList()
                     }
-
                 }) { Text(text = stringResource(id = R.string.charge).uppercase()) }
         }
         HorizontalDivider()

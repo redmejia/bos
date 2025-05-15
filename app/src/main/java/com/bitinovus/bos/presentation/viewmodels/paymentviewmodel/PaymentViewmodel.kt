@@ -50,14 +50,14 @@ class PaymentViewmodel @Inject constructor(
         }
     }
 
-    fun exactAmount(order: List<Product>, grandTotal: Long, amount: Long) {
+    fun exactAmount(order: List<Product>, grandTotal: Long) {
         viewModelScope.launch {
             try {
 
                 val newTransaction = Transaction(
                     time = time.now(),
                     total = grandTotal,
-                    trxAmount = amount, // total entered
+                    trxAmount = grandTotal, // exact as total
                     type = TransactionType.CASH.name,
                     trxExecuted = true,
                     change = 0 // exact no action need

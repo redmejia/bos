@@ -5,21 +5,25 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.glance.ColorFilter
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
+import androidx.glance.currentState
 import androidx.glance.layout.Column
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
-import androidx.glance.unit.ColorProvider
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Row
@@ -28,23 +32,33 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.width
-import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite00
+import androidx.glance.unit.ColorProvider
 import com.bitinovus.bos.R
+import com.bitinovus.bos.domain.usecases.time.Time
 import com.bitinovus.bos.presentation.ui.theme.PrimaryDarkBlue
 import com.bitinovus.bos.presentation.ui.theme.PrimaryLTBlue
+import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite00
+import com.bitinovus.bos.presentation.widget.wallet.WalletWidgetKeys.balance
 
+object WalletWidgetKeys {
+    val balance = doublePreferencesKey("balance")
+}
 
 class WalletWidget : GlanceAppWidget() {
 
+    private val time = Time()
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
-            Wallet(context = context)
+            val state = currentState<Preferences>()
+            val balance = state[balance] ?: 0.0
+            Wallet(context = context, balance = balance) // Removed context parameter here
         }
     }
 
     @SuppressLint("RestrictedApi")
     @Composable
-    private fun Wallet(context: Context) {
+    private fun Wallet(context: Context, balance: Double) {
         Column(
             modifier = GlanceModifier
                 .padding(8.dp)
@@ -58,9 +72,11 @@ class WalletWidget : GlanceAppWidget() {
                 contentAlignment = Alignment.Center
             ) {
                 Box(
-                    modifier = GlanceModifier.fillMaxWidth(),
+                    modifier = GlanceModifier
+                        .fillMaxWidth(),
                     contentAlignment = Alignment.CenterStart
                 ) {
+                    val timeNow = time.now()
                     Row(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalAlignment = Alignment.CenterVertically
@@ -76,7 +92,7 @@ class WalletWidget : GlanceAppWidget() {
                         )
                         Spacer(modifier = GlanceModifier.width(2.dp))
                         Text(
-                            text = "Last Transaction",
+                            text = time.formater(timeNow, "MMM dd, YYYY"),
                             style = TextStyle(
                                 color = ColorProvider(color = PrimaryDarkBlue),
                                 fontSize = 16.sp,
@@ -86,15 +102,17 @@ class WalletWidget : GlanceAppWidget() {
                     }
                 }
                 Box(
-                    modifier = GlanceModifier.fillMaxWidth(),
+                    modifier = GlanceModifier
+                        .fillMaxWidth(),
                     contentAlignment = Alignment.CenterEnd
                 ) {
-                    Text(
-                        text = "May 13, 12:45",
-                        style = TextStyle(
-                            color = ColorProvider(color = PrimaryDarkBlue),
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                    Image(
+                        provider = ImageProvider(R.drawable.arrow_forward),
+                        contentDescription = "go to wallet",
+                        colorFilter = ColorFilter.tint(
+                            colorProvider = ColorProvider(
+                                PrimaryDarkBlue
+                            )
                         )
                     )
                 }
@@ -118,7 +136,7 @@ class WalletWidget : GlanceAppWidget() {
                 )
                 Spacer(modifier = GlanceModifier.height(5.dp))
                 Text(
-                    text = "$53.00",
+                    text = "$${String.format("%.2f", balance)}",
                     style = TextStyle(
                         color = ColorProvider(PrimaryDarkBlue),
                         fontSize = 30.sp,
@@ -129,3 +147,5 @@ class WalletWidget : GlanceAppWidget() {
         }
     }
 }
+
+

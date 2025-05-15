@@ -23,11 +23,11 @@ import com.bitinovus.bos.presentation.viewmodels.walletviewmodel.WalletViewmodel
 fun AppNavigation(
     modifier: Modifier = Modifier,
     navHostController: NavHostController,
-//    scannerViewmodel: ScannerViewmodel = hiltViewModel(),
+    scannerViewmodel: ScannerViewmodel = hiltViewModel(),
     cartViewmodel: CartViewmodel = hiltViewModel(),
     paymentViewmodel: PaymentViewmodel = hiltViewModel(),
     walletViewmodel: WalletViewmodel = hiltViewModel(),
-//    historyViewmodel: HistoryViewmodel = hiltViewModel()
+    historyViewmodel: HistoryViewmodel = hiltViewModel(),
 ) {
     val productList by cartViewmodel.cartState.collectAsState()
     val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
@@ -39,7 +39,7 @@ fun AppNavigation(
     ) {
         composable(route = AppScreens.Scanner.name) {
             Scanner(
-//                scannerViewmodel = scannerViewmodel,
+                scannerViewmodel = scannerViewmodel,
                 cartViewmodel = cartViewmodel
             )
         }
@@ -47,6 +47,7 @@ fun AppNavigation(
         // checkout screen
         composable(route = AppScreens.Pos.name) {
             Pos(
+                walletViewmodel = walletViewmodel,
                 productList = productList,
                 paymentViewmodel = paymentViewmodel,
                 cartViewmodel = cartViewmodel,
@@ -67,8 +68,8 @@ fun AppNavigation(
             )
         }
 
-//        composable(route = AppScreens.History.name) {
-//            History(historyViewmodel = historyViewmodel)
-//        }
+        composable(route = AppScreens.History.name) {
+            History(historyViewmodel = historyViewmodel)
+        }
     }
 }

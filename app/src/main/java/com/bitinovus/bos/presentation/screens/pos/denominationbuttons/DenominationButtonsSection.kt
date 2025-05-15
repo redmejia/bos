@@ -40,7 +40,7 @@ fun DenominationButtonsSection(
                         paymentViewmodel.exactAmount(
                             order = order,
                             grandTotal = grandTotal,
-                            amount = 0 // total
+                            // amount = grandTotal // exact as total
                         ) // no action need
                         cartViewmodel.clearCartList()
                     } else {
