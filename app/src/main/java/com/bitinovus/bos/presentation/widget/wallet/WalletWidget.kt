@@ -12,11 +12,17 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.action.ActionParameters
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetManager
+import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
+import androidx.glance.appwidget.state.getAppWidgetState
+import androidx.glance.appwidget.state.updateAppWidgetState
+import androidx.glance.appwidget.updateAll
 import androidx.glance.background
 import androidx.glance.currentState
 import androidx.glance.layout.Column
@@ -32,6 +38,7 @@ import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
 import androidx.glance.layout.width
+import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.unit.ColorProvider
 import com.bitinovus.bos.R
 import com.bitinovus.bos.domain.usecases.time.Time
@@ -49,10 +56,11 @@ class WalletWidget : GlanceAppWidget() {
     private val time = Time()
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
+//        scheduleWorker(context)
         provideContent {
             val state = currentState<Preferences>()
             val balance = state[balance] ?: 0.0
-            Wallet(context = context, balance = balance) // Removed context parameter here
+            Wallet(context = context, balance = balance)
         }
     }
 
@@ -92,7 +100,8 @@ class WalletWidget : GlanceAppWidget() {
                         )
                         Spacer(modifier = GlanceModifier.width(2.dp))
                         Text(
-                            text = time.formater(timeNow, "MMM dd, YYYY"),
+                            text = time.formater(timeNow, "MMM dd, YYYY")
+                                .replaceFirstChar { it.uppercase() },
                             style = TextStyle(
                                 color = ColorProvider(color = PrimaryDarkBlue),
                                 fontSize = 16.sp,
@@ -119,6 +128,7 @@ class WalletWidget : GlanceAppWidget() {
             }
             Column(
                 modifier = GlanceModifier
+                    .clickable(actionRunCallback<UpdateBalanceContent>())
                     .cornerRadius(10.dp)
                     .background(color = PrimaryLTBlue)
                     .padding(10.dp)
@@ -146,6 +156,43 @@ class WalletWidget : GlanceAppWidget() {
             }
         }
     }
+}
+
+
+class UpdateBalanceContent : ActionCallback {
+
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters,
+    ) {
+        val transactionWidgetRepositoryImpl = TransactionWidgetRepositoryImpl(context)
+        val walletWidgetRepository = WalletWidgetTransaction(transactionWidgetRepositoryImpl)
+
+        val balance = walletWidgetRepository.getBalance()
+
+        val manager = GlanceAppWidgetManager(context)
+        val glanceIds = manager.getGlanceIds(WalletWidget::class.java)
+
+        glanceIds.forEach { glanceId ->
+
+            val prefs = getAppWidgetState(context, PreferencesGlanceStateDefinition, glanceId)
+            val mutablePrefs = prefs.toMutablePreferences()
+
+            mutablePrefs[WalletWidgetKeys.balance] = balance
+
+            updateAppWidgetState(
+                context,
+                PreferencesGlanceStateDefinition,
+                glanceId
+            ) { mutablePrefs }
+
+            WalletWidget().updateAll(context)
+
+        }
+
+    }
+
 }
 
 

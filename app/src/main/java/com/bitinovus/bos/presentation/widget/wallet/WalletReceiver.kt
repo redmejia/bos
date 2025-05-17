@@ -1,6 +1,5 @@
 package com.bitinovus.bos.presentation.widget.wallet
 
-import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent

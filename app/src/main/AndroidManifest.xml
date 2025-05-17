@@ -53,6 +53,8 @@
                 <action android:name="com.bitinovus.bos.UPDATE_WALLET_BALANCE" />
             </intent-filter>
         </receiver>
+
     </application>
+
 
 </manifest>

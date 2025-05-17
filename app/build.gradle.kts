@@ -79,7 +79,7 @@ dependencies {
     ksp("com.google.dagger:hilt-compiler:2.56.1")
 
     // Desugaring support
-//    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
+    // coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 
     // ROOM
     implementation("androidx.room:room-runtime:$room_version")
