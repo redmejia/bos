@@ -37,6 +37,7 @@ import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
+import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.state.PreferencesGlanceStateDefinition
 import androidx.glance.unit.ColorProvider
@@ -56,7 +57,6 @@ class WalletWidget : GlanceAppWidget() {
     private val time = Time()
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-//        scheduleWorker(context)
         provideContent {
             val state = currentState<Preferences>()
             val balance = state[balance] ?: 0.0
@@ -126,34 +126,66 @@ class WalletWidget : GlanceAppWidget() {
                     )
                 }
             }
-            Column(
-                modifier = GlanceModifier
-                    .clickable(actionRunCallback<UpdateBalanceContent>())
-                    .cornerRadius(10.dp)
-                    .background(color = PrimaryLTBlue)
-                    .padding(10.dp)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = context.getString(R.string.balance).uppercase(),
-                    style = TextStyle(
-                        color = ColorProvider(color = PrimaryDarkBlue),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium
+            if (balance == 0.0) {
+                Column(
+                    modifier = GlanceModifier
+                        .clickable(actionRunCallback<UpdateBalanceContent>())
+                        .cornerRadius(10.dp)
+                        .background(color = PrimaryLTBlue)
+                        .padding(10.dp)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        "Tap to refresh",
+                        style = TextStyle(
+                            color = ColorProvider(PrimaryDarkBlue),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium
+                        )
                     )
-                )
-                Spacer(modifier = GlanceModifier.height(5.dp))
-                Text(
-                    text = "$${String.format("%.2f", balance)}",
-                    style = TextStyle(
-                        color = ColorProvider(PrimaryDarkBlue),
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.Bold
+                    Image(
+                        modifier = GlanceModifier.size(50.dp),
+                        provider = ImageProvider(R.drawable.touch_screen),
+                        contentDescription = "go to wallet",
+                        colorFilter = ColorFilter.tint(
+                            colorProvider = ColorProvider(
+                                PrimaryDarkBlue
+                            )
+                        )
                     )
-                )
+                }
+            } else {
+                Column(
+                    modifier = GlanceModifier
+                        .cornerRadius(10.dp)
+                        .background(color = PrimaryLTBlue)
+                        .padding(10.dp)
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = context.getString(R.string.balance).uppercase(),
+                        style = TextStyle(
+                            color = ColorProvider(color = PrimaryDarkBlue),
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                    Spacer(modifier = GlanceModifier.height(5.dp))
+                    Text(
+                        text = "$${String.format("%.2f", balance)}",
+                        style = TextStyle(
+                            color = ColorProvider(PrimaryDarkBlue),
+                            fontSize = 30.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                }
             }
+
         }
     }
 }

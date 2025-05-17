@@ -7,7 +7,7 @@ class WalletWidgetTransaction(private val transactionRepository: TransactionWidg
     suspend fun getBalance(): Double {
         return transactionRepository
             .getAllTransaction()
-            .map { list -> list.sumOf { it.trxAmount } / 100.00 }
+            .map { list -> list.sumOf { it.total } / 100.00 }
             .firstOrNull() ?: 0.0
     }
 }

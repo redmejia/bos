@@ -153,10 +153,10 @@ fun Wallet(
                             }
                         }
                     },
-                    trxAmount = {
+                    trxAmount = { // total or grand total transaction
                         Column {
                             Text(
-                                "$${trx.trxAmount / 100.00}",
+                                "$${trx.total / 100.00}",
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.SemiBold
                             )

@@ -31,7 +31,7 @@ class WalletViewmodel @Inject constructor(
 
     val balanceState: StateFlow<Double> =
         walletTransactionState.map { list ->
-            list.sumOf { it.trxAmount } / 100.0
+            list.sumOf { it.total } / 100.0
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
 
