@@ -1,5 +1,6 @@
 package com.bitinovus.bos.presentation.screens.history
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,6 +48,11 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentation.ui.theme.PrimaryRed00
 import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite90
 import com.bitinovus.bos.presentation.ui.theme.PrimaryYellow00
+import com.bitinovus.bos.presentation.widget.wallet.WalletReceiver
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun History(
@@ -63,56 +69,73 @@ fun History(
             isDialogOpen = false
         }
     }
-
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
-    ) {
-        item {
-            Column(
-                modifier = Modifier
-                    .padding(end = 4.dp, top = 4.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.End
-            ) {
-                TextButton(
-                    colors = ButtonDefaults.textButtonColors(
-                        contentColor = PrimaryBlue60
-                    ),
-                    onClick = { isDialogOpen = true }
+    if(history.isNotEmpty()){
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            item {
+                Column(
+                    modifier = Modifier
+                        .padding(end = 4.dp, top = 4.dp)
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
                 ) {
-                    Row {
-                        Text(stringResource(id = R.string.generate))
-                        Icon(
-                            painter = painterResource(id = R.drawable.edit_square),
-                            contentDescription = "report"
-                        )
+                    TextButton(
+                        colors = ButtonDefaults.textButtonColors(
+                            contentColor = PrimaryBlue60
+                        ),
+                        onClick = { isDialogOpen = true }
+                    ) {
+                        Row {
+                            Text(stringResource(id = R.string.generate))
+                            Icon(
+                                painter = painterResource(id = R.drawable.edit_square),
+                                contentDescription = "report"
+                            )
+                        }
                     }
                 }
             }
-        }
-        items(items = history, key = { it.id }) {
-            CardContainer(
-                modifier = Modifier
-                    .padding(horizontal = 4.dp)
-                    .fillMaxWidth(),
-                colors = CardDefaults.cardColors(
-                    containerColor = PrimaryGrayBase80
-                ),
-            ) {
-                HistoryCard(
-                    modifier = Modifier.padding(7.dp),
-                    orderHistory = it,
-                    date = {
-                        historyViewmodel
-                            .formatTime(it.transaction.time, "MMM d YYYY, hh:mm a")
-                            .replaceFirstChar { it.uppercase() }
-                    }
-                )
+            items(items = history, key = { it.id }) {
+                CardContainer(
+                    modifier = Modifier
+                        .padding(horizontal = 4.dp)
+                        .fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = PrimaryGrayBase80
+                    ),
+                ) {
+                    HistoryCard(
+                        modifier = Modifier.padding(7.dp),
+                        orderHistory = it,
+                        date = {
+                            historyViewmodel
+                                .formatTime(it.transaction.time, "MMM d YYYY, hh:mm a")
+                                .replaceFirstChar { it.uppercase() }
+                        }
+                    )
+                }
             }
+            item { Spacer(modifier = Modifier.height(4.dp)) }
         }
-        item { Spacer(modifier = Modifier.height(4.dp)) }
+    }else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                stringResource(id = R.string.empty_history),
+                style = TextStyle(
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Normal,
+                )
+            )
+        }
     }
+
     if (isDialogOpen) {
         Dialog(onDismissRequest = {
             // prevent to close when is writing a report file and user try to click outside of card
@@ -156,9 +179,16 @@ fun History(
                             horizontalArrangement = Arrangement.End,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+                            val context = LocalContext.current
                             TextButton(
                                 enabled = !isWriting,
-                                onClick = { historyViewmodel.writeReport() }
+                                onClick = {
+                                    historyViewmodel.writeReport()
+                                    val intent = Intent(context, WalletReceiver::class.java).apply {
+                                        putExtra("balance", 0.0)
+                                    }
+                                    context.sendBroadcast(intent)
+                                }
                             ) {
                                 Text(stringResource(id = R.string.generate), color = PrimaryBlue60)
                             }

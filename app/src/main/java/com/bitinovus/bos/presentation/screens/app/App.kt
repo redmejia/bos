@@ -1,10 +1,5 @@
 package com.bitinovus.bos.presentation.screens.app
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -54,7 +49,6 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.R
 import com.bitinovus.bos.presentation.navigation.AppScreens
-import com.bitinovus.bos.presentation.screens.scanner.Scanner
 import com.bitinovus.bos.presentation.ui.theme.PrimaryBlack80
 import com.bitinovus.bos.presentation.viewmodels.appsnack.SnackStateType
 import com.bitinovus.bos.presentation.viewmodels.appsnack.SnackMessageType
@@ -81,8 +75,6 @@ fun App(
     val productList by cartViewmodel.cartState.collectAsState()
     val cartScreenState by cartViewmodel.cartScreenState.collectAsState()
     val historyScreenState by historyViewmodel.historyScreenState.collectAsState()
-//    val history by historyViewmodel.orderHistoryState.collectAsState()
-//    val isWriting by historyViewmodel.reportWriteState.collectAsState()
 
     val snackBarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
@@ -96,14 +88,6 @@ fun App(
             }
         }
     }
-
-    // close history screen after write report
-//    LaunchedEffect(key1 = isWriting) {
-//        if (!isWriting) {
-//            historyViewmodel.changeHistoryScreenState(state = false)
-//            navHostController.popBackStack()
-//        }
-//    }
 
     Scaffold(
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets,
@@ -245,25 +229,19 @@ fun App(
                                     }
                                 }
                             }
-//                            AnimatedVisibility(
-//                                visible = history.isNotEmpty(),
-//                                enter = scaleIn() + expandVertically(expandFrom = Alignment.CenterVertically),
-//                                exit = scaleOut() + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
-//                            ) {
-//                                IconButton(
-//                                    enabled = !historyScreenState && !cartScreenState,
-//                                    onClick = {
-//                                        historyViewmodel.changeHistoryScreenState(state = true)
-//                                        navHostController.navigate(route = AppScreens.History.name)
-//                                    }) {
-//                                    Icon(
-//                                        painter = painterResource(id = R.drawable.outline_list),
-//                                        contentDescription = null,
-//                                        tint = if (!historyScreenState && cartScreenState) PrimaryWhite90
-//                                        else PrimaryWhite00
-//                                    )
-//                                }
-//                            }
+                            IconButton(
+                                enabled = !historyScreenState && !cartScreenState,
+                                onClick = {
+                                    historyViewmodel.changeHistoryScreenState(state = true)
+                                    navHostController.navigate(route = AppScreens.History.name)
+                                }) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.outline_list),
+                                    contentDescription = null,
+                                    tint = if (!historyScreenState && cartScreenState) PrimaryWhite90
+                                    else PrimaryWhite00
+                                )
+                            }
                         }
                     }
                 },

@@ -30,7 +30,6 @@ fun AppNavigation(
     historyViewmodel: HistoryViewmodel = hiltViewModel(),
 ) {
     val productList by cartViewmodel.cartState.collectAsState()
-    val cartSummary by cartViewmodel.cartSummaryState.collectAsState()
 
     NavHost(
         modifier = modifier,
@@ -63,8 +62,6 @@ fun AppNavigation(
             Cart(
                 navHostController = navHostController,
                 cartViewmodel = cartViewmodel,
-                productList = productList,
-                summary = cartSummary
             )
         }
 

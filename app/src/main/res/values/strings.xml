@@ -30,4 +30,8 @@
         The report will be saved in the "Documents/MyReports" directory.</string>
     <!--    Label for widget description -->
     <string name="wallet_label">Current Transactions</string>
+    <string name="tap">Tap to refresh</string>
+    <string name="empty_cart">Your cart is empty.</string>
+    <string name="empty_activity">Your recent activity will appear here.</string>
+    <string name="empty_history">Your transactions will appear here.</string>
 </resources>

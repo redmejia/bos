@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,110 +49,120 @@ fun HistoryCard(
             defaultElevation = 8.dp
         )
     ) {
-        SummarySection(
+        val sectionModifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 3.dp)
+
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 3.dp, vertical = 2.dp),
-            leadingText = "# ${orderHistory.id}", // order number or order ID
-            trailingText = date(),
-            style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold
-            ),
-        )
-        orderHistory.order.forEach {
-            Row(
+                .padding(horizontal = 3.dp)
+        ) {
+            SummarySection(
                 modifier = Modifier
-                    .padding(3.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                AsyncImage(
+                    .fillMaxWidth()
+                    .padding(horizontal = 3.dp, vertical = 6.dp),
+                leadingText = "# ${orderHistory.id}", // order number or order ID
+                trailingText = date(),
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold
+                ),
+            )
+            HorizontalDivider()
+            orderHistory.order.forEach {
+                Row(
                     modifier = Modifier
-                        .size(100.dp)
-                        .background( // not need for business image product
-                            color = PrimaryBlack98,
-                            shape = RoundedCornerShape(10.dp)
-                        ),
-                    model = it.productImage,
-                    contentDescription = it.name,
-                    contentScale = ContentScale.Fit
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
+                        .padding(horizontal = 3.dp, vertical = 8 .dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Text(
-                        text = it.name,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 20.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                    AsyncImage(
+                        modifier = Modifier
+                            .size(100.dp)
+                            .background( // not need for business image product
+                                color = PrimaryBlack98,
+                                shape = RoundedCornerShape(10.dp)
+                            ),
+                        model = it.productImage,
+                        contentDescription = it.name,
+                        contentScale = ContentScale.Fit
                     )
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(id = R.string.quantity) + " ${it.items}",
-                        fontWeight = FontWeight.SemiBold,
-                        textAlign = TextAlign.End
-                    )
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "$${it.price / 100.0}",
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.End
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                    ) {
+                        Text(
+                            text = it.name,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 20.sp,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(id = R.string.quantity) + " ${it.items}",
+                            fontWeight = FontWeight.SemiBold,
+                            textAlign = TextAlign.End
+                        )
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "$${it.price / 100.0}",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.End
+                        )
+                    }
                 }
             }
         }
         HorizontalDivider()
-        SummarySection(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 3.dp),
-            leadingText = stringResource(id = R.string.total),
-            trailingText = "$${orderHistory.transaction.total / 100.00}",
-            style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold
-            ),
-        )
-        SummarySection(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 3.dp),
-            leadingText = stringResource(id = R.string.payment_received),
-            trailingText = if (orderHistory.transaction.trxAmount == 0L)
-                stringResource(id = R.string.exact).uppercase()
-            else "$${orderHistory.transaction.trxAmount / 100.00}",
-            style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold
-            ),
-        )
-        SummarySection(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 3.dp),
-            leadingText = stringResource(id = R.string.change),
-            trailingText = "$${orderHistory.transaction.change / 100.00}",
-            style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold
-            ),
-        )
-        SummarySection(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 3.dp),
-            leadingText = stringResource(id = R.string.type),
-            trailingText = if (orderHistory.transaction.type == TransactionType.CASH.name)
-                stringResource(id = R.string.trx_cash_type)
-            else "", // display the card type VISA, MasterCard ...
-            style = TextStyle(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold
-            ),
-        )
+                .padding(horizontal = 3.dp, vertical = 3.dp)
+        ) {
+
+            SummarySection(
+                modifier = sectionModifier,
+                leadingText = stringResource(id = R.string.total),
+                trailingText = "$${orderHistory.transaction.total / 100.00}",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold
+                ),
+            )
+            SummarySection(
+                modifier = sectionModifier,
+                leadingText = stringResource(id = R.string.payment_received),
+                trailingText = if (orderHistory.transaction.trxAmount == 0L)
+                    stringResource(id = R.string.exact).uppercase()
+                else "$${orderHistory.transaction.trxAmount / 100.00}",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold
+                ),
+            )
+            SummarySection(
+                modifier = sectionModifier,
+                leadingText = stringResource(id = R.string.change),
+                trailingText = "$${orderHistory.transaction.change / 100.00}",
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold
+                ),
+            )
+            SummarySection(
+                modifier = sectionModifier,
+                leadingText = stringResource(id = R.string.type),
+                trailingText = if (orderHistory.transaction.type == TransactionType.CASH.name)
+                    stringResource(id = R.string.trx_cash_type)
+                else "", // display the card type VISA, MasterCard ...
+                style = TextStyle(
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.ExtraBold
+                ),
+            )
+        }
     }
 }
 

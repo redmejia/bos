@@ -138,7 +138,7 @@ class WalletWidget : GlanceAppWidget() {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        "Tap to refresh",
+                        context.getString(R.string.tap).uppercase(),
                         style = TextStyle(
                             color = ColorProvider(PrimaryDarkBlue),
                             fontSize = 16.sp,
@@ -190,7 +190,6 @@ class WalletWidget : GlanceAppWidget() {
     }
 }
 
-
 class UpdateBalanceContent : ActionCallback {
 
     override suspend fun onAction(
@@ -220,11 +219,8 @@ class UpdateBalanceContent : ActionCallback {
             ) { mutablePrefs }
 
             WalletWidget().updateAll(context)
-
         }
-
     }
-
 }
 
 

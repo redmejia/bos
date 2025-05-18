@@ -2,7 +2,7 @@
     <string name="app_name">Bos</string>
     <string name="total">Total</string>
     <string name="total_items">Total de artículos</string>
-    <string name="charge">Cargar</string>
+    <string name="charge">Cobrar</string>
     <string name="exact">Cantidad exacta</string>
     <string name="quantity">Cantidad</string>
     <string name="add_items">Añadir artículo</string>
@@ -28,5 +28,8 @@
     <string name="warning_message">Generar informe. Se eliminarán todas las transacciones.
         El informe se guardará en el directorio "Documentos/MyReports".</string>
     <string name="wallet_label">Transacciones actuales</string>
-
+    <string name="tap">Tocar para actualizar</string>
+    <string name="empty_cart">Su carrito está vacío.</string>
+    <string name="empty_activity">Tu actividad reciente aparecerá aquí.</string>
+    <string name="empty_history">Tus transacciones aparecerán aquí.</string>
 </resources>
