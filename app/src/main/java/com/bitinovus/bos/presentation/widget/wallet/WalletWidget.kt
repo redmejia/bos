@@ -2,6 +2,7 @@ package com.bitinovus.bos.presentation.widget.wallet
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,6 +19,7 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.appwidget.state.getAppWidgetState
@@ -47,6 +49,7 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryDarkBlue
 import com.bitinovus.bos.presentation.ui.theme.PrimaryLTBlue
 import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentation.widget.wallet.WalletWidgetKeys.balance
+import androidx.core.net.toUri
 
 object WalletWidgetKeys {
     val balance = doublePreferencesKey("balance")
@@ -116,6 +119,13 @@ class WalletWidget : GlanceAppWidget() {
                     contentAlignment = Alignment.CenterEnd
                 ) {
                     Image(
+                        modifier = GlanceModifier
+                            .clickable(
+                                actionStartActivity(
+                                    Intent(Intent.ACTION_VIEW).apply {
+                                        data = "bos://wallet".toUri()
+                                    })
+                            ),
                         provider = ImageProvider(R.drawable.arrow_forward),
                         contentDescription = "go to wallet",
                         colorFilter = ColorFilter.tint(
@@ -222,5 +232,3 @@ class UpdateBalanceContent : ActionCallback {
         }
     }
 }
-
-

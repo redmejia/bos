@@ -39,7 +39,6 @@ import com.bitinovus.bos.presentation.viewmodels.walletviewmodel.WalletViewmodel
 import com.bitinovus.bos.presentation.widget.wallet.WalletReceiver
 import java.math.BigDecimal
 import androidx.compose.ui.platform.LocalContext
-import kotlinx.coroutines.delay
 
 // Checkout Screen
 @Composable

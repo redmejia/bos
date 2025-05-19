@@ -32,6 +32,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <data
+                    android:host="wallet"
+                    android:scheme="bos"
+                    />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+            </intent-filter>
         </activity>
 
         <receiver
@@ -53,6 +65,7 @@
                 <action android:name="com.bitinovus.bos.UPDATE_WALLET_BALANCE" />
             </intent-filter>
         </receiver>
+
 
     </application>
 

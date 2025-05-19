@@ -1,5 +1,6 @@
 package com.bitinovus.bos.presentation.navigation
 
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -8,6 +9,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navDeepLink
 import com.bitinovus.bos.presentation.screens.cart.Cart
 import com.bitinovus.bos.presentation.screens.history.History
 import com.bitinovus.bos.presentation.screens.pos.Pos
@@ -34,9 +36,24 @@ fun AppNavigation(
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = AppScreens.Scanner.name
+        startDestination = AppScreens.Wallet.name
     ) {
-        composable(route = AppScreens.Scanner.name) {
+
+        composable(
+            route = AppScreens.Wallet.name,
+            deepLinks = listOf(navDeepLink {
+                uriPattern = "bos://wallet"
+            })
+        ) {
+            Wallet(walletViewmodel = walletViewmodel)
+        }
+
+        composable(
+            route = AppScreens.Scanner.name,
+            deepLinks = listOf(navDeepLink { // not implemented yet
+                uriPattern = "bos://scanner"
+            })
+        ) {
             Scanner(
                 scannerViewmodel = scannerViewmodel,
                 cartViewmodel = cartViewmodel
@@ -44,7 +61,12 @@ fun AppNavigation(
         }
 
         // checkout screen
-        composable(route = AppScreens.Pos.name) {
+        composable(
+            route = AppScreens.Pos.name,
+            deepLinks = listOf(navDeepLink { // not implemented yet
+                uriPattern = "bos://pos"
+            })
+        ) {
             Pos(
                 walletViewmodel = walletViewmodel,
                 productList = productList,
@@ -53,19 +75,24 @@ fun AppNavigation(
             )
         }
 
-        composable(route = AppScreens.Wallet.name) {
-            Wallet(walletViewmodel = walletViewmodel)
-        }
-
-        composable(route = AppScreens.Cart.name) {
-
+        composable(
+            route = AppScreens.Cart.name,
+            deepLinks = listOf(navDeepLink { // not implemented yet
+                uriPattern = "bos://cart"
+            })
+        ) {
             Cart(
                 navHostController = navHostController,
                 cartViewmodel = cartViewmodel,
             )
         }
 
-        composable(route = AppScreens.History.name) {
+        composable(
+            route = AppScreens.History.name,
+            deepLinks = listOf(navDeepLink { // not implemented yet
+                uriPattern = "bos://history"
+            })
+        ) {
             History(historyViewmodel = historyViewmodel)
         }
     }
