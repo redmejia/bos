@@ -28,4 +28,11 @@
     <string name="generate">Generate</string>
     <string name="warning_message">Generate report. All transactions will be deleted.
         The report will be saved in the "Documents/MyReports" directory.</string>
+    <!--    Label for widget description -->
+    <string name="wallet_label">Current Transactions</string>
+    <string name="tap">Tap to refresh</string>
+    <string name="empty_cart">Your cart is empty.</string>
+    <!--    Not used for now but use on the wallet screen not transaction -->
+    <!--    <string name="empty_activity">Your recent activity will appear here.</string>-->
+    <string name="empty_history">Your transactions will appear here.</string>
 </resources>

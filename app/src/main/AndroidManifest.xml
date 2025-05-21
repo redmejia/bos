@@ -32,7 +32,42 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <data
+                    android:host="wallet"
+                    android:scheme="bos"
+                    />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+            </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".presentation.widget.wallet.WalletWidgetReceiver"
+            android:exported="true"
+            android:label="@string/wallet_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/wallet_widget" />
+        </receiver>
+
+        <receiver
+            android:name=".presentation.widget.wallet.WalletReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.bitinovus.bos.UPDATE_WALLET_BALANCE" />
+            </intent-filter>
+        </receiver>
+
+
     </application>
+
 
 </manifest>

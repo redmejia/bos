@@ -70,7 +70,7 @@ class ReportWriter @Inject constructor(
             val pdfDocument = PdfDocument()
             val paint = Paint()
             val titlePaint = Paint().apply {
-                textSize = 18f
+                textSize = 10f
             }
 
             val pageWidth = 595
@@ -89,55 +89,65 @@ class ReportWriter @Inject constructor(
                 canvas = page.canvas
                 pageNumber++
 
-                val headerYPosition = marginTop + 10f
+                val headerYPosition = marginTop + 30f
                 header()
                 yPosition = headerYPosition + lineHeight
             }
 
             newPage(header = {
                 headerTitles(
-                    headerTitle = "Bos POS Report",
+                    headerTitle = "### B.O.S Report ###",
                     headerMarginTop = marginTop,
                     titlePaint = titlePaint,
                     paint = paint,
                 )
             })
 
+            fun spacer(linesNeeded: Int = 1) {
+                if (yPosition + (lineHeight * linesNeeded) > pageHeight - marginBottom) {
+                    pdfDocument.finishPage(page)
+                    newPage(header = {
+                        headerTitles(
+                            headerTitle = "### B.O.S Report ###",
+                            headerMarginTop = marginTop,
+                            titlePaint = titlePaint,
+                            paint = paint,
+                        )
+                    })
+                }
+            }
 
-            yPosition += 40f
+
+            yPosition += 30f
 
             orderList.forEachIndexed { orderIndex, orderListItem ->
 
-                if (yPosition + lineHeight > pageHeight - marginBottom) {
-                    pdfDocument.finishPage(page)
-                    newPage()
-                }
+                val linesNeeded =
+                    1 +  // Order number
+                            orderListItem.order.size * 3 + // Each item has 3 lines: Product, Qty, Price
+                            1 +  // Separator line
+                            4 +  // Transaction lines: Total, Payment, Change, Type
+                            2    // Final spacing and "===" line
 
-                // Print Order Number
+                spacer(linesNeeded)
                 canvas.drawText(String.format("# %s", orderListItem.id), 50f, yPosition, paint)
                 yPosition += lineHeight
 
-                // Print each product in the order
                 orderListItem.order.forEach { item ->
-                    // Product Line
                     canvas.drawText("Product: ${item.name}", 50f, yPosition, paint)
                     yPosition += lineHeight
 
-                    // Quantity Line
                     canvas.drawText("Qty: ${item.items}", 50f, yPosition, paint)
                     yPosition += lineHeight
 
-                    // Price Line
                     val priceFormatted = String.format("%.2f", item.price / 100.0)
                     canvas.drawText("Price: $priceFormatted", 50f, yPosition, paint)
                     yPosition += lineHeight
                 }
 
-                // Separator Line
                 canvas.drawText("*".repeat(30), 50f, yPosition, paint)
                 yPosition += lineHeight
 
-                // Print Transaction Details (Total, Payment, Change, Type)
                 val totalFormatted = String.format("%.2f", orderListItem.transaction.total / 100.0)
                 val paymentFormatted =
                     String.format("%.2f", orderListItem.transaction.trxAmount / 100.0)
@@ -157,7 +167,6 @@ class ReportWriter @Inject constructor(
 
                 canvas.drawText("=".repeat(20), 50f, yPosition + 16f, paint)
                 yPosition += lineHeight * 3
-
             }
 
             withContext(Dispatchers.IO) {
