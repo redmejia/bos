@@ -32,6 +32,7 @@
     <string name="wallet_label">Current Transactions</string>
     <string name="tap">Tap to refresh</string>
     <string name="empty_cart">Your cart is empty.</string>
-    <string name="empty_activity">Your recent activity will appear here.</string>
+    <!--    Not used for now but use on the wallet screen not transaction -->
+    <!--    <string name="empty_activity">Your recent activity will appear here.</string>-->
     <string name="empty_history">Your transactions will appear here.</string>
 </resources>
