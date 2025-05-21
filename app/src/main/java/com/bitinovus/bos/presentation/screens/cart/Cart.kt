@@ -20,7 +20,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,18 +33,20 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartViewmodel
 import androidx.compose.ui.text.TextStyle
 import androidx.navigation.NavHostController
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import com.bitinovus.bos.domain.model.Product
 import com.bitinovus.bos.presentation.screens.cart.cartsummarysection.CartSummarySection
+import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartSummaryState
 
 @Composable
 fun Cart(
     navHostController: NavHostController,
     modifier: Modifier = Modifier,
     cartViewmodel: CartViewmodel,
+    cart: List<Product>,
+    summary: CartSummaryState,
 ) {
 
-    val cart by cartViewmodel.cartState.collectAsState()
     // prevent system back navigation go to previous screen
     BackHandler(enabled = true) {}
 
@@ -81,6 +82,7 @@ fun Cart(
                 cart = cart,
                 navHostController = navHostController,
                 cartViewmodel = cartViewmodel,
+                summary = summary
             )
 
         } else {
@@ -153,6 +155,7 @@ fun Cart(
                 cart = cart,
                 navHostController = navHostController,
                 cartViewmodel = cartViewmodel,
+                summary = summary,
             )
         }
     }

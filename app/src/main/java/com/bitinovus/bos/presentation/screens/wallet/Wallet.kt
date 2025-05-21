@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import com.bitinovus.bos.R
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.TextStyle
 import com.bitinovus.bos.presentation.components.calendar.Calendar
 import com.bitinovus.bos.presentation.components.card.TransactionCard
 import com.bitinovus.bos.presentation.ui.theme.PrimaryBlue60
@@ -106,86 +105,68 @@ fun Wallet(
                 Calendar(weekDay = wallerCalendar.weekDay, days = wallerCalendar.days)
             }
         }
-        if (transactions.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(15.dp)
-            ) {
-                item {
-                    Text(
-                        stringResource(id = R.string.trx_history),
-                        fontSize = 20.sp,
-                        modifier = Modifier.padding(vertical = 15.dp)
-                    )
-                }
-                items(items = transactions) { trx ->
-                    TransactionCard(
-                        modifier = Modifier.clickable {},
-                        details = {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Icon(
-                                    modifier = Modifier.size(45.dp),
-                                    painter = painterResource(
-                                        id = if (trx.type == "CASH") R.drawable.transaction_cash_paid
-                                        else R.drawable.credit_card
-                                    ),
-                                    contentDescription = null,
-                                    tint = if (trx.type == "CASH") PrimaryGreen00 else PrimaryBlue60
-                                )
-                                Column {
-                                    Text(
-                                        "# ${trx.id}",
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
-                                    Text(
-                                        walletViewmodel.formatTime(trx.time, "hh:mm:ss a"),
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.SemiBold
-                                    )
-                                    Text(
-                                        if (trx.type == "CASH")
-                                            stringResource(id = R.string.trx_cash_type).uppercase()
-                                        else stringResource(id = R.string.trx_card_type).uppercase(),
-                                        fontSize = 15.sp, fontWeight = FontWeight.Medium
-                                    )
-                                }
-                            }
-                        },
-                        trxAmount = { // total or grand total transaction
+        LazyColumn(
+            modifier = Modifier
+                .padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+            item {
+                Text(
+                    stringResource(id = R.string.trx_history),
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(vertical = 15.dp)
+                )
+            }
+            items(items = transactions) { trx ->
+                TransactionCard(
+                    modifier = Modifier.clickable {},
+                    details = {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(45.dp),
+                                painter = painterResource(
+                                    id = if (trx.type == "CASH") R.drawable.transaction_cash_paid
+                                    else R.drawable.credit_card
+                                ),
+                                contentDescription = null,
+                                tint = if (trx.type == "CASH") PrimaryGreen00 else PrimaryBlue60
+                            )
                             Column {
                                 Text(
-                                    "$${trx.total / 100.00}",
+                                    "# ${trx.id}",
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.SemiBold
                                 )
+                                Text(
+                                    walletViewmodel.formatTime(trx.time, "hh:mm:ss a"),
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                                Text(
+                                    if (trx.type == "CASH")
+                                        stringResource(id = R.string.trx_cash_type).uppercase()
+                                    else stringResource(id = R.string.trx_card_type).uppercase(),
+                                    fontSize = 15.sp, fontWeight = FontWeight.Medium
+                                )
                             }
                         }
-                    )
-                    HorizontalDivider()
-                }
-                item {
-                    Spacer(Modifier.height(4.dp))
-                }
-            }
-        } else {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    stringResource(id = R.string.empty_history),
-                    style = TextStyle(
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.Normal,
-                    )
+                    },
+                    trxAmount = { // total or grand total transaction
+                        Column {
+                            Text(
+                                "$${trx.total / 100.00}",
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+                    }
                 )
+                HorizontalDivider()
+            }
+            item {
+                Spacer(Modifier.height(4.dp))
             }
         }
     }

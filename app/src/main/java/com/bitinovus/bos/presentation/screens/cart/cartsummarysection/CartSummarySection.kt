@@ -12,7 +12,6 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -28,16 +27,15 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentation.ui.theme.PrimaryGrayBase80
 import com.bitinovus.bos.presentation.ui.theme.PrimaryRed00
 import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartViewmodel
-import androidx.compose.runtime.getValue
+import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartSummaryState
 
 @Composable
 fun CartSummarySection(
     navHostController: NavHostController,
     cartViewmodel: CartViewmodel,
     cart: List<Product>,
-//    summary: CartSummaryState,
+    summary: CartSummaryState,
 ) {
-    val summary by cartViewmodel.cartSummaryState.collectAsState()
     Column(
         modifier = Modifier
             .background(
