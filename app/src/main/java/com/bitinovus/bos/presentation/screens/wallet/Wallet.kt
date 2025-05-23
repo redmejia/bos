@@ -37,6 +37,7 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryBlue60
 import com.bitinovus.bos.presentation.ui.theme.PrimaryGreen00
 import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentation.viewmodels.walletviewmodel.WalletViewmodel
+import com.bitinovus.bos.utils.currencyFormater
 
 @Composable
 fun Wallet(
@@ -90,7 +91,7 @@ fun Wallet(
                 modifier = Modifier.fillMaxWidth(),
             )
             Text(
-                text = "$$balanceState",
+                text = if (balanceState == 0.0) "$0.00" else "$$balanceState",
                 fontSize = 30.sp,
                 color = PrimaryWhite00,
                 fontWeight = FontWeight.SemiBold,
@@ -156,7 +157,7 @@ fun Wallet(
                     trxAmount = { // total or grand total transaction
                         Column {
                             Text(
-                                "$${trx.total / 100.00}",
+                                text = currencyFormater("$", trx.total / 100.00),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.SemiBold
                             )

@@ -26,6 +26,7 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryBlack98
 import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.R
 import com.bitinovus.bos.domain.model.Product
+import com.bitinovus.bos.utils.currencyFormater
 
 @Composable
 fun CartCard(
@@ -80,7 +81,7 @@ fun CartCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "$${product.price / 100.0}",
+                        text = currencyFormater("$", product.price / 100.00),
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp,
                     )

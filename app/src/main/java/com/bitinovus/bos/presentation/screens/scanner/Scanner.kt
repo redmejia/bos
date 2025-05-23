@@ -53,6 +53,7 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryBlue80
 import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartViewmodel
 import kotlinx.coroutines.launch
 import com.bitinovus.bos.R
+import com.bitinovus.bos.utils.currencyFormater
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -200,10 +201,7 @@ fun Scanner(
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis
                                 )
-                                Text(
-                                    text = stringResource(id = R.string.price)
-                                            + " $${product.price / 100.0}"
-                                ) // add format 0.00
+                                Text(text = currencyFormater("Price $", product.price / 100.00))
                             }
                         }
                         HorizontalDivider()
@@ -220,9 +218,9 @@ fun Scanner(
                                     if (!sheetState.isVisible) {
                                         cartViewmodel.addToCart(product)
 
-//                                        product?.product?.let { product ->
-//                                            cartViewmodel.addToCart(product)
-//                                        }
+                                        // product?.product?.let { product ->
+                                        //     cartViewmodel.addToCart(product)
+                                        // }
                                         showBottomSheet = false
                                         // If camera has the option
                                         // IMAGE_CAPTURE change to IMAGE_ANALYSIS

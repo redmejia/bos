@@ -28,6 +28,7 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryGrayBase80
 import com.bitinovus.bos.presentation.ui.theme.PrimaryRed00
 import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartViewmodel
 import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartSummaryState
+import com.bitinovus.bos.utils.currencyFormater
 
 @Composable
 fun CartSummarySection(
@@ -52,9 +53,8 @@ fun CartSummarySection(
                     .fillMaxWidth()
                     .padding(horizontal = 6.dp),
                 leadingText = stringResource(id = R.string.total),
-                trailingText = "$${
-                    if (cart.isNotEmpty()) summary.grandTotal / 100.00 else 0.0
-                }",
+                trailingText = if (cart.isNotEmpty())
+                    currencyFormater("$", summary.grandTotal / 100.00) else "$0.00",
                 style = TextStyle(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.ExtraBold

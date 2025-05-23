@@ -16,6 +16,7 @@ import com.bitinovus.bos.presentation.components.summarysection.SummarySection
 import com.bitinovus.bos.presentation.ui.theme.PrimaryGrayBase80
 import com.bitinovus.bos.presentation.viewmodels.cartviewmodel.CartSummaryState
 import com.bitinovus.bos.R
+import com.bitinovus.bos.utils.currencyFormater
 
 // Summary purchase section
 @Composable
@@ -29,15 +30,14 @@ fun SummaryContainer(isProductListEmpty: Boolean, cartSummaryState: CartSummaryS
     ) {
         SummarySection(
             modifier = Modifier.fillMaxWidth(),
-            leadingText = stringResource(id =  R.string.total),
-            trailingText = "$${
-                if (!isProductListEmpty) cartSummaryState.grandTotal / 100.00 else 0.0
-            }",
+            leadingText = stringResource(id = R.string.total),
+            trailingText = if (!isProductListEmpty)
+                currencyFormater("$", cartSummaryState.grandTotal / 100.00) else "$0.00",
             style = TextStyle(fontSize = 22.sp, fontWeight = FontWeight.ExtraBold)
         )
         SummarySection(
             modifier = Modifier.fillMaxWidth(),
-            leadingText = stringResource(id =  R.string.total_items),
+            leadingText = stringResource(id = R.string.total_items),
             trailingText = "${if (!isProductListEmpty) cartSummaryState.itemsInCart else 0}",
             style = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.ExtraBold)
         )

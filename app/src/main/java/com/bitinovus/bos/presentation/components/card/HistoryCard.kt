@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +32,7 @@ import com.bitinovus.bos.presentation.components.summarysection.SummarySection
 import com.bitinovus.bos.presentation.ui.theme.PrimaryBlack98
 import com.bitinovus.bos.presentation.ui.theme.PrimaryWhite00
 import com.bitinovus.bos.presentation.viewmodels.paymentviewmodel.TransactionType
+import com.bitinovus.bos.utils.currencyFormater
 
 @Composable
 fun HistoryCard(
@@ -73,7 +73,7 @@ fun HistoryCard(
             orderHistory.order.forEach {
                 Row(
                     modifier = Modifier
-                        .padding(horizontal = 3.dp, vertical = 8 .dp),
+                        .padding(horizontal = 3.dp, vertical = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     AsyncImage(
@@ -106,7 +106,8 @@ fun HistoryCard(
                         )
                         Text(
                             modifier = Modifier.fillMaxWidth(),
-                            text = "$${it.price / 100.0}",
+                            text = currencyFormater("$", it.price / 100.00),
+//                            text = String.format("$%.2f", it.price / 100.0),
                             fontWeight = FontWeight.Bold,
                             fontSize = 18.sp,
                             textAlign = TextAlign.End
@@ -125,7 +126,7 @@ fun HistoryCard(
             SummarySection(
                 modifier = sectionModifier,
                 leadingText = stringResource(id = R.string.total),
-                trailingText = "$${orderHistory.transaction.total / 100.00}",
+                trailingText = currencyFormater("$", orderHistory.transaction.total / 100.00),
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -136,7 +137,7 @@ fun HistoryCard(
                 leadingText = stringResource(id = R.string.payment_received),
                 trailingText = if (orderHistory.transaction.trxAmount == 0L)
                     stringResource(id = R.string.exact).uppercase()
-                else "$${orderHistory.transaction.trxAmount / 100.00}",
+                else currencyFormater("$", orderHistory.transaction.trxAmount / 100.00),
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold
@@ -145,7 +146,7 @@ fun HistoryCard(
             SummarySection(
                 modifier = sectionModifier,
                 leadingText = stringResource(id = R.string.change),
-                trailingText = "$${orderHistory.transaction.change / 100.00}",
+                trailingText = currencyFormater("$", orderHistory.transaction.change / 100.00),
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold
