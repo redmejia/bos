@@ -59,6 +59,7 @@ import com.bitinovus.bos.presentation.ui.theme.PrimaryYellow00
 import com.bitinovus.bos.presentation.viewmodels.appsnack.AppSnack
 import com.bitinovus.bos.presentation.viewmodels.historyviewmodel.HistoryViewmodel
 import com.bitinovus.bos.presentation.viewmodels.paymentviewmodel.PaymentViewmodel
+import com.bitinovus.bos.utils.currencyFormater
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -121,7 +122,7 @@ fun App(
                                         fontSize = 17.sp,
                                         fontWeight = FontWeight.SemiBold
                                     )
-                                ) { append(" $${paymentState.change / 100.00}") }
+                                ) { append(currencyFormater(" $", paymentState.change / 100.00)) }
                             }
 
                             SnackMessageType.TRX_NO_ACT.value -> {
